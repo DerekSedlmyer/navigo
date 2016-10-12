@@ -37,7 +37,7 @@ angular.module('voyager.layout')
 		});
 
 		vm.gotoPage = function(route) {
-			$window.location.hash = route + '?disp=' + ($location.search().disp || 'default');
+			$window.location = route + '?disp=' + ($location.search().disp || 'default');
 			vm.toggleMobileNav();
 		};
 

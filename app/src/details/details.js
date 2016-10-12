@@ -97,7 +97,7 @@ angular.module('voyager.details')
 
         function createFolderLinks(doc, url) {
             $scope.doc_path = {
-                url: '#search?disp=' + $scope.disp + '&fq=location:' + doc.location,
+                url: 'search?disp=' + $scope.disp + '&fq=location:' + doc.location,
                 path: doc.fullpath.substring(0, doc.fullpath.indexOf(doc.folder.replace(/\//g, '\\')))
             };
 
@@ -110,14 +110,14 @@ angular.module('voyager.details')
                 url += encodeURI(item);
                 $scope.sub_paths.push({
                     path: item + '\\',
-                    url: '#search?disp=' + $scope.disp + '&fq=path:' + url + '&fq=location:' + doc.location
+                    url: 'search?disp=' + $scope.disp + '&fq=path:' + url + '&fq=location:' + doc.location
                 });
             });
 
             var filename = doc.fullpath.split('\\').pop();
             $scope.sub_paths.push({
                 path: filename,
-                url: '#search?disp=' + $scope.disp + '&fq=path:' + (url + '\/' + filename) + '&fq=location:' + doc.location
+                url: 'search?disp=' + $scope.disp + '&fq=path:' + (url + '\/' + filename) + '&fq=location:' + doc.location
             });
         }
 
@@ -126,7 +126,7 @@ angular.module('voyager.details')
 
             if (tempFolders) {
                 $scope.doc_path = {
-                    url: '#search?disp=' + $scope.disp + '&fq=location:' + doc.location,
+                    url: 'search?disp=' + $scope.disp + '&fq=location:' + doc.location,
                     path: (tempFolders[0] + 'Dataset')
                 };
 
@@ -134,7 +134,7 @@ angular.module('voyager.details')
                     var path = tempFolders[1].replace(/^[\/\\]/, '').replace(/\s[|]\s/g, '\\').replace(/\\/g, '%255C');
                     $scope.sub_paths.push({
                         path: tempFolders[1],
-                        url: '#search?disp=' + $scope.disp + '&fq=location:' + doc.location + '&fq=path:' + path
+                        url: 'search?disp=' + $scope.disp + '&fq=location:' + doc.location + '&fq=path:' + path
                     });
                 }
             }
