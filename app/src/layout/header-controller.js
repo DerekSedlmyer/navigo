@@ -37,7 +37,7 @@ angular.module('voyager.layout')
 		});
 
 		vm.gotoPage = function(route) {
-			$window.location = route + '?disp=' + ($location.search().disp || 'default');
+			$window.location.href = route + '?disp=' + ($location.search().disp || 'default');
 			vm.toggleMobileNav();
 		};
 
@@ -142,7 +142,7 @@ angular.module('voyager.layout')
 		vm.goToClassic = function() {
 
 			var params = $location.search();
-			var baseUrl = config.root + config.explorePath + '/';
+			var baseUrl = config.root + config.explorePath + '/#/';
 
 			if (params.view === 'card') {
 				delete params.view;
@@ -152,7 +152,7 @@ angular.module('voyager.layout')
 
 			var path = $location.path();
 			if (path.indexOf('/show') !== -1) {
-				baseUrl += path.replace('/show', 'id=')  + '/';
+				baseUrl += path.replace('/show?id=', 'id=')  + '/';
 			} else if(path.indexOf('/home') !== -1) {
 				params = ''; // just show default search in classic for home page
 			}
