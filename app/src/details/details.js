@@ -179,7 +179,7 @@ angular.module('voyager.details')
                     _.each(shardInfo, function(shard) {
                         doc.remoteDetails = shard.shardAddress;
                         doc.remoteDetails = doc.remoteDetails.substring(0,doc.remoteDetails.indexOf('/solr'));
-                        doc.remoteDetails += '/#/show/' + doc.id + '?disp=default';
+                        doc.remoteDetails += '/show?id=' + doc.id + '&disp=default';
                     });
                 }
                 $scope.doc = doc;
@@ -215,7 +215,7 @@ angular.module('voyager.details')
                 doc.hasSchema = angular.isDefined(doc.schema);
                 if(doc.hasSchema) {
                     $scope.schema = JSON.parse(doc.schema);
-                    $scope.schemaLink = '#/search?disp=' + $scope.disp + '&fq=schema_hash:' + $scope.schema.hash;
+                    $scope.schemaLink = 'search?disp=' + $scope.disp + '&fq=schema_hash:' + $scope.schema.hash;
                 }
 
                 $scope.doc.isMappable = mapServiceFactory.isMappable(doc.format);
@@ -537,7 +537,7 @@ angular.module('voyager.details')
             if(id !== null) {
                 $scope[flag] = false;
                 var encodedId = encodeURIComponent(encodeURIComponent(id.id));  // TODO it doesn't work with just 1 encode
-                var detailsUrl = '#/show/' + encodedId + '?disp=' + configService.getConfigId();
+                var detailsUrl = 'show?id= ' + encodedId + '&disp=' + configService.getConfigId();
                 if (angular.isDefined(id.shard) && id.shard !== '[not a shard request]') {
                     detailsUrl += '&shard=' + id.shard;
                 }
