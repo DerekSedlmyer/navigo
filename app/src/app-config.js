@@ -3,8 +3,7 @@ angular.module('portalApp')
     .config(function ($stateProvider, $httpProvider, $urlRouterProvider, $analyticsProvider, $locationProvider) {
         'use strict';
 
-        $locationProvider.html5Mode({ enabled: true, requireBase: false });
-        //$locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(true);
 
         function _loadIfAllowed(authService, $q, configLoader, $location) {
             return authService.getPrivileges().then(function() {
