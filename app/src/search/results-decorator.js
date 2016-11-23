@@ -51,6 +51,10 @@
             if(field.style === 'HTML') {
                 field.isHtml = true;
             }
+            field.isHref = false;
+            if(field.style === 'HREF') {
+            	field.isHref = true;
+            }
             if(field.raw === 'contains_mime') {
                 if(field.value.indexOf(',') !== -1) {
                     formattedValues = [];
@@ -88,9 +92,11 @@
                         sep = ',';
                     });
                     htmlified += '<br>';
-                } else {
+                } else if (field.isHref) {
+                	htmlified += (field.showLabel? '<b>' + field.name + '</b>: ':'' ) + '<a href="' + field.value + '">' + $('<p>' + field.formattedValue + '</p>').text() + '</a><br>';
+                } else  {
                     htmlified += (field.showLabel? '<b>' + field.name + '</b>: ':'' ) + '<a href="javascript:;" ng-click="applyFilter(\'' + field.raw + '\',\'' + field.value + '\')">' + $('<p>' + field.formattedValue + '</p>').text() + '</a><br>';
-                }
+                } 
             } else {
                 htmlified += (field.showLabel? '<b>' + field.name + '</b>: ':'' ) + $('<p>' + field.formattedValue + '</p>').text() + '<br>';
             }
