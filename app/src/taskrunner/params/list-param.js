@@ -14,7 +14,6 @@ angular.module('taskRunner')
             controller: function ($scope, $element, $attrs) {
                 var _options = [];
                 var _coreRoles = [{id:'_EVERYONE',text:'EVERYONE'},{id:'_LOGGEDIN',text:'LOGGEDIN'},{id:'_ANONYMOUS',text:'ANONYMOUS'}];
-
                 var isMultiple = $attrs.multi !== 'false';
 
                 $scope.listOptions = {
@@ -26,10 +25,14 @@ angular.module('taskRunner')
                     }
                 };
 
+
                 if ($scope.list == 'permissions'){
                     authService.getPrivileges().then(function() {
                         if (authService.hasPermission('manage')) {
                             $.merge(_options, _coreRoles);
+                            authService.fetchGroups().then(function(groups) {
+                                $.merge(_options, groups);
+                            });
                         }
                         else {
                             authService.fetchGroups().then(function(groups) {
