@@ -79,8 +79,8 @@ angular.module('voyager.filters').
                 level2 = (level + 1).toString();
             }
 
-            var queryLevel = _.sprintf(queryString,level1);
-            var queryLevel2 = _.sprintf(queryString,level2);
+            var queryLevel = queryString.replace(/%s/g, level1);
+            var queryLevel2 = queryString.replace(/%s/g, level2);
             var queries = [queryLevel, queryLevel2];
             $.each(queries, function(index, query) {
                 promises.push($http.jsonp(query));
@@ -113,8 +113,8 @@ angular.module('voyager.filters').
             var level1 = level.toString() + '/' + path;
             var level2 = (level + 1).toString() + '/' + path;
 
-            var queryLevel = _.sprintf(queryString,level1);
-            var queryLevel2 = _.sprintf(queryString,level2);
+            var queryLevel = queryString.replace(/%s/g, level1);
+            var queryLevel2 = queryString.replace(/%s/g, level2);
             var queries = [queryLevel, queryLevel2];
             $.each(queries, function(index, query) {
                 promises.push($http.jsonp(query));
