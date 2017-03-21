@@ -2,6 +2,8 @@ angular.module('portalApp')
     .run(function ($rootScope, $location, authService, $state, config, $timeout) { // instance-injector
         'use strict';
 
+        _.mixin(_.str.exports());
+
         if(!_.isEmpty(config.homepage.bannerHTML)) {
             $rootScope.hasBanner = true;
             $rootScope.banner = config.homepage.bannerHTML;
@@ -14,8 +16,6 @@ angular.module('portalApp')
         if ($location.search().widget === 'true') {
             $rootScope.isWidget = true;
         }
-
-        _.mixin(_.str.exports());
 
         $rootScope.title = config.title;
 
