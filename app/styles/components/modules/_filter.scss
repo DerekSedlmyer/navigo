@@ -204,6 +204,14 @@
   }
 
   .slider_wrap {
+
+    .form-group {
+      div[uib-datepicker-popup-wrap] {
+        display: inline-block;
+      }
+    }
+
+
     .form-control {
       width: 104px;
       font-size: $smallerSize;
@@ -443,4 +451,5 @@
       margin-left: -134px;
     }
   }
+
 }

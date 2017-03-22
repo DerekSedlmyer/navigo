@@ -58,9 +58,9 @@ angular.module('voyager.filters')
 
     var date = '<div class="slider_wrap"><form class="form-inline" role="form"><div class="form-group">';
     date += '<label class="semi">Date</label><br />';
-    date += '<input type="text" placeholder="yyyy-mm-dd" class="form-control input-xs semi min_date_picker_input {{facet.minError}}" datepicker-popup="yyyy-MM-dd" is-open="facet.isMinOpened" ng-click="openMinDatePicker($event, facet)" datepicker-options="{formatYear: \'yy\', startingDay: 1, showWeeks: false, showButtonBar: false}" ng-model="facet.model[0]" close-text="Close" ng-required="true" />';
+    date += '<input type="text" placeholder="yyyy-mm-dd" class="form-control input-xs semi min_date_picker_input {{facet.minError}}" uib-datepicker-popup="yyyy-MM-dd" is-open="facet.isMinOpened" ng-click="openMinDatePicker($event, facet)" datepicker-options="{formatYear: \'yy\', startingDay: 1, showWeeks: false, showButtonBar: false}" ng-model="facet.dateModel[0]" close-text="Close" ng-required="true" />';
     date += '<span class="dash"></span>';
-    date += '<input type="text" placeholder="yyyy-mm-dd" class="form-control input-xs semi max_date_picker_input {{facet.maxError}}" datepicker-popup="yyyy-MM-dd" is-open="facet.isMaxOpened" ng-focus="openMaxDatePicker($event, facet)" datepicker-options="{formatYear: \'yy\', startingDay: 1, showWeeks: false, showButtonBar: false}" ng-model="facet.model[1]" close-text="Close" ng-required="true" />';
+    date += '<input type="text" placeholder="yyyy-mm-dd" class="form-control input-xs semi max_date_picker_input {{facet.maxError}}" uib-datepicker-popup="yyyy-MM-dd" is-open="facet.isMaxOpened" ng-focus="openMaxDatePicker($event, facet)" datepicker-options="{formatYear: \'yy\', startingDay: 1, showWeeks: false, showButtonBar: false}" ng-model="facet.dateModel[1]" close-text="Close" ng-required="true" />';
     date += '</div><button class="btn btn-xs btn-primary" ng-click="addCalendarFilter(facet)">Apply filter</button></form>';
     date += '</div>';
 
@@ -69,8 +69,7 @@ angular.module('voyager.filters')
       var template = '';
       if (scope.facet.stype === 'date') {
         template = date;
-      }
-      else if(scope.facet.style === 'CHECK') {
+      } else if(scope.facet.style === 'CHECK') {
         template = checkbox;
       } else if(scope.facet.style ==='RANGE') {
         if(scope.facet.units) {
@@ -80,7 +79,7 @@ angular.module('voyager.filters')
         }
       } else if(scope.facet.style ==='STATS') {
         template = nounitslider + stats;
-      } else if(scope.facet.filter === 'folder_hier') {
+      } else if(scope.facet.style === 'HIERARCHY') {
         template = tree;
       } else {
         template = button;

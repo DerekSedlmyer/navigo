@@ -24,7 +24,7 @@ angular.module('voyager.filters').
 
         return {
             decorate : function (facet) {
-                var calendar = facet.model;
+                var calendar = facet.dateModel;
                 var minDate = new Date(calendar[0]);
                 var maxDate = new Date(calendar[1]);
 

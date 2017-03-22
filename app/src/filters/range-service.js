@@ -120,8 +120,10 @@ angular.module('voyager.filters').
         var calendar = {style:filter.style, name:filter.field, filter:filter.field, display:filter.value, stype: filter.stype, multivalued: filter.multivalued};
         if (selectedFilter) {
           calendar.model = decodeURIComponent(selectedFilter.name).replace(/[\[\]]/g,'').split(' TO ');
+          calendar.dateModel = [new Date(calendar.model[0]), new Date(calendar.model[1])];
         } else {
           calendar.model = [];
+          calendar.dateModel = [];
         }
         return calendar;
       },

@@ -184,11 +184,19 @@ angular.module('voyager.util').
                 $.each(params,function(key, value) {
                     if($.isArray(value)) {
                         $.each(value, function(index, val) {
-                            queryString += sep + key + '=' + encodeURIComponent(val);
+                            if (val.indexOf('%') === -1) {  // check if already encoded
+                                queryString += sep + key + '=' + encodeURIComponent(val);
+                            } else {
+                                queryString += sep + key + '=' + val;
+                            }
                             sep = '&';
                         });
                     } else {
-                        queryString += sep + key + '=' + encodeURIComponent(value);
+                        if (value.indexOf('%') === -1) {  // check if already encoded
+                            queryString += sep + key + '=' + encodeURIComponent(value);
+                        } else {
+                            queryString += sep + key + '=' + value;
+                        }
                         sep = '&';
                     }
                 });
