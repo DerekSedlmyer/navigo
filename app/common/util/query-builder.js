@@ -66,14 +66,16 @@ angular.module('voyager.util').
             var pos = -1;
             var fieldArr = [];
             actions.forEach(function(action) {
-                pos = action.visible.indexOf('doc.');
-                if (pos > -1) {
-                    fieldArr = action.visible.split('doc.');
-                    fieldArr.forEach(function(field) {
-                        if (field !== '' && !sugar.containsAny(field, ['canCart','isService','hasDownload','isEsriLayer'])) {
-                            fields.push(field.substring(0, field.indexOf(' ')));
-                        }
-                    });
+                if (_.isString(action.visible)) {
+                    pos = action.visible.indexOf('doc.');
+                    if (pos > -1) {
+                        fieldArr = action.visible.split('doc.');
+                        fieldArr.forEach(function (field) {
+                            if (field !== '' && !sugar.containsAny(field, ['canCart', 'isService', 'hasDownload', 'isEsriLayer'])) {
+                                fields.push(field.substring(0, field.indexOf(' ')));
+                            }
+                        });
+                    }
                 }
             });
             actionFields = fields.join(',');
