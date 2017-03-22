@@ -67,7 +67,7 @@ describe('Filter Directive:', function () {
     });
 
     it('should render tree', function () {
-      $rootScope.facet = {filter:'folder_hier'};
+      $rootScope.facet = {filter:'folder_hier', style: 'HIERARCHY'};
       applyDirective();
 
       expect(element.html().indexOf('folder_tree') > -1).toBeTruthy();

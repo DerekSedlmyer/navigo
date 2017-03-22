@@ -370,7 +370,7 @@ describe('Filters:', function () {
 
       controllerService('FiltersCtrl', {$scope: scope, filterService: _filterService});
 
-      var facet = {isSelected: true, model:[1,2], name:'name', display:'display', style:'RANGE', stype:'date', filter:'calendarField'};
+      var facet = {isSelected: true, model:[1,2], dateModel:[1,2], name:'name', display:'display', style:'RANGE', stype:'date', filter:'calendarField'};
       scope.addCalendarFilter(facet);
 
       httpMock.expectJSONP(new RegExp(escapeRegExp('stats=true'))).respond({stats:{stats_fields:{calendarField:{min:0, max:5}}}});  // stats query for range values
