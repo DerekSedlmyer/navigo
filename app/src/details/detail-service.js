@@ -117,7 +117,7 @@ angular.module('voyager.details').
         }
         if(_.isEmpty(_fields[catalog])) {
             return _getTokenParam(shard).then(function(tokenParam) {
-                var request = root + 'solr/fields/select?fl=name,multivalued,disp:disp_en,stype,displayable' + _type + '&rows=100000' + '&r=' + Math.random() + tokenParam;
+                var request = root + 'solr/fields/select?fl=name,multivalued,disp:disp_en,stype,displayable,filterable' + _type + '&rows=100000' + '&r=' + Math.random() + tokenParam;
                 return $http.jsonp(request).then(function(res) {
                     _fields[catalog] = _.indexBy(res.data.response.docs, function(key) {
                         return solrUtil.stripAugmented(key.name);

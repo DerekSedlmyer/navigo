@@ -159,7 +159,10 @@ angular.module('voyager.details').
 
                         var isHtml = typeStyles[name] === 'HTML';
                         var isHref = typeStyles[name] === 'HREF';
-                        if (value.length > 100 && !isHtml && !isHref) {
+                        // if (value.length > 100 && !isHtml && !isHref) {
+                        if (!fields[name].filterable && !isHtml && !isHref) {
+                            // TH - removed the length > 100 check because the NLP items sometimes 
+                            // return more than 100 values and it was reported in VG-5247 
                             typeStyles[name] = 'STRING'; //so it doesn't become a link
                         }
                         prettyFields.push({
