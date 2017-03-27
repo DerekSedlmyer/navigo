@@ -283,6 +283,9 @@ angular.module('voyager.filters').
                                     structure[node].collapsed = false;
                                 });
                                 var tree = _.where(structure,{'level':1});
+                                if (filter.style === undefined) {
+                                    filter.style = 'HIERARCHY';
+                                }
                                 filter.values = [{tree:tree, filter: filter.field, style:filter.style}];
                             }
                         });
