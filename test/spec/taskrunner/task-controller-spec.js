@@ -14,15 +14,16 @@ describe('TaskCtrl', function () {
         module('voyager.filters');
         module('ui.router');
         module('dialogs.main');
+        module('voyager.search');
         module(function ($provide) {
             $provide.constant('config', config);
             //$provide.value('authService',{});  //mock the auth service so it doesn't call the init methods
         });
     });
 
-    var scope, controllerService, q, location, timeout, httpMock, $uibModal, cartService, $state;
+    var scope, controllerService, q, location, timeout, httpMock, $uibModal, cartService, paramService, taskService, $state;
 
-    beforeEach(inject(function ($rootScope, $controller, $q, $location, $timeout, $httpBackend, _$uibModal_, _cartService_, _$state_) {
+    beforeEach(inject(function ($rootScope, $controller, $q, $location, $timeout, $httpBackend, _$uibModal_, _cartService_, _paramService_, _taskService_, _$state_) {
         scope = $rootScope.$new();
         q = $q;
         controllerService = $controller;
@@ -31,21 +32,35 @@ describe('TaskCtrl', function () {
         httpMock = $httpBackend;
         $uibModal = _$uibModal_;
         cartService = _cartService_;
+        paramService = _paramService_;
+        taskService = _taskService_;
         $state = _$state_;
         spyOn($state, 'go');
     }));
 
-    var inputItemsWithQuery = {name:'input_items', query:{fq:'field:facet', params:{bbox:'',bboxt:''}}, ids:[], type:'VoyagerResults', response:{docs:[]}};
+    var inputItemsWithQuery = [{name:'input_items', query:{fq:'field:facet', params:{bbox:'',bboxt:''}}, ids:[], type:'VoyagerResults', response:{docs:[]}}];
 
     function initCtrl() {
         //spyOn(location,'path').and.returnValue('status');
         //
         httpMock.expectGET(new RegExp('projections')).respond({});  // param service - projections call (could mock param service)
-        httpMock.expectGET(new RegExp('task\/name\/init')).respond({params:[inputItemsWithQuery]});  // check status call
-        httpMock.expectGET(new RegExp('display')).respond({params:[inputItemsWithQuery]});  // check status call
+        httpMock.expectGET(new RegExp('task\/name\/init')).respond({params:inputItemsWithQuery});  // check status call
+        httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // check status call
         var stateParams = {task:{name:'name'}};
         controllerService('TaskCtrl', {$scope: scope, $stateParams:stateParams, $state: $state});
 
+        httpMock.flush();
+    }
+
+    function initCtrl2() {
+        //spyOn(location,'path').and.returnValue('status');
+        //
+        httpMock.expectGET(new RegExp('projections')).respond({});  // param service - projections call (could mock param service)
+        httpMock.expectGET(new RegExp('task\/name\/init')).respond({params:inputItemsWithQuery});  // check status call
+        httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // check status call
+        httpMock.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [{id: 'id', place: '0 0 0 0'}]}});
+        var stateParams = {task:{name:'name'}};
+        controllerService('TaskCtrl', {$scope: scope, $stateParams:stateParams, $state: $state});
         httpMock.flush();
     }
 
@@ -116,7 +131,7 @@ describe('TaskCtrl', function () {
 
             initCtrl();
 
-            httpMock.expectPOST(new RegExp('validate=true')).respond(500,{params:[inputItemsWithQuery], errors:['error']});  // validate
+            httpMock.expectPOST(new RegExp('validate=true')).respond(500,{params:inputItemsWithQuery, errors:['error']});  // validate
 
             scope.execTask();
 
@@ -152,17 +167,19 @@ describe('TaskCtrl', function () {
         it('should select task', function () {
             cartService.addQuery({fq:'field:facet',params:{bbox:'',bboxt:''}});
             cartService.addItem({id:'1'});
+            paramService.setParams({name: 'saved_searches', type: 'StringChoice'});
+            paramService.getParams();
 
-            initCtrl();
+            inputItemsWithQuery = [{name: 'input_items', type: 'VoyagerResults'}, {name: 'groups', type: 'List'}, {name: 'search_name', type: 'String'}, {name: 'saved_search_action', type: 'StringChoice'}, {name: 'saved_searches', type:'StringChoice'}];
 
-            httpMock.expectGET(new RegExp('task2\/init')).respond({params:[inputItemsWithQuery]});  // validate
-            httpMock.expectGET(new RegExp('display')).respond({params:[inputItemsWithQuery]});  // display
+            initCtrl2();
 
-            scope.selectTask({name:'task2', available:true});
+            httpMock.expectGET(new RegExp('create_saved_search\/init')).respond({params:[inputItemsWithQuery]});  // validate
+            httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // display
 
+            scope.selectTask({name:'create_saved_search', available:true});
             httpMock.flush();
 
-            //expect(location.path()).toBe('/status/id');
         });
 
     });

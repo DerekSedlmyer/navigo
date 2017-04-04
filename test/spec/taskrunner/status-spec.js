@@ -10,6 +10,7 @@ describe('StatusCtrl', function () {
         module('LocalStorageModule');
         module('angulartics');
         module('ui.bootstrap');
+        module('voyager.search');
 
         module(function ($provide) {
             $provide.constant('config', config);

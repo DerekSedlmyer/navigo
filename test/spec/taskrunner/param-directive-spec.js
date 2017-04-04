@@ -8,6 +8,7 @@ describe('Param Directive:', function () {
         module('leaflet-directive');
         module('LocalStorageModule');
         module('ui.bootstrap');
+        module('voyager.search');
         module(function ($provide) {
             $provide.constant('config', config);
         });

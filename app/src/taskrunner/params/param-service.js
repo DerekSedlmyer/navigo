@@ -1,7 +1,7 @@
 /*global angular, $, _ */
 
 angular.module('taskRunner').
-    factory('paramService', function (localStorageService, $http) {
+    factory('paramService', function (localStorageService, savedSearchService, $http) {
         'use strict';
 
         var _params = {};
@@ -73,8 +73,24 @@ angular.module('taskRunner').
         }
 
         function _initParam(param) {
-            if (param.type === 'StringChoice') {
-                if (!param.value) {
+            if (param.type === 'StringChoice' && param.name === 'saved_searches'){
+                if (_.isUndefined(param.choices)) {
+                    param.choices = [];
+                    param.values = [];
+                }
+                savedSearchService.getSavedSearches().then(function(savedSearches) {
+                    var sortedSavedSearches = savedSearchService.sortSavedSearches(savedSearches);
+                    angular.forEach(sortedSavedSearches.personal, function(value){
+                        if(param.choices.indexOf(value['title']) === -1) {
+                            param.choices.push(value['title']);
+                            param.values[value['title']] = value['title'];
+                        }
+                    });
+                });
+            }
+
+            if (param.type === 'StringChoice' && param.name !== 'saved_searches') {
+                if (!param.value && angular.isDefined(param.choices)) {
                     param.value = param.choices[0];
                 }
             }
