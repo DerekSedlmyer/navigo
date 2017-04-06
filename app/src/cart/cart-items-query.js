@@ -42,16 +42,14 @@ angular.module('cart').
                     }
 
                     if (_.has(queryCriteria, 'constraints')){
-                        if (filters.length > 0){
-                            var contstraints = queryCriteria.constraintFilters.join('&fq=');
+                        if (filters.length > 0) {
                             if (angular.isDefined(queryCriteria.invalidItems && queryCriteria.invalidItems === true)) {
                                 filters = filters.replace(' AND ', '&fq=');
                             }
-                            queryCriteria.params.q = itemsStr + ' OR ' + q + oper + filters + '&fq=' + contstraints;
+                            queryCriteria.params.q = itemsStr + ' OR ' + q + oper + filters + '&fq=' + queryCriteria.constraintFilters.join('&fq=');
                         }
                         else {
-                            var constraints = _cleanFilters(queryCriteria.constraintFilters);
-                            queryCriteria.params.q = itemsStr + ' AND ' + q + oper + constraints;
+                            queryCriteria.params.q = itemsStr + ' AND ' + q + oper + _cleanFilters(queryCriteria.constraintFilters);
                         }
                     }
                     else {
