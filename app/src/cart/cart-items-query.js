@@ -43,7 +43,7 @@ angular.module('cart').
 
                     if (_.has(queryCriteria, 'constraints')){
                         if (filters.length > 0) {
-                            if (angular.isDefined(queryCriteria.invalidItems && queryCriteria.invalidItems === true)) {
+                            if (angular.isDefined(queryCriteria.invalidItems) && queryCriteria.invalidItems === true) {
                                 filters = filters.replace(' AND ', '&fq=');
                             }
                             queryCriteria.params.q = itemsStr + ' OR ' + q + oper + filters + '&fq=' + queryCriteria.constraintFilters.join('&fq=');
