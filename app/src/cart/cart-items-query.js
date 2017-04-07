@@ -42,7 +42,15 @@ angular.module('cart').
                     }
 
                     if (_.has(queryCriteria, 'constraints')){
-                        queryCriteria.params.q = itemsStr + ' AND ' + q + oper + filters;
+                        if (filters.length > 0) {
+                            if (angular.isDefined(queryCriteria.invalidItems) && queryCriteria.invalidItems === true) {
+                                filters = filters.replace(' AND ', '&fq=');
+                            }
+                            queryCriteria.params.q = itemsStr + ' OR ' + q + oper + filters + '&fq=' + queryCriteria.constraintFilters.join('&fq=');
+                        }
+                        else {
+                            queryCriteria.params.q = itemsStr + ' AND ' + q + oper + _cleanFilters(queryCriteria.constraintFilters);
+                        }
                     }
                     else {
                         queryCriteria.params.q = itemsStr + sep + '(' + q + oper + filters + ')';

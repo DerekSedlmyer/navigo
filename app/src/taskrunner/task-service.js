@@ -98,6 +98,7 @@ angular.module('taskRunner').
 
             getTaskQueryCriteria: function (constraints, invalidItemsOnly){
                 var query = cartService.getQuery();
+                var items = cartService.getItemsArray();
 
                 if (!query) {
                     query = cartItemsQuery.getQueryCriteria({});
@@ -107,15 +108,26 @@ angular.module('taskRunner').
                     query.solrFilters = [];
                 }
 
-                _.each(constraints, function(value) {
-                    if (_.isEmpty(query.solrFilters)) {
-                        query.solrFilters = [];
-                    }
+                if (angular.isUndefined(query.constraintFilters)){
+                    query.constraintFilters = [];
+                }
 
+                _.each(constraints, function(value) {
                     if (invalidItemsOnly === true) {
-                        query.solrFilters.push('-(' + value + ')');
+                        query.invalidItems = true;
+                        if (items.length === 0) {
+                            query.solrFilters.push('-(' + value + ')');
+                        }
+                        else {
+                            query.constraintFilters.push('-(' + value + ')');
+                        }
                     } else {
-                        query.solrFilters.push(value);
+                        if (items.length === 0) {
+                            query.solrFilters.push(value);
+                        }
+                        else {
+                            query.constraintFilters.push(value);
+                        }
                     }
                 });
                 return query;
