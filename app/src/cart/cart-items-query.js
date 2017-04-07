@@ -60,7 +60,7 @@ angular.module('cart').
                         q = '(' + converter.toPlaceFilter(queryCriteria.params) + ')';
                         oper = ' OR ';
                     }
-                    if (queryCriteria.constraintFilters.length > 0) {
+                    if (angular.isDefined(queryCriteria.constraintFilters) && queryCriteria.constraintFilters.length > 0) {
                         queryCriteria.params.q = itemsStr + oper + q + ' AND ' + _cleanFilters(queryCriteria.constraintFilters);
                     }
                     else {
