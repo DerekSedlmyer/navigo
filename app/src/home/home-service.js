@@ -3,30 +3,20 @@
 angular.module('voyager.home')
     .service('homeService', function(config, $http, $q, featureQuery, collectionsQuery) {
 
-        //TODO configService should preload on ui route resolve to guarantee its loaded before this
-
-        function _collectionsAction() {
+        function _collectionsAction(count) {
             if(config.homepage && config.homepage.showSidebarLinks) {
-                return collectionsQuery.execute();
+                return collectionsQuery.execute(count);
             } else {
                 return $q.when(null);
             }
         }
 
-        function _featuredAction() {
-            return featureQuery.execute();
-        }
-
-        function _fetchSection(section, action) {
-            return action();
-        }
-
         return {
-            fetchCollections: function() {
-                return _fetchSection('collections', _collectionsAction);
+            fetchCollections: function(count) {
+                return _collectionsAction(count);
             },
             fetchFeatured: function() {
-                return _fetchSection('featured', _featuredAction);
+                return featureQuery.execute();
             },
 
             getFeaturedQuery: function() {

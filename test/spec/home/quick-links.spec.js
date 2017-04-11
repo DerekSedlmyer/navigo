@@ -34,9 +34,15 @@ describe('SavedSearchEdit', function () {
 
     it('should load', function () {
 
-        applyDirective();
+        scope.list = [];
 
-        scope.list = [{title: 'one', categories: ['one', 'two']}, {title: 'two', categories: ['two']}];
+        applyDirective();
+        var list = [{title: 'one', categories: ['one', 'two']}, {title: 'two', categories: ['two']}];
+
+        var changesObj = {list:{currentValue: list}};
+        //scope.list = [{title: 'one', categories: ['one', 'two']}, {title: 'two', categories: ['two']}];
+        controller.$onChanges(changesObj);
+
         scope.$apply();
 
         expect(controller.categories.length).toBe(2);

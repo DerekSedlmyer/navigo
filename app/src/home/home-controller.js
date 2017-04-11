@@ -86,8 +86,9 @@ angular.module('voyager.home')
 			});
 
 			//fetch for featured items and collections
-			homeService.fetchCollections().then(function(respond) {
+			homeService.fetchCollections(false).then(function(respond) {
 				$scope.collections = respond;
+				_fetchCounts();
 			});
 
 			homeService.fetchFeatured().then(function(respond) {
@@ -129,6 +130,16 @@ angular.module('voyager.home')
 			}
 		};
 
+		function _fetchCounts() {
+			if ($scope.collections.length > 0) {
+				homeService.fetchCollections(true).then(function(docs) {
+					var docMap = sugar.toMap('id', docs);
+					$scope.collections.forEach(function(item) {
+						item.count = docMap[item.id].count;
+					});
+				});
+			}
+		}
 		/**
 		 * @function - toggle between recent and saved search list
 		 */

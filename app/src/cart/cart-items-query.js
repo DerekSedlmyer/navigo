@@ -132,7 +132,7 @@ angular.module('cart').
 
         function _getSummaryQueryString(queryCriteria, items, block) {
             var settings = '&fl=id,name:[name],format&extent.bbox=true';
-            settings += '&facet=true&stats=true&stats.field=bytes&facet.field=format&facet.mincount=1&rows=0';
+            settings += '&facet=true&facet.field=format&facet.mincount=1&rows=0';
 
             return _buildQuery(settings, queryCriteria, items, block);
         }

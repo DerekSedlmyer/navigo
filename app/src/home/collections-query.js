@@ -3,17 +3,20 @@
 angular.module('voyager.home')
     .service('collectionsQuery', function(config, $http) {
 
-        function _getQueryString() {
+        function _getQueryString(count) {
             var rows = 1000;
             var label = config.homepage.sidebarLinksLabel;
-            var queryString = config.root + 'solr/ssearch/select?fq=labels:' + label + '&fl=id,title,query,count:[count],display:[display],*';
+            var queryString = config.root + 'solr/ssearch/select?fq=labels:' + label + '&fl=id,title,query,display:[display],*';
+            if (count) {
+                queryString += ',count:[count]';
+            }
             queryString += '&rows=' + rows + '&rand=' + Math.random();
-            queryString += '&wt=json&json.wrf=JSON_CALLBACK';
+            queryString += '&wt=json&json.wrf=JSON_CALLBACK&block=false';
             return queryString;
         }
 
-        function _execute() {
-            return $http.jsonp(_getQueryString()).then(function (data) {
+        function _execute(count) {
+            return $http.jsonp(_getQueryString(count)).then(function (data) {
                 return data.data.response.docs;
             }, function(error) {
                 return error;
@@ -21,8 +24,8 @@ angular.module('voyager.home')
         }
 
         return {
-            execute: function() {
-                return _execute();
+            execute: function(count) {
+                return _execute(count);
             }
         };
 
