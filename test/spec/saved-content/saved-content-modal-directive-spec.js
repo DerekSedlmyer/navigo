@@ -44,6 +44,7 @@ describe('Saved Content Modal Directive:', function () {
             httpMock.expectJSONP(new RegExp('ssearch\/select')).respond(response);
             // showModal();
             applyDirective();
+            timeout.flush();
             httpMock.flush();
         });
 
@@ -51,6 +52,7 @@ describe('Saved Content Modal Directive:', function () {
             httpMock.whenJSONP(new RegExp('ssearch\/select')).respond(response);
             applyDirective();
             expect(scope.isAnonymous).toBe(true);
+            timeout.flush();
             httpMock.flush();
         });
 
@@ -59,6 +61,7 @@ describe('Saved Content Modal Directive:', function () {
             applyDirective();
             var evt = scope.$emit('click');
             scope.showCategory(evt, 'search');
+            timeout.flush();
             httpMock.flush();
         });
 
@@ -67,10 +70,12 @@ describe('Saved Content Modal Directive:', function () {
             httpMock.whenJSONP(new RegExp('ssearch\/select')).respond(response);
             httpMock.expectJSONP(new RegExp('slocation\/select')).respond(response);
             //TODO why is this firing again
-            httpMock.expectJSONP(new RegExp('slocation\/select')).respond(response);
+            //httpMock.expectJSONP(new RegExp('slocation\/select')).respond(response);
             applyDirective();
+            timeout.flush();
             var evt = scope.$emit('click');
             scope.showCategory(evt, null);
+
             httpMock.flush();
         });
 
@@ -83,6 +88,7 @@ describe('Saved Content Modal Directive:', function () {
             var evt = scope.$emit('click');
             expect(scope.showTab).toBe('suggested');
             scope.showCategory(evt, 'search');
+            timeout.flush();
             httpMock.flush();
         });
 
@@ -95,6 +101,7 @@ describe('Saved Content Modal Directive:', function () {
             expect(scope.showTab).toBe('suggested');
             scope.changeTab('othertab');
             expect(scope.showTab).toBe('othertab');
+            timeout.flush();
             httpMock.flush();
         });
 

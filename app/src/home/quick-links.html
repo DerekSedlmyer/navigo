@@ -5,7 +5,7 @@
   <ul ng-if="$ctrl.categories.length == 0">
     <li ng-repeat="item in ::$ctrl.list">
       <a href="javascript:;" class="icon-collection" ng-click="$ctrl.applyCollection(item)">
-        {{::item.title}}<span>{{::item.count | number}} {{item.count > 1 ? "items" : "counting..."}}</span>
+        {{::item.title}}<span>{{::item.count | number}} {{item.count > 0 ? "items" : "counting..."}}</span>
       </a>
     </li>
   </ul>
@@ -24,7 +24,7 @@
             <a href="javascript:;" ng-click="$ctrl.applyCollection(item)" class="underline ng-scope">
               <span class="text ng-binding">
                 {{item.title}}
-                <span class="facet_count ng-binding" aria-hidden="false"> ({{item.count}} {{item.count > 1 ? "items" : "counting..."}})</span>
+                <span class="facet_count ng-binding" aria-hidden="false"> ({{item.count}} {{item.count > 0 ? "items" : "counting..."}})</span>
               </span>
             </a>
           </div>

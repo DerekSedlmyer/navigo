@@ -58,10 +58,14 @@ describe('TaskCtrl', function () {
         httpMock.expectGET(new RegExp('projections')).respond({});  // param service - projections call (could mock param service)
         httpMock.expectGET(new RegExp('task\/name\/init')).respond({params:inputItemsWithQuery});  // check status call
         httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // check status call
-        httpMock.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [{id: 'id', place: '0 0 0 0'}]}});
+        // httpMock.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [{id: 'id', place: '0 0 0 0'}]}});
         var stateParams = {task:{name:'name'}};
         controllerService('TaskCtrl', {$scope: scope, $stateParams:stateParams, $state: $state});
+
         httpMock.flush();
+
+        httpMock.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [{id: 'id', place: '0 0 0 0'}]}});
+        timeout.flush();
     }
 
     //function escapeRegExp(str) {
@@ -178,8 +182,8 @@ describe('TaskCtrl', function () {
             httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // display
 
             scope.selectTask({name:'create_saved_search', available:true});
-            httpMock.flush();
 
+            httpMock.flush();
         });
 
     });

@@ -132,7 +132,7 @@ angular.module('cart')
                 observers.push(observer);
             },
             removeObserver: function (observer) {
-                observers = _.without(observers, observer);
+                observers = _.without(observers, function(item) {return item === observer;});
             },
             remove: function (id) {
                 var itemMap = _getItems();

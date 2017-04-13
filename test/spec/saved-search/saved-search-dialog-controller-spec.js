@@ -47,6 +47,7 @@ describe('Controller: SavedSearchDialogCtrl', function () {
             $http.expectGET(new RegExp('auth\/info')).respond({permissions:permission, user:{groups:[]}}); //auth call
         }
 
+        $timeout.flush();
         $http.flush();
         $timeout.flush();
     }
@@ -68,13 +69,16 @@ describe('Controller: SavedSearchDialogCtrl', function () {
         $scope.savedSearch.title = 'junk';
         $scope.savedSearch.makeDefault = true;
 
-        $http.expectJSONP(new RegExp('ssearch')).respond({response:{docs:[]}}); //save search
+        //
         $http.expectGET(new RegExp('conf')).respond({defaultView: 'Card'});
+        $http.expectJSONP(new RegExp('ssearch')).respond({response:{docs:[]}}); //save search
         $http.expectPOST(new RegExp('ssearch')).respond({manage:false, share_saved_search: true}); //save search
 
         $scope.ok();
 
+        $timeout.flush();
         $http.flush();
+        $timeout.flush();
 
     });
 
@@ -84,11 +88,12 @@ describe('Controller: SavedSearchDialogCtrl', function () {
         $scope.savedSearch.title = 'junk';
         $scope.savedSearch.makeDefault = true;
 
-        $http.expectJSONP(new RegExp('ssearch')).respond({response:{docs:[{owner:'owner'}]}}); //save search
         $http.expectGET(new RegExp('conf')).respond({defaultView: 'Card'});
+        $http.expectJSONP(new RegExp('ssearch')).respond({response:{docs:[{owner:'owner'}]}}); //save search
 
         $scope.ok();
 
+        $timeout.flush();
         $http.flush();
     });
 });

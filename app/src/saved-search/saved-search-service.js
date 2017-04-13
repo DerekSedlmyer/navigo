@@ -6,6 +6,8 @@ angular.module('voyager.search').
         'use strict';
 
         var observers = [];
+        var delay;
+        var deferred = $q.defer();
 
         function _applyBbox(solrParams, voyagerParams) {
             if(_.isArray(solrParams.fq)) {
@@ -65,13 +67,23 @@ angular.module('voyager.search').
         }
 
         function _fetch(name) {
-            return $http.jsonp(_getQueryString(name)).then(function (data) {
-                return data.data.response.docs;
-            }, function(error) {
-                //@TODO: handle error
-                console.log(error);
-                return error;
-            });
+            var time = 100;
+            if (name !== undefined) {
+                time = 0;
+            }
+            $timeout.cancel(delay);
+            delay = $timeout(function() {
+                $http.jsonp(_getQueryString(name)).then(function (data) {
+                    deferred.resolve(data.data.response.docs);
+                    deferred = $q.defer();
+                }, function (error) {
+                    //@TODO: handle error
+                    console.log(error);
+                    deferred.error(error);
+                    deferred = $q.defer();
+                });
+            }, time);
+            return deferred.promise;
         }
 
         function _mergeOrFilters(params) {
@@ -166,14 +178,14 @@ angular.module('voyager.search').
             },
 
             addObserver: function (obs) {
-                var index = _.findIndex(observers, obs);
+                var index = _.findIndex(observers, function(item) {return obs === item;});
                 if (index === -1) {
                     observers.push(obs);
                 }
             },
 
             removeObserver: function (observer) {
-                observers = _.without(observers, observer);
+                observers = _.without(observers, function(item) {return item === observer;});
             },
 
             saveSearch: function(savedSearch, params) {

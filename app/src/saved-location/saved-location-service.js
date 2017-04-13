@@ -78,13 +78,13 @@ angular.module('voyager.search').
             },
 
             addObserver: function (obs) {
-                var index = _.findIndex(observers, obs);
+                var index = _.findIndex(observers, function(item) {return obs === item;});
                 if (index === -1) {
                     observers.push(obs);
                 }
             },
             removeObserver: function (obs) {
-                observers = _.without(observers, obs);
+                observers = _.without(observers, function(item) {return obs === item;});
             },
             saveLocation: function(SavedLocation, params) {
                 SavedLocation.config = configService.getConfigId();

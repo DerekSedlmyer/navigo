@@ -42,7 +42,7 @@ describe('Controller: SavedSearchCtrl', function () {
         //TODO are observers causing multiple to fire?
         $http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}});
        // $http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}});
-
+        $timeout.flush();
         $http.flush();
         $timeout.flush();
 
@@ -79,11 +79,16 @@ describe('Controller: SavedSearchCtrl', function () {
 
         var saved = {id: 'id', query:'query'};
         $http.expectDELETE(new RegExp('ssearch')).respond({response: {docs: [item]}});
-        $http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}}); //reload
-        $http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}}); //TODO firing too many?
+        //$http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}}); //reload
+        //$http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}}); //TODO firing too many?
 
         ctrl.deleteSearch(saved.id);
 
+        $timeout.flush();
+        $http.flush();
+
+        $http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}}); //reload
+        $timeout.flush(); // reload
         $http.flush();
 
         expect(savedSearchService.deleteSearch).toHaveBeenCalledWith(saved.id);

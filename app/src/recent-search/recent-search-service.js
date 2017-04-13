@@ -98,7 +98,7 @@ angular.module('voyager.search')
                 observers.push(observer);
             },
             removeObserver: function (observer) {
-                observers = _.without(observers, observer);
+                observers = _.without(observers, function(item) {return item === observer;});
             },
             changeSaveStatus: function(id) {
                 var itemMap = _getItems();

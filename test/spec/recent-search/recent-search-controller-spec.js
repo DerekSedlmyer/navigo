@@ -37,9 +37,9 @@ describe('Controller: RecentSearchCtrl', function () {
             $scope: $scope
         });
 
-        //$http.expectGET(new RegExp('auth')).respond({response: {docs: []}}); //auth call
-
         $http.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [item]}});
+
+        $timeout.flush();
 
         //$http.expectJSONP().respond({response: {docs: []}});  // queued items call
         $http.flush();
