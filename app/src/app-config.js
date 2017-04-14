@@ -162,17 +162,7 @@ angular.module('portalApp')
 
         //maintain session state
         $httpProvider.defaults.withCredentials = true;
-        //cors
-//        $httpProvider.defaults.useXDomain = true;
-//        delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-        //disable rest calls caching
-        if (!$httpProvider.defaults.headers.get) {
-            $httpProvider.defaults.headers.get = {};
-        }
-//        //$httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
-        $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';  // jshint ignore:line
-        $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';  // jshint ignore:line
         $httpProvider.interceptors.push('httpRequestInterceptor');
 
         // TODO - send to custom analytics
