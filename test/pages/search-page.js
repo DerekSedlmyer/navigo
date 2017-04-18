@@ -326,7 +326,34 @@ var searchPage = (function () {
 
         getEditFieldButton: function(){
             return element(by.css('[ng-click="editAllPresentation()"]'));
-        }
+        },
+
+        getCreatedFilterStartDate: function(){
+            return element(by.css('.min_date_picker_input'));
+        },
+
+        getCreatedFilterEndDate: function(){
+            return element(by.css('.max_date_picker_input'));
+        },
+
+        getCreatedFilterApplyButton: function(){
+            return element(by.css('[ng-click="addCalendarFilter(facet)"]'));
+        },
+
+        getDatePickerDate: function(index){
+            return element.all(by.css('[ng-click="select(dt.date)"]')).get(index);
+        },
+
+        getToolsDropdown: function(resultItem){
+            return resultItem.element(by.css('.cta')).element(by.css('.hover_flyout'));
+        },
+
+        getDropdownOption: function(text){
+            return element(by.linkText(text));
+        },
+
+
+
 
     };
 })();  // jshint ignore:line

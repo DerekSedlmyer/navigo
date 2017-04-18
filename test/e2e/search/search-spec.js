@@ -967,7 +967,7 @@ describe('Search', function() {
 
         expect(browser.getCurrentUrl()).toContain('format:application%2Fpdf%20or%20format:image%2Ftiff');
 
-        var results = searchPage.getResults().then(function(){
+        searchPage.getResults().then(function(){
             searchPage.getResults().map(function(elm){
                 return elm.getText();
             }).then(function(texts){
@@ -1055,24 +1055,24 @@ describe('Search', function() {
 
         var searchInput = searchPage.getSearchInput();
         var searchString = 'name:"Data Set"';
-        var incorrectTitle = false;
+        var correctTitle = false;
         
         searchInput.sendKeys(searchString);
         Util.sendEnter();
 
         Util.waitForSpinner();
 
-        var results = searchPage.getResults().then(function(){
+        searchPage.getResults().then(function(){
             searchPage.getResults().map(function(elm){
                 return elm.getText();
             }).then(function(texts){
                 texts.forEach(function(text){
                     var title = (text.split('\n')[0]);
-                    if(!title.includes('Data Set')){
-                        incorrectTitle = true;
+                    if(title.includes('Data Set')){
+                        correctTitle = true;
                     }
                 });
-                expect(incorrectTitle).toBeFalsy();
+                expect(correctTitle).toBeTruthy();
             });
         });
     });
@@ -1083,8 +1083,6 @@ describe('Search', function() {
 
         var searchInput = searchPage.getSearchInput();
         var searchString = 'author:[* TO *]';
-        var format1Count = 0;
-        var format2Count = 0;
         
         searchInput.sendKeys(searchString);
         Util.sendEnter();
@@ -1150,7 +1148,46 @@ describe('Search', function() {
         Util.waitForSpinner();   
 
         var results = searchPage.getResultsCount();
-        expect(results).toBeLessThan(10);
+        expect(results).toBeGreaterThan(0);
+        expect(results).toBeLessThan(100);
+    });
+
+    it('should test the relative path query', function() {
+        browser.get(server + '/search');
+        Util.waitForSpinner();
+
+        var searchInput = searchPage.getSearchInput();
+        var searchString = 'path:shp';
+        
+        searchInput.sendKeys(searchString);
+        Util.sendEnter();
+
+        Util.waitForSpinner();   
+
+        expect(browser.getCurrentUrl()).toContain('path:shp');
+
+        var results = searchPage.getResultsCount();
+        expect(results).toBeGreaterThan(0);
+        
+    });
+    
+    it('should test the absolute path query', function() {
+        browser.get(server + '/search');
+        Util.waitForSpinner();
+
+        var searchInput = searchPage.getSearchInput();
+        var searchString = 'path=Z:\\TestData\\test\\shp\\';
+        
+        searchInput.sendKeys(searchString);
+        Util.sendEnter();
+
+        Util.waitForSpinner();   
+        
+        expect(browser.getCurrentUrl()).toContain('path%3DZ:%5CTestData%5Ctest%5Cshp');
+
+        var results = searchPage.getResultsCount();
+        expect(results).toBeGreaterThan(0);
+        
     });
 
     it('should search test searching WITHIN a location', function() {
@@ -1168,7 +1205,7 @@ describe('Search', function() {
         expect(browser.getCurrentUrl()).toContain('place.op=within');
 
         var results = searchPage.getResultsCount();
-        expect(results).toBe(5);
+        expect(results).toBeLessThan(100);
     });
 
     it('should search test searching INTERSECTS', function() {
@@ -1195,7 +1232,7 @@ describe('Search', function() {
         expect(browser.getCurrentUrl()).toContain('place.op=intersects');
 
         var results = searchPage.getResultsCount();
-        expect(results).toBe(65);
+        expect(results).toBeGreaterThan(120);
     });
 
     
@@ -1231,6 +1268,76 @@ describe('Search', function() {
 
     it('should add all to queue', function() {
         searchPage.addAllToQueue('*:*');
+    });
+
+    it('should apply a date filter via a date picker',function() {
+
+        browser.get(server + '/search');
+        Util.waitForSpinner();
+
+        var e2eInterceptors = function() {
+            return angular.module('e2eInterceptors', []).factory('filterInterceptor', function() {
+                return {
+                    response: function(response) {
+                        var requestedUrl = response.config.url;
+                        if(requestedUrl.indexOf('display/config') > -1){
+                            response.data.filters.push({
+                                'field': 'created',
+                                'style': 'RANGE'
+                            });
+                        }
+                        return response;
+                    }
+                };
+            }).config(function($httpProvider) {
+                return $httpProvider.interceptors.push('filterInterceptor');
+            });
+        };
+        browser.addMockModule('e2eInterceptors',e2eInterceptors);
+
+        var showFilters = searchPage.getOpenFiltersMenuButton();  
+
+        Util.patientClick(showFilters, 3, 100);
+
+        expect($('#filterContainer').isDisplayed()).toBeTruthy();
+
+        var createdFilterCategory = searchPage.getFilterCategory(11);
+
+        expect(createdFilterCategory.getText()).toBe('CREATED');
+
+        Util.patientClick(createdFilterCategory, 3, 100);
+
+        var startDate = searchPage.getCreatedFilterStartDate();
+        var endDate = searchPage.getCreatedFilterEndDate();
+        var applyButton = searchPage.getCreatedFilterApplyButton();
+
+        Util.patientClick(startDate, 3, 100);
+        var firstDate = searchPage.getDatePickerDate(0);
+        Util.patientClick(firstDate, 3, 100);
+
+        Util.patientClick(endDate, 3, 100);
+        var lastDate = searchPage.getDatePickerDate(3);
+        Util.patientClick(lastDate, 3, 100);
+
+        Util.patientClick(applyButton, 3, 199);
+
+        expect(browser.getCurrentUrl()).toContain('created');
+    });
+
+    it('should test downloading an item from the tools dropdown', function() {
+
+        browser.get(server + '/search?disp=ace4bb77&fq=format:application%5C%2Fvnd.openxmlformats%5C-officedocument.wordprocessingml.document');
+        Util.waitForSpinner();
+
+        var firstResult = searchPage.getFirstResult();
+
+        var toolsDropdown = searchPage.getToolsDropdown(firstResult);
+
+        Util.patientClick(toolsDropdown, 3, 100);
+
+        var downloadButton = searchPage.getDropdownOption('Download');
+
+        expect((downloadButton).isDisplayed()).toBeTruthy();
     });
     
 });
