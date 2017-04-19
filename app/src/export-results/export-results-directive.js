@@ -50,11 +50,20 @@ angular.module('voyager.search')
 			// @returns object
 			scope.createAnchorTag = function(data, filename) {
 				var anchor = angular.element('<a/>');
-				anchor.attr({
-					href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
-					target: '_blank',
-					download: filename
-				});
+				if (navigator.msSaveBlob) { // IE 10+
+					anchor[0].addEventListener('click', function (event) {
+						var blob = new Blob([data], {
+							'type': 'text/csv;charset=utf-8;'
+						});
+						navigator.msSaveBlob(blob, filename);
+					}, false);
+				} else {
+					anchor.attr({
+						href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+						target: '_blank',
+						download: filename
+					});
+				}
 
 				return anchor;
 			};
