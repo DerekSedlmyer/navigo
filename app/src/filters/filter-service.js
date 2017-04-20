@@ -7,7 +7,7 @@ angular.module('voyager.filters').
         var filterMap = {}; //quick lookup for filters
         var filterState = {};  //expanded/collapsed
         var searchBounds;
-        var boundsType = 'IsWithin';
+        // var boundsType = 'IsWithin';
         var _systemFilters = null;
         var _statsFields = {};
 
@@ -98,8 +98,9 @@ angular.module('voyager.filters').
         function _replaceName(target, source) {
             // TODO - regex
             var name = target.replace('(' + source + ' ', '(')
-                             .replace(' ' + source + ')', ')')
-                             .replace(' ' + source + ' ', ' ');
+                .replace(' ' + source + ')', ')')
+                .replace(' ' + source + ' ', ' ')
+                .replace(' )', ')');
             if (name.indexOf(' ') === -1) {
                 name = name.replace('(', '').replace(')', '');
             }
@@ -225,32 +226,33 @@ angular.module('voyager.filters').
                 _clear();
             },
 
-            setBounds: function (bounds, type) {
-                if (type) {
-                    if (type === 'WITHIN') {
-                        boundsType = 'IsWithin';
-                    } else {
-                        boundsType = type;
-                    }
-                }
-                searchBounds = bounds;
-            },
+            // TODO - remove? was used for bbox
+            // setBounds: function (bounds, type) {
+            //    if (type) {
+            //        if (type === 'WITHIN') {
+            //            boundsType = 'IsWithin';
+            //        } else {
+            //            boundsType = type;
+            //        }
+            //    }
+            //    searchBounds = bounds;
+            // },
+            //
+            // getBounds: function () {
+            //    return searchBounds;
+            // },
 
-            getBounds: function () {
-                return searchBounds;
-            },
+            // getBoundsType: function () {
+            //    return boundsType;
+            // },
 
-            getBoundsType: function () {
-                return boundsType;
-            },
-
-            getBoundsParams: function () {
-                var bounds = '';
-                if (searchBounds) {
-                    bounds = '&fq=bbox:\"' + boundsType + '(' + searchBounds + ')\"';
-                }
-                return bounds;
-            },
+            // getBoundsParams: function () {
+            //    var bounds = '';
+            //    if (searchBounds) {
+            //        bounds = '&fq=bbox:\"' + boundsType + '(' + searchBounds + ')\"';
+            //    }
+            //    return bounds;
+            // },
 
             applyFromUrl: function (params) {
                 var deferred = $q.defer();

@@ -168,7 +168,7 @@ angular.module('voyager.filters')
       //facet.isSelected = true;
       node.collapsed = !node.collapsed;
       if(!node.loaded) {
-        treeService.loadNode($location.search(), filterService.getFilterParams(), filterService.getBoundsParams(), $scope.filters, node);
+        treeService.loadNode($location.search(), filterService.getFilterParams(), '', $scope.filters, node);
       }
     };
 
@@ -291,7 +291,7 @@ angular.module('voyager.filters')
           }
 
           catalogService.loadRemoteLocations().then(function() {
-            filterQuery.execute($location.search(), filterService.getFilterParams(), filterService.getBoundsParams(), filterService.getSelectedFilters()).then(function(res) {
+            filterQuery.execute($location.search(), filterService.getFilterParams(), '', filterService.getSelectedFilters()).then(function(res) {
               $scope.filters = filterStyle.apply(res.filters);
   
               if(!_.isEmpty(res.badShards)) {
@@ -309,8 +309,8 @@ angular.module('voyager.filters')
               });
             }
             _showMissingSelectedFacets();
-            statsService.updateStats($location.search(), filterService.getFilterParams(), filterService.getBoundsParams(), $scope.filters);
-            treeService.updateTree($location.search(), filterService.getFilterParams(), filterService.getBoundsParams(), $scope.filters);
+            statsService.updateStats($location.search(), filterService.getFilterParams(), '', $scope.filters);
+            treeService.updateTree($location.search(), filterService.getFilterParams(), '', $scope.filters);
           });
         });
       });

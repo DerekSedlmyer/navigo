@@ -176,7 +176,7 @@ angular.module('cart').
             if(params.q === '*:*') {
                 delete params.q;
             }
-            return {params:params, bounds: filterService.getBoundsParams(), solrFilters: solrFilters};
+            return {params:params, bounds: '', solrFilters: solrFilters};
         }
 
         function _decorate(items) {

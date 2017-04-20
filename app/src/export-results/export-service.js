@@ -50,7 +50,7 @@ angular.module('voyager.search').
 			queryString += '&rows=' + itemsPerPage;
 			queryString += '&extent.bbox=true&block=false';
 			queryString += filterService.getFilterParams();
-			queryString += filterService.getBoundsParams();
+
 			if(angular.isDefined(configService.getConfigId()) && angular.isUndefined(solrParams['voyager.config.id'])) {
 				queryString += '&voyager.config.id=' + configService.getConfigId();
 			}

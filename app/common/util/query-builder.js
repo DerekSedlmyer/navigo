@@ -106,7 +106,6 @@ angular.module('voyager.util').
         function _getFilters(placeFilter) {
             var queryString = '';
             queryString += filterService.getFilterParams();
-            queryString += filterService.getBoundsParams();
             queryString += placeFilter;
             return queryString;
         }
