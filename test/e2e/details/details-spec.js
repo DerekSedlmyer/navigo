@@ -30,13 +30,15 @@ describe('Details', function() {
 
         var firstResult = searchPage.getFirstResult();
         var name;
-
-        searchPage.getResultNameElement(firstResult).getInnerHtml().then(function(text) {
+        var nameElm = searchPage.getResultNameElement(firstResult);
+        Util.getInnerHTML(nameElm).then(function(text) {
             name = text;
 
             searchPage.clickResult(firstResult);
 
-            expect(detailsPage.getDocName().getInnerHtml()).toEqual(name);
+            var nameElm = detailsPage.getDocName();
+            var docName = Util.getInnerHTML(nameElm);
+            expect(docName).toEqual(name);
 
             var thumbnailElement = detailsPage.getThumbnail();
             expect(thumbnailElement.isDisplayed()).toBeTruthy();
@@ -68,14 +70,17 @@ describe('Details', function() {
         var secondResult = resultList.get(1);
         var name;
 
-        searchPage.getResultNameElement(secondResult).getInnerHtml().then(function(text) {
+        var nameElm = searchPage.getResultNameElement(secondResult);
+        Util.getInnerHTML(nameElm).then(function(text) {
             name = text;
 
             searchPage.clickResult(firstResult);
 
             detailsPage.gotoNextResult();
 
-            expect(detailsPage.getDocName().getInnerHtml()).toEqual(name);
+            var nameElm = detailsPage.getDocName();
+            var docName = Util.getInnerHTML(nameElm);
+            expect(docName).toEqual(name);
         });
     });
 
@@ -93,7 +98,8 @@ describe('Details', function() {
         var secondResult = resultList.get(1);
         var name;
 
-        searchPage.getResultNameElement(firstResult).getInnerHtml().then(function(text) {
+        var nameElm = searchPage.getResultNameElement(firstResult);
+        Util.getInnerHTML(nameElm).then(function(text) {
             name = text;
 
             searchPage.clickResult(secondResult);
@@ -101,7 +107,9 @@ describe('Details', function() {
             detailsPage.gotoPreviousResult();
 
             Util.waitForSpinner();
-            expect(detailsPage.getDocName().getInnerHtml()).toEqual(name);
+            var nameElm = detailsPage.getDocName();
+            var docName = Util.getInnerHTML(nameElm);
+            expect(docName).toEqual(name);
         });
     });
 
@@ -118,13 +126,15 @@ describe('Details', function() {
         var firstResult = resultList.get(0);
         var firstName;
 
-        searchPage.getResultNameElement(firstResult).getInnerHtml().then(function(firstText) {
-            firstName = firstText;
+        var nameElm = searchPage.getResultNameElement(firstResult);
+        Util.getInnerHTML(nameElm).then(function(text) {
+            firstName = text;
 
             var secondResult = resultList.get(1);
             var secondName;
 
-            searchPage.getResultNameElement(secondResult).getInnerHtml().then(function(secondText) {
+            var secondNameElm = searchPage.getResultNameElement(secondResult);
+            Util.getInnerHTML(secondNameElm).then(function(secondText) {
                 secondName = secondText;
 
                 searchPage.clickResult(firstResult);
@@ -135,11 +145,15 @@ describe('Details', function() {
 
                 detailsPage.gotoRecentlyViewed(0);
 
-                expect(detailsPage.getDocName().getInnerHtml()).toEqual(firstName);
+                var nameElm = detailsPage.getDocName();
+                var docName = Util.getInnerHTML(nameElm);
+                expect(docName).toEqual(firstName);
 
                 detailsPage.gotoRecentlyViewed(1);
 
-                expect(detailsPage.getDocName().getInnerHtml()).toEqual(secondName);
+                var secondNameElm = detailsPage.getDocName();
+                var secondDocName = Util.getInnerHTML(secondNameElm);
+                expect(secondDocName).toEqual(secondName);
             });
         });
     });
@@ -509,24 +523,33 @@ describe('Details', function() {
 
         var testDescription = 'Protractor Description';
 
-        descriptionRow.editLink.click().then(function() {
-            descriptionRow.input.clear();
-            descriptionRow.saveButton.click().then(function() {
-                expect(descriptionRow.value.getText()).toEqual('');
-                descriptionRow.editLink.click().then(function() {
-                    descriptionRow.input.sendKeys(testDescription);
-                    descriptionRow.saveButton.click().then(function() {
-                        expect(descriptionRow.value.getText()).toEqual(testDescription);
-                        descriptionRow.editLink.click().then(function() {
-                            descriptionRow.input.clear();
-                            descriptionRow.saveButton.click().then(function() {
-                                expect(descriptionRow.value.getText()).toEqual('');
-                            });
-                        });
-                    });
-                });
-            });
-        });
+        //First Clear the Field and Check that it was cleared
+        Util.patientClick(descriptionRow.editLink);
+        descriptionRow.input.clear();
+
+        Util.patientClick(descriptionRow.saveButton);
+        Util.waitForSpinner();
+
+        expect(descriptionRow.value.getText()).toEqual('');
+
+        //Next Enter the text and check that it saved correctly
+        Util.patientClick(descriptionRow.editLink);
+        descriptionRow.input.sendKeys(testDescription);
+
+        Util.patientClick(descriptionRow.saveButton);
+        Util.waitForSpinner();
+
+        expect(descriptionRow.value.getText()).toEqual(testDescription);
+
+        //Lastly, clear the field once more and check that it was cleared
+        Util.patientClick(descriptionRow.editLink);
+        descriptionRow.input.clear();
+
+        Util.patientClick(descriptionRow.saveButton);
+        Util.waitForSpinner();
+
+        expect(descriptionRow.value.getText()).toEqual('');
+
     });
 
     it('should go to the first search result then go back to all search results', function() {

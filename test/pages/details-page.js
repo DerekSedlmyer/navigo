@@ -30,8 +30,8 @@ var detailsPage = (function () {
                 'editLink': rowElement.element(by.css('a.edit_link')),
                 'input': rowElement.element(by.css('input.input_field')),
                 'saveButton': rowElement.element(by.css('button[ng-click="doSave(field)"]')),
-                'value': rowElement.element(by.binding('field.formattedValue'))
-            }
+                'value': rowElement.element(by.css('[ng-bind="field.formattedValue"]'))
+            };
             return row;
         },
         getAbsolutePath: function() {

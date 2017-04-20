@@ -48,14 +48,14 @@ var Util = (function () {
             var loginLink = element(by.css('[ng-click="vm.login()"]'));
             return loginLink.isDisplayed().then(function(isVisible) {
                 if(isVisible) {
-                    loginLink.click();
+                    Util.patientClick(loginLink);
                     browser.waitForAngular();
 
                     var user = element(by.css('[name="username"]'));
                     var pass = element(by.css('[name="password"]'));
                     user.sendKeys(username);
                     pass.sendKeys(password);
-                    element(by.css('[ng-click="ok()"]')).click();
+                    Util.patientClick(element(by.css('[ng-click="ok()"]')));
                 } else {
                     return Util.waitForUser();
                 }
@@ -83,6 +83,10 @@ var Util = (function () {
         getParent: function(object) {
             //wait for the block-ui overlay to go away
            return object.element(by.xpath('..'));
+        },
+
+        getInnerHTML: function (object) {
+            return browser.executeScript('return arguments[0].innerHTML;', object);
         },
 
         patientClick: function(object, maxAttempts, waitTime) {
