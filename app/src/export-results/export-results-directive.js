@@ -51,7 +51,7 @@ angular.module('voyager.search')
 			scope.createAnchorTag = function(data, filename) {
 				var anchor = angular.element('<a/>');
 				if (navigator.msSaveBlob) { // IE 10+
-					anchor[0].addEventListener('click', function (event) {
+					anchor[0].addEventListener('click', function () {
 						var blob = new Blob([data], {
 							'type': 'text/csv;charset=utf-8;'
 						});
