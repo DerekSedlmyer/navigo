@@ -207,7 +207,7 @@ angular.module('voyager.filters').
 
                 // remove empty OR filters
                 filters = filters.filter(function(filter) {
-                    return filter.name !== '()';
+                    return filter.name !== '()' && filter.humanized.indexOf('()') === -1;
                 });
 
                 if (isCalendar || isRange) {
