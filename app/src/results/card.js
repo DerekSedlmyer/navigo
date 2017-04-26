@@ -126,7 +126,8 @@ angular.module('voyager.results')
                             $scope.$emit('filterEvent',{});
                         });
                     } else {
-                        $window.location.href = config.root + 'search?fq=' + filter + ':' + value + '&disp=' + $location.search().disp;
+                        var searchPage = config.root + 'navigo/search?fq=' + filter + ':' + encodeURIComponent(value) + '&disp=' + $location.search().disp;
+                        $window.location.href = searchPage;
                     }
                 };
                 
