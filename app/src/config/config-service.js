@@ -9,6 +9,7 @@ angular.module('voyager.config').
         var _solrParams = '';
         var _summarySolrParams = '';
         var _tableFields = [];
+        var _tableFieldsStyle = [];
         var _cardViewFields = [];
         var _cardViewNames = [];
         var _displayFieldsOrder = {};
@@ -77,6 +78,7 @@ angular.module('voyager.config').
             $.each(table, function (index, value) {
                 var name = value.name;
                 value.name = solrUtil.stripAugmented(value.name);
+                _tableFieldsStyle[value.name] = value.style;
                 var tableField = {field:value.name, display:translateService.getFieldName(value.name), width: value.width, sortable: name === value.name};
                 _tableFields.push(tableField);
                 if(angular.isDefined(value.width)) {
@@ -381,6 +383,7 @@ angular.module('voyager.config').
                     labels = _summaryFieldsShowLabels;
                     lines = _summaryFieldsMaxLines;
                 }
+
                 $.each(doc, function (name, value) {
                     if (fields[name]) {
                         if(_.isArray(value )) {
@@ -410,6 +413,9 @@ angular.module('voyager.config').
             },
 
             getTableFields: function() {
+                _tableFields.forEach(function(field) {
+                    field.style = _tableFieldsStyle[field.field];
+                });
                 return _tableFields;
             },
 

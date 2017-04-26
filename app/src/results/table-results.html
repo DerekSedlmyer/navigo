@@ -42,7 +42,8 @@
                 <td colspan="{{$first && hideThumbnails ? 2 : ''}}" ng-repeat="field in vm.tableFields" sortable="{{field.field}}">
                     <div class="field_wrap"  ng-class="{'semi' : field.field == 'name', 'nowrap': vm.textWrappingNotAllowed}">
                         <a href="{{doc.detailLink}}" class="underline" ng-if="field.field == 'name'"><span class="txt">{{doc[field.field]}}</span></a>
-                        <span ng-if="field.field != 'name'">{{formatField(doc, field)}}</span>
+                        <a href="{{doc[field.field]}}" target="_blank" class="underline" ng-if="field.field != 'name' && field.style == 'HREF'"><span class="txt">{{doc[field.field]}}</span></a>
+                        <span ng-if="field.field != 'name' && field.style != 'HREF'">{{formatField(doc, field)}}</span>
                     </div>
                 </td>
                 <td class="tools">
