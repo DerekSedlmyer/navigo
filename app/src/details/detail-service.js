@@ -11,7 +11,7 @@ angular.module('voyager.details').
     var _fields = {};
 
     var buildRequest = function(id, displayFields, shard, disp) {
-        var service = config.root + 'solr/v0/select?q=id:' + id;
+        var service = config.root + 'solr/v0/select?fq=id:' + id;
         var fields = '&fl=id,name:[name],fullpath:[absolute],absolute_path:[absolute],content:[contentURL],thumb:[thumbURL],preview:[previewURL],download:[downloadURL],bbox,format,hasMetadata,root,tree,tag_tags,links,geo:[geo],hasMissingData,schema,layerURL:[lyrURL]';
         fields += displayFields;
         var shards = '';
@@ -23,7 +23,7 @@ angular.module('voyager.details').
     };
 
     function _buildTreeRequest(id, shard) {
-        var service = config.root + 'solr/v0/select?q=id:' + id;
+        var service = config.root + 'solr/v0/select?fq=id:' + id;
         var fields = '&fl=tree, format, id';
         var shards = '';
         if (!_.isEmpty(shard)) {
