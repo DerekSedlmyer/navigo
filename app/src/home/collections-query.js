@@ -12,7 +12,7 @@ angular.module('voyager.home')
             }
             queryString += '&rows=' + rows + '&rand=' + Math.random();
             queryString += '&wt=json&json.wrf=JSON_CALLBACK&block=false';
-            queryString += '&sort=order asc';
+            queryString += '&sort=order desc';
             return queryString;
         }
 
