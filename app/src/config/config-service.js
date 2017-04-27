@@ -146,7 +146,7 @@ angular.module('voyager.config').
         function _setFilterDataTypes() {
             var filterString = _.keys(_systemFilterMap).join(' ');
 
-            return $http.jsonp(config.root + 'solr/fields/select?q=name:(' + filterString + ')&fl=name,multivalued,disp:disp_en,stype&wt=json&json.wrf=JSON_CALLBACK&rows=1000').then(function(filterData){
+            return $http.jsonp(config.root + 'solr/fields/select?fq=name:(' + filterString + ')&fl=name,multivalued,disp:disp_en,stype&wt=json&json.wrf=JSON_CALLBACK&rows=1000').then(function(filterData){
                 _.each(filterData.data.response.docs, function(doc) {
                     var filter = _systemFilterMap[doc.name];
                     filter.stype = doc.stype;
