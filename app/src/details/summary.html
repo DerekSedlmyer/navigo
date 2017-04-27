@@ -1,7 +1,10 @@
 <header class="result_title col-xs-12">
     <div ng-if="pageFramework.showThumbnail" class="thumbnail_wrap">
         <div class="tag" ng-if="doc.tag_flags && summaryFlags.showFlag"><a href="javascript:;" ng-click="searchFlag(doc.tag_flags)" ng-bind="doc.tag_flags"></a></div>
-        <img class="img-thumbnail" alt="" ng-src="{{preview}}" style="width: 325px; float: left; margin-right: 20px;" />
+        <img ng-if="!doc.isVideo" class="img-thumbnail" alt="" ng-src="{{preview}}" style="width: 325px; float: left; margin-right: 20px;" />
+        <video ng-if="doc.isVideo" width="450" controls style="float: left; margin-right: 20px;">
+            <source src="{{trustSrc(doc.download)}}" type="video/mp4">
+        </video>
     </div>
     <h3 class="label label-danger icon-error missing_data" ng-show="doc.hasMissingData">Missing Data</h3>
     <h1 name="doc-header">

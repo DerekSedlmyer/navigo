@@ -280,6 +280,8 @@ angular.module('voyager.details')
                 });
 
                 _adjustForBanner();
+
+                doc.isVideo = doc.format === 'video/mp4';
             });
         }
 
