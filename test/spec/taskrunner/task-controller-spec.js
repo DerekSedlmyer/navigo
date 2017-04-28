@@ -168,23 +168,21 @@ describe('TaskCtrl', function () {
             expect(scope.errorMessage).toBe('error message');
         });
 
-        //it('should select task', function () {
-        //    cartService.addQuery({fq:'field:facet',params:{bbox:'',bboxt:''}});
-        //    cartService.addItem({id:'1'});
-        //    paramService.setParams({name: 'saved_searches', type: 'List'});
-        //    paramService.getParams();
-        //
-        //    inputItemsWithQuery = [{name: 'input_items', type: 'VoyagerResults'}, {name: 'groups', type: 'List'}, {name: 'search_action', type: 'StringChoice'}, {name: 'saved_searches', type:'List'}];
-        //
-        //    initCtrl2();
-        //
-        //    httpMock.expectGET(new RegExp('create_saved_search\/init')).respond({params:[inputItemsWithQuery]});  // validate
-        //    httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // display
-        //
-        //    scope.selectTask({name:'create_saved_search', available:true});
-        //
-        //    httpMock.flush();
-        //});
+        it('should select task', function () {
+            cartService.addQuery({fq:'field:facet',params:{bbox:'',bboxt:''}});
+            cartService.addItem({id:'1'});
+            paramService.setParams({name: 'saved_searches', type: 'List'});
+            paramService.getParams();
+
+            initCtrl();
+
+            httpMock.expectGET(new RegExp('task2\/init')).respond({params:[inputItemsWithQuery]});  // validate
+            httpMock.expectGET(new RegExp('display')).respond({params:[inputItemsWithQuery]});  // display
+
+            scope.selectTask({name:'task2', available:true});
+
+            httpMock.flush();
+        });
 
     });
 
