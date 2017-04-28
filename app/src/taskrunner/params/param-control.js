@@ -47,9 +47,14 @@ angular.module('taskRunner')
             if(!scope.param.hidden) { //don't render hidden
                 var type = scope.param.type;
                 var name = scope.param.name;
-                if (type === 'List' && name === 'groups'){
+
+                if (type === 'List' && name === 'groups') {
                     type = 'Permissions';
                 }
+                if (type === 'List' && name === 'saved_searches') {
+                    type = 'Combo';
+                }
+
                 var template = templateService.get(type, scope.param.readOnly);
                 //scope.param.label = scope.param.name;
                 element.html(template).show();

@@ -17,8 +17,10 @@ angular.module('taskRunner').
         var field = '<input vs-field-param param="param" multi="false">';
         var fieldTpl = '<div ng-hide="param.advanced && !show">' + labelTpl + field + errorTpl + '</div>';
 
-        var permissions ='<input vs-list-param param="param" list="permissions">';
+        var permissions ='<input vs-list-param param="param" list="permissions" multi="true" data-placeholder="Private">';
         var permissionsTpl = '<div ng-hide="param.advanced && !show">' + labelTpl + permissions + errorTpl + '</div>';
+        var combo ='<input vs-list-param param="param" list="permissions" multi="false" data-placeholder="">';
+        var comboTpl = '<div ng-hide="param.advanced && !show">' + labelTpl + combo + errorTpl + '</div>';
 
         var projection = '<div ng-hide="param.advanced && !show" class="process-control">' + labelTpl + projectionSelect + errorTpl + '</div>';
         var stringChoice = '<div ng-hide="param.advanced && !show" class="process-control">' + labelTpl + selectTpl + errorTpl + '</div>';
@@ -66,6 +68,7 @@ angular.module('taskRunner').
             'FieldList':fieldListTpl,
             'Field':fieldTpl,
             'Permissions': permissionsTpl,
+            'Combo': comboTpl,
             'IndexItem':searchTpl,
             'QueryIndex':searchTpl,
             'Date':dateTpl,
