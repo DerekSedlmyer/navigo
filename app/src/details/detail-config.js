@@ -91,7 +91,7 @@ angular.module('voyager.details').
                             _showFormat = false;
                         }
                         displayFields = display.detailsTableFields;
-                        _showAllFields = display.detailsTableConfig === 'ALL' || allFields === "true";
+                        _showAllFields = display.detailsTableConfig === 'ALL' || allFields === 'true';
                         //_globalEditable = display.detailsTableFieldsAreEditable;
                         _globalEditable = config.editAll;
                         if (display.summaryFields) {
