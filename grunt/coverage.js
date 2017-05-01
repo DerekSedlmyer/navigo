@@ -2,9 +2,9 @@ module.exports = {
     default: {
         options: {
             thresholds: {
-                'statements': 80,
+                'statements': 79,
                 'branches': 60,
-                'lines': 80,
+                'lines': 79,
                 'functions': 70
             },
             dir: 'coverage/threshold',
