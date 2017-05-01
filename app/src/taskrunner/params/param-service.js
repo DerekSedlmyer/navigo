@@ -134,7 +134,7 @@ angular.module('taskRunner').
 
             initParams: function (response, reload) {
                 var lastRanParams = null;
-                if (response[0].data.task !== 'export_result_list' && response[0].data.task !== 'modify_saved_search') {
+                if (response[0].data.task !== 'export_result_list' && response[0].data.task !== 'create_saved_search') {
                     lastRanParams = localStorageService.get(response[0].data.task);
                 }
 
