@@ -72,7 +72,7 @@ angular.module('voyager.details').
             return _defaultMetadataStylesheet;
         }
 
-        function _load(configId) {
+        function _load(configId, allFields) {
             var deferred = $q.defer();
             configLoader.prepare().then(function() {
                 translateService.init();
@@ -91,7 +91,7 @@ angular.module('voyager.details').
                             _showFormat = false;
                         }
                         displayFields = display.detailsTableFields;
-                        _showAllFields = display.detailsTableConfig === 'ALL';
+                        _showAllFields = display.detailsTableConfig === 'ALL' || allFields === "true";
                         //_globalEditable = display.detailsTableFieldsAreEditable;
                         _globalEditable = config.editAll;
                         if (display.summaryFields) {

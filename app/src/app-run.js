@@ -83,6 +83,8 @@ angular.module('portalApp')
                 $state.go('login');
             } else if (error === 'Not Visible') {
                 $state.go('search');
+            } else if (error === 'bot') {
+                $state.go('bot');
             }
         });
 

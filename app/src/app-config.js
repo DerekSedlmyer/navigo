@@ -10,7 +10,7 @@ angular.module('portalApp')
                 if(!authService.hasPermission('view')) {
                     return $q.reject('Not Authorized');
                 } else {
-                    return configLoader.load($location.search().disp);
+                    return configLoader.load($location.search().disp, $location.search().all);
                 }
             });
         }
@@ -53,7 +53,11 @@ angular.module('portalApp')
                 },
                 resolve: {
                     load: function (configLoader, $location, $q, authService) {
-                        return _loadIfAllowed(authService, $q, configLoader, $location);
+                        if (!_isBot()) {
+                            return _loadIfAllowed(authService, $q, configLoader, $location);
+                        } else {
+                            return $q.reject('bot');
+                        }
                     }
                 }
             })
@@ -62,10 +66,14 @@ angular.module('portalApp')
                 templateUrl: 'src/home/home.html',
                 resolve: {
                     load: function (configLoader, $location, $q, authService) {
-                        if(config.homepage.showHomepage === true) {
-                            return _loadIfAllowed(authService, $q, configLoader, $location);
+                        if (!_isBot()) {
+                            if (config.homepage.showHomepage === true) {
+                                return _loadIfAllowed(authService, $q, configLoader, $location);
+                            } else {
+                                return $q.reject('Not Visible');
+                            }
                         } else {
-                            return $q.reject('Not Visible');
+                            return $q.reject('bot');
                         }
                     }
                 }
@@ -148,6 +156,10 @@ angular.module('portalApp')
             .state('chart', {
                 url: '/chart',
                 templateUrl: 'src/chart/chart.html'
+            })
+            .state('bot', {
+                url: '/bot?page',
+                templateUrl: 'src/bot/bot-page.html'
             });
 
         $urlRouterProvider.otherwise(function($injector){
@@ -177,5 +189,10 @@ angular.module('portalApp')
                 //$.post(config.analyticsUrl, {message: JSON.stringify(properties)});
             }
         });
+
+        function _isBot() {
+            return /bot|google|aolbuild|baidu|bing|msn|duckduckgo|teoma|slurp|yandex/i
+                .test(navigator.userAgent);
+        }
 
     }).constant('config',config);

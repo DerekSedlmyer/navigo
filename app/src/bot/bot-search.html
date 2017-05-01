@@ -1,0 +1,16 @@
+<main class="container" style="padding-top: 40px;">
+    <section>
+        <ul class="row">
+            <li ng-repeat="item in $ctrl.list" class="col-md-6">
+                <a href="show?id={{item.id}}&all=true">{{item.name}}</a>
+            </li>
+        </ul>
+    </section>
+
+    <nav aria-label="paging">
+        <ul class="pager">
+            <li><a href="bot?page={{$ctrl.page - 1}}" ng-hide="$ctrl.page == 1">Previous</a></li>
+            <li><a href="bot?page={{$ctrl.page + 1 }}" ng-show="$ctrl.hasMore">Next</a></li>
+        </ul>
+    </nav>
+</main>
