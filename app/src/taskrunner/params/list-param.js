@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('taskRunner')
-    .directive('vsListParam', function ($compile, $templateCache, authService, savedSearchService) {
+    .directive('vsListParam', function ($compile, authService, savedSearchService) {
         return {
             replace: true,
             scope: {

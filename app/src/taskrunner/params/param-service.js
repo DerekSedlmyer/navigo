@@ -73,27 +73,6 @@ angular.module('taskRunner').
         }
 
         function _initParam(param) {
-            //if (param.type === 'StringChoice' && param.name === 'saved_searches'){
-            //        if (_.isUndefined(param.choices)) {
-            //            param.choices = [];
-            //            param.values = [];
-            //        }
-            //        savedSearchService.getSavedSearches().then(function(savedSearches) {
-            //            var sortedSavedSearches = savedSearchService.sortSavedSearches(savedSearches);
-            //            angular.forEach(sortedSavedSearches.personal, function(value){
-            //                if(param.choices.indexOf(value['title']) === -1) {
-            //                    param.choices.push(value['title']);
-            //                    param.values[value['title']] = value['title'];
-            //                }
-            //            });
-            //        });
-            //    }
-            //
-            //    if (param.type === 'StringChoice' && param.name !== 'saved_searches') {
-            //        if (!param.value && angular.isDefined(param.choices)) {
-            //            param.value = param.choices[0];
-            //        }
-            //}
             if (param.type === 'Geometry' || param.type === 'MapView') {
                 param.hasMap = true;
             }
