@@ -75,8 +75,9 @@ describe('Suggest:', function () {
             expect(element.next().html()).toContain('suggest-item');
         });
 
-        it('should show suggestions on text entered', function () {
-            httpMock.expectJSONP().respond({placefinder:{results:[{name:'suggestion'}]}});
+        it('should allow arrow selection on suggestions', function () {
+
+            httpMock.expectJSONP().respond({placefinder:{results:[{name:'suggestion'},{name:'suggestion2'}]}});
 
             element.val('1234');
             var event = {'type':'keydown', which:1};
@@ -86,6 +87,25 @@ describe('Suggest:', function () {
             _flushHttp();
 
             expect(element.next().html()).toContain('suggest-item');
+            expect(scope.suggestions.length).toBe(2);
+
+            event = {'type':'keydown', which:40};
+            compiled.triggerHandler(event);
+
+            expect(scope.suggestions[0].highlighted).toBeTruthy();
+
+            event = {'type':'keydown', which:40};
+            compiled.triggerHandler(event);
+
+            expect(scope.suggestions[1].highlighted).toBeTruthy();
+            expect(scope.suggestions[0].highlighted).toBeFalsy();
+
+            event = {'type':'keydown', which:38}; // up arrow
+            compiled.triggerHandler(event);
+
+            expect(scope.suggestions[0].highlighted).toBeTruthy();
+            expect(scope.suggestions[1].highlighted).toBeFalsy();
+
         });
 
         it('should suggest after search event', function () {

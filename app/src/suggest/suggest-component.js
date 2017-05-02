@@ -41,12 +41,34 @@ angular.module('voyager.search')
                 $timeout.cancel(_typeTimer);
 
                 if(e.which === 13) {  //hit enter, don't show suggestions
+                    if (scope.suggestions) {
+                        var selectedIndex = _.findIndex(scope.suggestions, function (item) {
+                            return item.highlighted;
+                        });
+                        if (selectedIndex > -1) {
+                            scope.select(scope.suggestions[selectedIndex]);
+                        }
+                    }
                     scope.suggestions = [];
                     scope.hasSuggestions = false;
                     scope.selectedPlace = true;
                     _placeSearch = true;
                     return;
                 }
+
+                if (e.which === 40 || e.which === 38) { // arrow up/down, highlight
+                    var arrowFn = e.which === 40 ? _handleDownArrow : _handleUpArrow;
+
+                    if (scope.suggestions && scope.suggestions.length > 0) {
+                        var index = _.findIndex(scope.suggestions, function(item) {
+                            return item.highlighted;
+                        });
+                        arrowFn(index);
+                        scope.$digest();
+                        return;
+                    }
+                }
+
                 //pause for a moment until typing has stopped
                 _typeTimer = $timeout(function () {
                     //stopped typing
@@ -55,6 +77,22 @@ angular.module('voyager.search')
             };
 
             element.on('keydown', handleKeydown);
+
+            function _handleDownArrow(index) {
+                if (index < scope.suggestions.length - 1) {
+                    if (index > -1) {
+                        scope.suggestions[index].highlighted = false;
+                    }
+                    scope.suggestions[index + 1].highlighted = true;
+                }
+            }
+
+            function _handleUpArrow(index) {
+                if (index > 0) {
+                    scope.suggestions[index].highlighted = false;
+                    scope.suggestions[index - 1].highlighted = true;
+                }
+            }
 
             var handleBlur = function() {
                 $timeout(function() {  //let focus fire first TODO why is it firing?
