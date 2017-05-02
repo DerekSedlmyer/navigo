@@ -84,7 +84,7 @@ angular.module('voyager.details').
         return _fetchRelationship(id, shard, type, direction, fields).then(function(response) {
             var docs = response.docs;
             resultsDecorator.decorate(docs, []);
-            resultsDecorator.decorateLinks(docs, fields);
+            resultsDecorator.decorateRelationships(docs, fields);
             relationship.numFound += response.numFound;
             $.merge(relationship.values,docs);
             return relationship;
