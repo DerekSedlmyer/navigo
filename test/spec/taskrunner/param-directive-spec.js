@@ -81,7 +81,35 @@ describe('Param Directive:', function () {
 
             isolatedScope.search(1);
         });
-    });
 
+        it('should open groups param', function () {
+            scope.p ={type:'List', name: 'groups'};  //passed in as p param
+            element = angular.element('<vs-param param="p"></vs-param>');
+            $compile(element)(scope);
+            expect(element.html()).toContain('ui-select2');
+        });
+
+        it('should open save searches param', function () {
+            scope.p ={type:'List', name: 'saved_searches'};  //passed in as p param
+            element = angular.element('<vs-param param="p"></vs-param>');
+            $compile(element)(scope);
+            expect(element.html()).toContain('ui-select2');
+        });
+
+        it('should open Geometry', function () {
+            scope.p ={type:'Geometry', name: 'processing_extent'};  //passed in as p param
+            element = angular.element('<vs-param param="p"></vs-param>');
+            $compile(element)(scope);
+            expect(element.html()).toContain('leaflet');
+        });
+
+        it('should open fieldlist param', function () {
+            scope.p ={type:'FieldList', name: 'fields'};  //passed in as p param
+            element = angular.element('<vs-param param="p"></vs-param>');
+            $compile(element)(scope);
+            expect(element.html()).toContain('ui-select2');
+        });
+
+    });
 
 });
