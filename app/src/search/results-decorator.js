@@ -37,6 +37,26 @@
             return htmlified;
         }
 
+        
+
+        function _loadAllFields(doc, fields) {
+            var htmlified = '';
+            $.each(fields, function(index, field) {
+                var _f = {'raw': field};
+                if(doc[_f.raw]) {
+                    _f.name = translateService.getFieldName(_f.raw);
+                    _f.value = doc[_f.raw];
+                    _f.showLabel = true;
+                    _f.maxLines = 3;
+                    if(sugar.isUrl(_f.value)) {
+                        _f.isHref = true;
+                    }
+                    htmlified += _decorateField(_f);
+                }
+            });
+            return htmlified;
+        }
+
         function _decorateField(field) {
             var  htmlified = '', values, formattedValues, actualValues = {}, trimmed, facetValue;
             var formattedValue = field.value;
@@ -125,6 +145,14 @@
             return htmlValue;
         }
 
+        function _decorateLinks(docs, fields) {
+            var htmlified;
+            $.each(docs, function (index, doc) {
+                htmlified = _loadAllFields(doc, fields);
+                doc.htmlValue = _removeLongTextFieldNames(htmlified);
+            });
+        }
+
         function _decorate(docs, recordIds, visitor) {
             var htmlified, disp = $location.search().disp || 'default';
 
@@ -182,7 +210,8 @@
         //public methods - client interface
         return {
             decorate : _decorate,
-            decorateField: _decorateField
+            decorateField: _decorateField,
+            decorateLinks: _decorateLinks
         };
     }
 

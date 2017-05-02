@@ -41,36 +41,22 @@ describe('TaskCtrl', function () {
     var inputItemsWithQuery = [{name:'input_items', query:{fq:'field:facet', params:{bbox:'',bboxt:''}}, ids:[], type:'VoyagerResults', response:{docs:[]}}];
 
     function initCtrl() {
-        //spyOn(location,'path').and.returnValue('status');
-        //
         httpMock.expectGET(new RegExp('projections')).respond({});  // param service - projections call (could mock param service)
         httpMock.expectGET(new RegExp('task\/name\/init')).respond({params:inputItemsWithQuery});  // check status call
         httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // check status call
         var stateParams = {task:{name:'name'}};
         controllerService('TaskCtrl', {$scope: scope, $stateParams:stateParams, $state: $state});
-
         httpMock.flush();
     }
 
     function initCtrl2() {
-        //spyOn(location,'path').and.returnValue('status');
-        //
         httpMock.expectGET(new RegExp('projections')).respond({});  // param service - projections call (could mock param service)
         httpMock.expectGET(new RegExp('task\/name\/init')).respond({params:inputItemsWithQuery});  // check status call
         httpMock.expectGET(new RegExp('display')).respond({params:inputItemsWithQuery});  // check status call
-        // httpMock.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [{id: 'id', place: '0 0 0 0'}]}});
         var stateParams = {task:{name:'name'}};
         controllerService('TaskCtrl', {$scope: scope, $stateParams:stateParams, $state: $state});
-
         httpMock.flush();
-
-        httpMock.expectJSONP(new RegExp('ssearch')).respond({response: {docs: [{id: 'id', place: '0 0 0 0'}]}});
-        timeout.flush();
     }
-
-    //function escapeRegExp(str) {
-    //    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-    //}
 
     describe('Load', function () {
 
@@ -99,9 +85,9 @@ describe('TaskCtrl', function () {
             cartService.remove(1);
             var q = {fq:'field:facet', params:{filter:'true', bbox:'',bboxt:''}, filters:'&fq={!tag=format_type}format_type:(File)', solrFilters:[], bounds:'&fq=bbox:0000'};
             cartService.addQuery(q);
+
             initCtrl();
 
-            //httpMock.expectPOST(new RegExp('validate=true'), new RegExp(escapeRegExp('"fq":"{!tag=format_type}format_type:(File)"}'))).respond({id:'id'});  // validate
             httpMock.expectPOST(new RegExp('validate=true'), '{"task":"name","params":[{"name":"input_items","query":{"filter":"true","fq":["","{!tag=format_type}format_type:(File)"]},"type":"VoyagerResults","response":{"docs":[]},"readOnly":false,"label":"","desc":""}]}').respond({id:'id'});
             httpMock.expectPOST(new RegExp('validate=false')).respond({id:'id'});  // exec
 
@@ -116,9 +102,9 @@ describe('TaskCtrl', function () {
             cartService.remove(1);
             var q = {fq:'field:facet', params:{filter:'true'}, filters:'&fq={!tag=format_type}format_type:(File)'};
             cartService.addQuery(q);
+
             initCtrl();
 
-            //httpMock.expectPOST(new RegExp('validate=true'), new RegExp(escapeRegExp('"fq":"{!tag=format_type}format_type:(File)"}'))).respond({id:'id'});  // validate
             httpMock.expectPOST(new RegExp('validate=true'), '{"task":"name","params":[{"name":"input_items","query":{"filter":"true","fq":["","{!tag=format_type}format_type:(File)"]},"type":"VoyagerResults","response":{"docs":[]},"readOnly":false,"label":"","desc":""}]}').respond({id:'id'});
             httpMock.expectPOST(new RegExp('validate=false')).respond({id:'id'});  // exec
 
@@ -132,9 +118,7 @@ describe('TaskCtrl', function () {
         it('should fail validation', function () {
             cartService.addQuery({fq:'field:facet',params:{bbox:'',bboxt:''}, solrFilters:[], bounds:'&fq=bbox:0000'});
             cartService.addItem({id:'1'});
-
             initCtrl();
-
             httpMock.expectPOST(new RegExp('validate=true')).respond(500,{params:inputItemsWithQuery, errors:['error']});  // validate
 
             scope.execTask();
@@ -149,10 +133,8 @@ describe('TaskCtrl', function () {
         });
 
         it('should fail validation - no query', function () {
-            //cartService.addQuery({fq:'field:facet',params:{bbox:'',bboxt:''}, solrFilters:[], bounds:'&fq=bbox:0000'});
             cartService.clear();
             cartService.addItem({id:'1'});
-
             initCtrl();
             var inputItemsWithoutQuery = {name:'input_items', ids:[], type:'VoyagerResults', response:{docs:[]}};
             httpMock.expectPOST(new RegExp('validate=true')).respond(500,{params:[inputItemsWithoutQuery], errors:['error']});  // validate
@@ -168,13 +150,13 @@ describe('TaskCtrl', function () {
             expect(scope.errorMessage).toBe('error message');
         });
 
-        it('should select task', function () {
+        it('should select task create saved search', function () {
             cartService.addQuery({fq:'field:facet',params:{bbox:'',bboxt:''}});
             cartService.addItem({id:'1'});
-            paramService.setParams({name: 'saved_searches', type: 'StringChoice'});
+            paramService.setParams({name: 'saved_searches', type: 'List'});
             paramService.getParams();
 
-            inputItemsWithQuery = [{name: 'input_items', type: 'VoyagerResults'}, {name: 'groups', type: 'List'}, {name: 'search_name', type: 'String'}, {name: 'saved_search_action', type: 'StringChoice'}, {name: 'saved_searches', type:'StringChoice'}];
+            inputItemsWithQuery = [{name: 'input_items', type: 'VoyagerResults'}, {name: 'search_action', type: 'StringChoice'}, {name: 'saved_searches', type:'List'}, {name: 'groups', type: 'List'}];
 
             initCtrl2();
 

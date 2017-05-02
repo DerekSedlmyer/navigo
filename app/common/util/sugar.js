@@ -309,8 +309,12 @@ angular.module('voyager.util').
             toGroupedList: function(key, list) {
                 var categoryMap = this.toMapList(key,list);
                 return this.mapToList(categoryMap);
-            }
+            },
 
+            isUrl: function(string) {
+                var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+                return regexp.test(string);
+            }
         };
     });
 

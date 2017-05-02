@@ -1,7 +1,7 @@
 /*global angular, $, QueryBuilder */
 
 angular.module('voyager.fields').
-    factory('fieldService', function ($http, config, $q) {
+    factory('fieldService', function ($http, config) {
         'use strict';
 
         return {
@@ -11,5 +11,4 @@ angular.module('voyager.fields').
                 });
             }
         };
-
     });

@@ -33,7 +33,7 @@
             </div>
         </header>
         <div class="row">
-            <article ng-repeat="doc in rel.values" vs-card></article>
+            <article class="relationship-card" ng-repeat="doc in rel.values track by $index" vs-card></article>
         </div>
     </div>
 </section>
@@ -48,7 +48,7 @@
             </div>
         </header>
         <div class="row">
-            <article ng-repeat="doc in fromRel.values" vs-card></article>
+            <article class="relationship-card" ng-repeat="doc in fromRel.values track by $index" vs-card></article>
         </div>
     </div>
 </section>
