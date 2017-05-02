@@ -51,8 +51,15 @@
 				overflow: hidden;
 				line-height: 20px;
 				.max-lines {
-					text-overflow: ellipsis;
-					overflow: hidden;
+					display: block; /* Fallback for non-webkit */
+  				display: -webkit-box;
+  				margin: 0 auto;
+  				font-size: $smallSize;
+  				line-height: 20px;
+  				-webkit-line-clamp: 3;
+  				-webkit-box-orient: vertical;
+  				overflow: hidden;
+  				text-overflow: ellipsis;
 				}
 			}
 
@@ -122,6 +129,40 @@
 
 			.hover_flyout {
 				float: right;
+			}
+		}
+	}
+
+	.relationship-card {
+		.card_inner {
+			padding: 25px 30px 15px 30px;
+			.detail_wrap {
+				margin-bottom: 0;
+				padding-right: 140px;
+				min-height: 100px;
+			}
+
+			.cta {
+				border-left: 1px solid $likewhite;
+				border-top: 0;
+				margin-top: 0;
+				padding-top: 35px;
+				padding-left :32px;
+				position: absolute;
+				top: 0;
+				width: 140px;
+				right: 0;
+
+				.icon-plus:before {
+					content: none;
+					margin: 0;
+				}
+
+				.hover_flyout {
+					float: none;
+    			margin-top: 45px;
+					left: 0 !important;
+				}
 			}
 		}
 	}

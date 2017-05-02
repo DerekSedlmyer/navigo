@@ -4,7 +4,7 @@ angular.module('voyager.details')
                                          usSpinnerService, dialogs, $sce, $q, configService, $timeout, tagService, searchService, $location, $window, urlUtil, resultsDecorator,
                                          loading, detailConfig, $analytics, $uibModal, filterService, detailsActions, $log, converter) {
 
-        var displayParams = '';
+        
         var _layer;
 
         loading.show('#working');
@@ -37,6 +37,10 @@ angular.module('voyager.details')
             $scope.select2Options.data = converter.toIdTextArray(config.homepage.tagValues);
         } else {
             $scope.select2Options.tags = _tags;
+        }
+
+        function _getDisplayParams() {
+            return config.extraRelationshipFields || [];
         }
 
         function _setPermissions() {
@@ -441,11 +445,11 @@ angular.module('voyager.details')
                 }
             });
 
-            detailService.fetchToRelationships($scope.doc.id, displayParams, $stateParams.shard).then(function(relationships) {
+            detailService.fetchToRelationships($scope.doc.id, _getDisplayParams(), $stateParams.shard).then(function(relationships) {
                 _applyRelationships(relationships, 'relationships');
             });
 
-            detailService.fetchFromRelationships($scope.doc, displayParams, $stateParams.shard).then(function(relationships) {
+            detailService.fetchFromRelationships($scope.doc, _getDisplayParams(), $stateParams.shard).then(function(relationships) {
                 _applyRelationships(relationships, 'fromRelationships');
             });
         };

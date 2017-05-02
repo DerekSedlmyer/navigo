@@ -83,4 +83,59 @@ describe('portalApp', function() {
         expect($state.current.name).toBe('home');
     });
 
+    it('should relay root scope events', function() {
+        spyOn($rootScope, '$broadcast');
+        $rootScope.$emit('searchEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('doSearch', {});
+
+        $rootScope.$emit('bboxChangeEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('updateBBox', {});
+
+        $rootScope.$emit('saveSearchSuccess', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('updateSearchSaveStatus', {});
+
+        $rootScope.$emit('removeFilterEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('removeFilter', {});
+
+        $rootScope.$emit('clearSearchEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('clearSearch', {});
+
+        $rootScope.$emit('clearBboxEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('clearBbox', {});
+
+        $rootScope.$emit('changeViewEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('changeView', {});
+
+        $rootScope.$emit('searchComplete', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('searchResults', {});
+
+        $rootScope.$emit('addAllToCartEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('addAllToCart', {});
+
+        $rootScope.$emit('removeAllCartEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('removeAllCart', {});
+
+        $rootScope.$emit('searchDrawingTypeChanged', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('updateDrawingTool', {});
+
+        $rootScope.$emit('drawingToolChanged', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('updateSearchDrawingType', {});
+
+        $rootScope.$emit('searchTypeChanged', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('updateSearchType', {});
+
+        $rootScope.$emit('taskStatusEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('taskStatusChanged', {});
+
+        $rootScope.$emit('resultHoverEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resultHover', {});
+
+        $rootScope.$emit('filterEvent', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('filterChanged', {});
+
+        $rootScope.$emit('selectedDrawingTypeChanged', {});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('drawingTypeChanged', {});
+
+    });
+
 });

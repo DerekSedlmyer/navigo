@@ -6,6 +6,8 @@ angular.module('voyager.details').
     'use strict';
 
     var _type = '&wt=json&json.wrf=JSON_CALLBACK&block=false';
+    
+    
     var _translation = {};
     var _recentViews = [];
     var _fields = {};
@@ -35,7 +37,11 @@ angular.module('voyager.details').
     function _buildRelationshipRequest(id, shard, type, direction, displayFields) {
         var service = config.root + 'api/rest/index/links/' + id + '?dir=' + direction + '&rel=' + type;
         var fields = '&fl=id,name:[name],fullpath:[absolute],content:[contentURL],thumb:[thumbURL],preview:[previewURL],download:[downloadURL],bbox, format, hasMetadata, root, tree, tag_tags, links, hasMissingData, shard:[shard]';
-        fields += displayFields;
+        if (_.isArray(displayFields)) {
+            fields += ',' + displayFields.join(',');
+        } else if (typeof displayFields === 'string'){
+            fields += ',' + displayFields;
+        }
         var shards = '';
         if (!_.isEmpty(shard)) {
             shards = '&shards=' + shard;
@@ -78,6 +84,7 @@ angular.module('voyager.details').
         return _fetchRelationship(id, shard, type, direction, fields).then(function(response) {
             var docs = response.docs;
             resultsDecorator.decorate(docs, []);
+            resultsDecorator.decorateLinks(docs, fields);
             relationship.numFound += response.numFound;
             $.merge(relationship.values,docs);
             return relationship;
