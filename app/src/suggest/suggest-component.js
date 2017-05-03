@@ -157,13 +157,13 @@ angular.module('voyager.search')
 
                 $scope.$on('searchResults', function (event, data) {
                     var isChosen = $location.search()['place.id'];
-                    if(angular.isDefined(isChosen)) {
+                    if (angular.isDefined(isChosen)) {
                         return;  //user chose a place from suggestions or matched recommendation was set, don't recommend
                     }
                     var place = $location.search().place;
                     _placeSearch = angular.isDefined(place) && place !== '';
-                    if(_placeSearch && data.placefinder && !mapUtil.isBbox(place)) {
-                        if(!_.find(data.placefinder.results, {'name': place})) {
+                    if (_placeSearch && data.placefinder && !mapUtil.isBbox(place)) {
+                        if (!_.find(data.placefinder.results, {'name': place})) {
                             //no match, show recommendations
                             $scope.hasRecommendations = true;
                             $scope.suggestions = data.placefinder.results;
@@ -174,6 +174,9 @@ angular.module('voyager.search')
                             //JD: hack. Placefinder matches don't always have a name (mgrs, wkt, etc... )
                             // so in case where it's null just set it to the original search text
                             var matchName = data.placefinder.match.name;
+                            if (matchName === place) {
+                                $scope.hasSuggestions = false;
+                            }
                             if (_.isEmpty(matchName)) {
                                 matchName = data.placefinder.search.text;
                             }
@@ -186,14 +189,14 @@ angular.module('voyager.search')
                             $location.search('place.id', data.placefinder.match.id);
                             urlUtil.addParam('place.id', data.placefinder.match.id);
 
-                            $scope.$emit('filterEvent', {refresh:false});
+                            $scope.$emit('filterEvent', {refresh: false});
 
                         }
                     } else {
                         $scope.hasRecommendations = false;
                     }
 
-                    if($scope.hasRecommendations) {
+                    if ($scope.hasRecommendations) {
                         $document.on('click', docClickHandler);
                     } else {
                         $document.off('click', docClickHandler);
