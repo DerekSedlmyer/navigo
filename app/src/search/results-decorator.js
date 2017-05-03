@@ -39,7 +39,7 @@
 
         
 
-        function _loadAllFields(doc, fields) {
+        function _loadExtraRelationshipFields(doc, fields) {
             var htmlified = '';
             $.each(fields, function(index, field) {
                 var _f = {'raw': field};
@@ -145,10 +145,10 @@
             return htmlValue;
         }
 
-        function _decorateLinks(docs, fields) {
+        function _decorateRelationships(docs, fields) {
             var htmlified;
             $.each(docs, function (index, doc) {
-                htmlified = _loadAllFields(doc, fields);
+                htmlified = _loadExtraRelationshipFields(doc, fields);
                 doc.htmlValue = _removeLongTextFieldNames(htmlified);
             });
         }
@@ -211,7 +211,7 @@
         return {
             decorate : _decorate,
             decorateField: _decorateField,
-            decorateLinks: _decorateLinks
+            decorateRelationships: _decorateRelationships
         };
     }
 

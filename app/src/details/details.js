@@ -39,7 +39,7 @@ angular.module('voyager.details')
             $scope.select2Options.tags = _tags;
         }
 
-        function _getDisplayParams() {
+        function _getExtraRelationshipFields() {
             return config.extraRelationshipFields || [];
         }
 
@@ -445,11 +445,11 @@ angular.module('voyager.details')
                 }
             });
 
-            detailService.fetchToRelationships($scope.doc.id, _getDisplayParams(), $stateParams.shard).then(function(relationships) {
+            detailService.fetchToRelationships($scope.doc.id, _getExtraRelationshipFields(), $stateParams.shard).then(function(relationships) {
                 _applyRelationships(relationships, 'relationships');
             });
 
-            detailService.fetchFromRelationships($scope.doc, _getDisplayParams(), $stateParams.shard).then(function(relationships) {
+            detailService.fetchFromRelationships($scope.doc, _getExtraRelationshipFields(), $stateParams.shard).then(function(relationships) {
                 _applyRelationships(relationships, 'fromRelationships');
             });
         };
