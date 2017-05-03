@@ -1,9 +1,11 @@
 /*global config */
 angular.module('portalApp')
-    .config(function ($stateProvider, $httpProvider, $urlRouterProvider, $analyticsProvider, $locationProvider) {
+    .config(function ($stateProvider, $httpProvider, $urlRouterProvider, $analyticsProvider, $locationProvider, $logProvider) {
         'use strict';
 
         $locationProvider.html5Mode(true);
+
+        $logProvider.debugEnabled(false);
 
         function _loadIfAllowed(authService, $q, configLoader, $location) {
             return authService.getPrivileges().then(function() {
@@ -187,6 +189,7 @@ angular.module('portalApp')
                 properties.action = action;
                 //TODO - enable when log analytics api is added
                 //$.post(config.analyticsUrl, {message: JSON.stringify(properties)});
+                //console.log(JSON.stringify(properties));
             }
         });
 

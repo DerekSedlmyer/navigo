@@ -131,7 +131,7 @@ angular.module('cart').
                 queryString += '&block=' + block;
             }
             queryString += '&wt=json&json.wrf=JSON_CALLBACK&r=' + Math.random();
-            $log.log('Cart queryString: ' + queryString);
+            $log.debug('Cart queryString: ' + queryString);
             return queryString;
         }
 
