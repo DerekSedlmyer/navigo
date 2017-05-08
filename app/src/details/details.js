@@ -460,12 +460,22 @@ angular.module('voyager.details')
                     if (obj.values && obj.values.length > 0) {
                         $scope[type] = relationships;
                         $scope.hasRelationships = true;
+                        _removeDuplicateRelationshipChildren();
                         _setSelectedTab();
                         return false;
                     }
                 });
             } else {
                 $log.log('no result');
+            }
+        }
+
+        function _removeDuplicateRelationshipChildren() {
+            if (($scope.relationships && $scope.relationships._root) && 
+                ($scope.fromRelationships && $scope.fromRelationships._children) && 
+                $scope.relationships._root.numFound === $scope.fromRelationships._children.numFound &&
+                _.isEqual($scope.relationships._root.values, $scope.fromRelationships._children.values)){
+                    delete $scope.fromRelationships._children;
             }
         }
 

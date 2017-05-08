@@ -279,4 +279,80 @@ describe('DetailsCtrl', function () {
 
     });
 
+    describe('Relationships', function() {
+
+        var doc = {id:'doc1', format: 'format', fullpath: 'dataset Dataset c:/temp/doc', 'tag_tags': 'tag', thumb: 'vres/mime'};
+        var lookupResponse = {data:{response: {docs:[doc]}}};
+        var linksResponse = {
+            from:{_children:'Contains',_root:'Root'},
+            to:{_children:'Within',_root:'Root'}
+        };
+        var childrenResponse = { 
+            numFound: 180, docs: [{ name: 'doc name 1', id: 123}, { name: 'doc name 2', id: 234}, { name: 'doc name 3', id: 345}, { name: 'doc name 4', id: 456}]
+        };
+
+        var childrenResponse_2 = { 
+            numFound: 180, docs: [{ name: 'doc name 1', id: 123}, { name: 'doc name 2', id: 234}, { name: 'doc name 3', id: 3456}, { name: 'doc name 4', id: 456}]
+        };
+
+        function expectHttp() {
+            $http.expectJSONP(new RegExp('solr\/v0')).respond(lookupResponse.data); // lookup call
+            $http.expectGET(new RegExp('metadata')).respond(lookupResponse.data); // stylesheets call
+            $http.expectJSONP(new RegExp('solr\/usertags')).respond({facet_counts: {facet_fields:{fss_tag_tags:[]}}}); // tags call
+            $http.expectJSONP(new RegExp('solr\/fields')).respond({response: {docs:[]}}); // fields call
+            $http.expectJSONP(new RegExp('solr\/v0')).respond(lookupResponse.data); // search call
+
+            $http.expectGET(new RegExp('links')).respond(linksResponse); // link types call
+            $http.expectGET(new RegExp('links')).respond(linksResponse); // link types call
+            $http.expectJSONP(new RegExp('fq=id')).respond(lookupResponse.data); // queue call
+
+
+        }
+
+        it('should remove duplicate children', function() {
+
+            expectHttp();
+
+            $http.expectGET(new RegExp('dir=to&rel=_children')).respond(lookupResponse.data); 
+            $http.expectGET(new RegExp('dir=to&rel=_root')).respond(childrenResponse); 
+            $http.expectGET(new RegExp('dir=from&rel=_children')).respond(childrenResponse); 
+            $http.expectGET(new RegExp('dir=from&rel=_root')).respond(lookupResponse.data); 
+
+            controller('DetailsCtrl', {$scope: scope, $stateParams: {id: 'foo'}, authService: authServiceSpy});
+
+            scope.$apply();
+            $http.flush();
+            $timeout.flush();
+
+            expect(scope.relationships).toBeDefined();
+            expect(scope.fromRelationships).toBeDefined();
+            expect(scope.relationships._root).toBeTruthy();
+            expect(scope.fromRelationships._children).toBeFalsy();
+
+        });
+
+        it('should not remove non duplicate children', function() {
+
+            expectHttp();
+
+            $http.expectGET(new RegExp('dir=to&rel=_children')).respond(lookupResponse.data); 
+            $http.expectGET(new RegExp('dir=to&rel=_root')).respond(childrenResponse); 
+            $http.expectGET(new RegExp('dir=from&rel=_children')).respond(childrenResponse_2); 
+            $http.expectGET(new RegExp('dir=from&rel=_root')).respond(lookupResponse.data); 
+
+            controller('DetailsCtrl', {$scope: scope, $stateParams: {id: 'foo'}, authService: authServiceSpy});
+
+            scope.$apply();
+            $http.flush();
+            $timeout.flush();
+
+            expect(scope.relationships).toBeDefined();
+            expect(scope.fromRelationships).toBeDefined();
+            expect(scope.relationships._root).toBeTruthy();
+            expect(scope.fromRelationships._children).toBeTruthy();
+
+        });
+
+    });
+
 });
