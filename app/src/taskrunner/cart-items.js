@@ -35,7 +35,7 @@ angular.module('taskRunner')
 
                 $scope.removeItemByFormat = function(item) {
                     if (angular.isDefined(item)){
-                        cartService.removeByFormat(encodeURIComponent(item.key));
+                        cartService.removeByFormat(item.key);
                         cartService.fetch().then(function(data) {
                             cartService.setQueryCount(data.count);
                             $scope.cartItemCount = data.count;

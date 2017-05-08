@@ -121,6 +121,9 @@ angular.module('cart').
             queryString += settings;
             if (queryCriteria && (angular.isUndefined(items) || items.length === 0)) { //setParams will apply filters
                 if(!_.isEmpty(queryCriteria.solrFilters)) {
+                    for (var i=0; i<queryCriteria.solrFilters.length; i++) {
+                        queryCriteria.solrFilters[i] = encodeURIComponent(queryCriteria.solrFilters[i]);
+                    }
                     queryString += '&fq=' + queryCriteria.solrFilters.join('&fq=');
                 }
                 if(angular.isDefined(queryCriteria.bounds)) {
