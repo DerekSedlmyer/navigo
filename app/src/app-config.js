@@ -55,11 +55,7 @@ angular.module('portalApp')
                 },
                 resolve: {
                     load: function (configLoader, $location, $q, authService) {
-                        if (!_isBot()) {
-                            return _loadIfAllowed(authService, $q, configLoader, $location);
-                        } else {
-                            return $q.reject('bot');
-                        }
+                        return _loadIfAllowed(authService, $q, configLoader, $location);
                     }
                 }
             })
@@ -68,15 +64,11 @@ angular.module('portalApp')
                 templateUrl: 'src/home/home.html',
                 resolve: {
                     load: function (configLoader, $location, $q, authService) {
-                        if (!_isBot()) {
                             if (config.homepage.showHomepage === true) {
                                 return _loadIfAllowed(authService, $q, configLoader, $location);
                             } else {
                                 return $q.reject('Not Visible');
                             }
-                        } else {
-                            return $q.reject('bot');
-                        }
                     }
                 }
             })
@@ -159,8 +151,8 @@ angular.module('portalApp')
                 url: '/chart',
                 templateUrl: 'src/chart/chart.html'
             })
-            .state('bot', {
-                url: '/bot?page',
+            .state('links', {
+                url: '/links?page',
                 templateUrl: 'src/bot/bot-page.html'
             });
 
@@ -192,10 +184,5 @@ angular.module('portalApp')
                 //console.log(JSON.stringify(properties));
             }
         });
-
-        function _isBot() {
-            return /bot|google|aolbuild|baidu|bing|msn|duckduckgo|teoma|slurp|yandex/i
-                .test(navigator.userAgent);
-        }
 
     }).constant('config',config);
