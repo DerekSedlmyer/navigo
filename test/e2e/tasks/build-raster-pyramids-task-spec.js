@@ -17,7 +17,7 @@ describe('Run Build Raster Pyramids Task', function() {
 
     it('should run using default parameter values - NEAREST_NEIGHBOR', function() {
         browser.sleep(1000);
-        element(by.css('[ng-click="showAdvanced = !showAdvanced"]')).click();
+        Util.patientClick(element(by.css('[ng-click="showAdvanced = !showAdvanced"]')), 3);
         Util.waitForSpinner();
         var paramList = taskPage.getParams();
         expect(paramList.count()).toBe(4);
@@ -58,11 +58,11 @@ describe('Run Build Raster Pyramids Task', function() {
         return paramList.then(function(params) {
             var resamplingMethodParam = params[1];
             var resamplingMethodElement = resamplingMethodParam.element(by.css('.select2-choice'));
-            resamplingMethodElement.click();
+            Util.patientClick(resamplingMethodElement, 3);
             Util.waitForSpinner();
             var lis = element.all(by.css('li.select2-results-dept-0'));
             return lis.then(function(li) {
-                li[formatIndex-1].click();
+                Util.patientClick(li[formatIndex-1], 3);
                 Util.waitForSpinner();
                 expect(resamplingMethodElement.getText()).toEqual(method)
             });

@@ -70,10 +70,10 @@ describe('Run Export Result List Task', function() {
         var paramList = taskPage.getParams();
         return paramList.then(function(params) {
             var outputFormat = params[3];
-            outputFormat.element(by.css('.select2-choice')).click();
+            Util.patientClick(outputFormat.element(by.css('.select2-choice')), 3);
             var lis = element.all(by.css('li.select2-results-dept-0'));
             return lis.then(function(li) {
-                li[formatIndex-1].click();
+                Util.patientClick(li[formatIndex-1], 3);
             });
         });
     }

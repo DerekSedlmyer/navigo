@@ -23,16 +23,16 @@ describe('Run Clip Data by Features Task', function() {
         verifyDefaults(['', 'FileGDB', 'Same As Input']);
 
         // Set the clip features
-        element(by.css('.btn.btn-default')).click();
+        Util.patientClick(element(by.css('.btn.btn-default')));
         Util.waitForSpinner();
         Util.waitForSpinner();
         Util.waitForSpinner();
-        element(by.css('[ng-click="toggleFilters()"]')).click();
+        Util.patientClick(element(by.css('[ng-click="toggleFilters()"]')), 3);
         var expectedFilters = element.all(by.css('[ng-click="toggleDisplayState(filter)"]'));
         expect(expectedFilters.count()).toBe(2);
         var searchInput = element(by.css('[ng-model="searchInput"]'));
         searchInput.sendKeys('Countries');
-        element(by.css('[ng-click="searchClick()"]')).click();
+        Util.patientClick(element(by.css('[ng-click="searchClick()"]')), 3);
         Util.waitForSpinner();
         setClipFeatures(0);
         taskPage.executeTask();
@@ -69,7 +69,7 @@ describe('Run Clip Data by Features Task', function() {
     }
 
     function setClipFeatures(itemIndex) {
-       element(by.xpath('//*[@id="resultsTable"]/tbody/tr[1]/td[2]/span')).click();
+       Util.patientClick(element(by.xpath('//*[@id="resultsTable"]/tbody/tr[1]/td[2]/span')), 3);
     }
 
     function setParams(formatIndex, proj) {
@@ -81,11 +81,11 @@ describe('Run Clip Data by Features Task', function() {
 
         return paramList.then(function(params) {
             var outputFormat = params[2];
-            outputFormat.element(by.css('.select2-choice')).click();
+            Util.patientClick(outputFormat.element(by.css('.select2-choice')), 3);
 
             var lis = element.all(by.css('li.select2-results-dept-0'));
             return lis.then(function(li) {
-                li[formatIndex-1].click();
+                Util.patientClick(li[formatIndex-1], 3);
 
                 // now set the projection
                 var projection = params[3];

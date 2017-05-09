@@ -25,11 +25,11 @@ describe('Zip Files Task', function() {
         Util.waitForSpinner();  //can't click until spinner is gone
 
         // Execute the task with default parameter values
-        taskPage.getTaskButton().click();
+        Util.patientClick(taskPage.getTaskButton(), 3);
         browser.waitForAngular();
         browser.sleep(1000);
         // Open task report page and confirm number of files zipped.
-        taskStatusPage.getShowReportLink().click();
+        Util.patientClick(taskStatusPage.getShowReportLink(), 3);
         browser.waitForAngular();
         var grid = taskReportPage.getTableGrid();
         grid.each(function(row) {
@@ -38,7 +38,7 @@ describe('Zip Files Task', function() {
             expect(rowElements.get(0).getText()).toMatch('Processed');
             expect(rowElements.get(1).getText()).toMatch('6');
         });
-        taskReportPage.getCancelButton().click();
+        Util.patientClick(taskReportPage.getCancelButton(), 3);
 
         // Check the status; expect no errors; expect download link
         expect(browser.getCurrentUrl()).toMatch(/\/status/);

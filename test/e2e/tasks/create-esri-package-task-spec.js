@@ -65,11 +65,11 @@ describe('Run Create Esri Map or Layer Package Task', function() {
 
         return paramList.then(function(params) {
             var outputFormat = params[1];
-            outputFormat.element(by.css('.select2-choice')).click();
+            Util.patientClick(outputFormat.element(by.css('.select2-choice')), 3);
             Util.waitForSpinner();
             var lis = element.all(by.css('li.select2-results-dept-0'));
             return lis.then(function(li) {
-                li[formatIndex-1].click();
+                Util.patientClick(li[formatIndex-1], 3);
             });
         });
     }

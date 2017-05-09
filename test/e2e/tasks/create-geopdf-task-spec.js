@@ -19,9 +19,9 @@ describe('Run Create GeoPDF Task', function() {
         // Get the task parameter elements.
         browser.sleep(1000);
         Util.waitForSpinner();
-        element(by.css('[ng-click="showAdvanced = !showAdvanced"]')).click();
+        Util.patientClick(element(by.css('[ng-click="showAdvanced = !showAdvanced"]')), 3);
         Util.waitForSpinner();
-        element(by.css('[ng-click="defaultExtent($event)"]')).click();
+        Util.patientClick(element(by.css('[ng-click="defaultExtent($event)"]')), 3);
 
         // Verify we have the correct number of params
         var paramList = taskPage.getParams();
@@ -59,11 +59,11 @@ describe('Run Create GeoPDF Task', function() {
         expect(paramList.count()).toBe(7);
         return paramList.then(function(params) {
             var mapTemplate = params[1];
-            mapTemplate.element(by.css('.select2-choice')).click();
+            Util.patientClick(mapTemplate.element(by.css('.select2-choice')), 3);
 
             var lis = element.all(by.css('li.select2-results-dept-0'));
             return lis.then(function(li) {
-                li[formatIndex-1].click();
+                Util.patientClick(li[formatIndex-1], 3);
 
                 // now set the map template
                 var template = params[1];

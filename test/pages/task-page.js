@@ -10,7 +10,7 @@ var taskPage = (function () {
         executeTask: function() {
             // Execute the task
             Util.waitForSpinner();
-            element(by.css('[ng-click="execTask()"]')).click();
+            Util.patientClick(element(by.css('[ng-click="execTask()"]')), 3);
             browser.sleep(15000); // Sleep required to avoid timeout
             browser.waitForAngular();
         },

@@ -17,7 +17,7 @@ describe('Run Mosaic Task', function() {
 
     it('should run using default parameter values - output format is FileGDB', function() {
         browser.sleep(1000);
-        element(by.css('[ng-click="showAdvanced = !showAdvanced"]')).click();
+        Util.patientClick(element(by.css('[ng-click="showAdvanced = !showAdvanced"]')), 3);
         Util.waitForSpinner();
         var paramList = taskPage.getParams();
         expect(paramList.count()).toBe(6);
@@ -57,11 +57,11 @@ describe('Run Mosaic Task', function() {
 
         return paramList.then(function(params) {
             var outputFormat = params[2];
-            outputFormat.element(by.css('.select2-choice')).click();
+            Util.patientClick(outputFormat.element(by.css('.select2-choice')), 3);
             Util.waitForSpinner();
             var lis = element.all(by.css('li.select2-results-dept-0'));
             return lis.then(function(li) {
-                li[formatIndex-1].click();
+                Util.patientClick(li[formatIndex-1], 3);
                 Util.waitForSpinner();
                 // Set the projection
                 var projection = params[1];
