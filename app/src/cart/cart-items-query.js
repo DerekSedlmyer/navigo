@@ -10,6 +10,7 @@ angular.module('cart').
                     pos = filter.indexOf('}');
                     cleanFilters[index] = filter.substring(pos+1);
                 }
+                cleanFilters[index] = cleanFilters[index].replace('+', '%2B');
             });
             return cleanFilters.join(' AND ');
         }
@@ -122,7 +123,7 @@ angular.module('cart').
             if (queryCriteria && (angular.isUndefined(items) || items.length === 0)) { //setParams will apply filters
                 if(!_.isEmpty(queryCriteria.solrFilters)) {
                     for (var i=0; i<queryCriteria.solrFilters.length; i++) {
-                        queryCriteria.solrFilters[i] = encodeURIComponent(queryCriteria.solrFilters[i]);
+                        queryCriteria.solrFilters[i] = sugar.safeUrlEncode(queryCriteria.solrFilters[i]);
                     }
                     queryString += '&fq=' + queryCriteria.solrFilters.join('&fq=');
                 }

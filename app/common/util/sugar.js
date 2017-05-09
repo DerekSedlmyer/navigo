@@ -61,6 +61,12 @@ angular.module('voyager.util').
             mapList[key] = mapItem;
         }
 
+        function _safeUrlEncode(string) {
+            if (string.indexOf('%') === -1) {
+                return encodeURIComponent(string);
+            }
+            return string;
+        }
         return {
 
             retroParams: function (params) {
@@ -184,19 +190,11 @@ angular.module('voyager.util').
                 $.each(params,function(key, value) {
                     if($.isArray(value)) {
                         $.each(value, function(index, val) {
-                            if (val.indexOf('%') === -1) {  // check if already encoded
-                                queryString += sep + key + '=' + encodeURIComponent(val);
-                            } else {
-                                queryString += sep + key + '=' + val;
-                            }
+                            queryString += sep + key + '=' + _safeUrlEncode(val);
                             sep = '&';
                         });
                     } else {
-                        if (value.indexOf('%') === -1) {  // check if already encoded
-                            queryString += sep + key + '=' + encodeURIComponent(value);
-                        } else {
-                            queryString += sep + key + '=' + value;
-                        }
+                        queryString += sep + key + '=' + _safeUrlEncode(value);
                         sep = '&';
                     }
                 });
@@ -314,6 +312,10 @@ angular.module('voyager.util').
             isUrl: function(string) {
                 var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
                 return regexp.test(string);
+            },
+
+            safeUrlEncode: function(string) {
+                return _safeUrlEncode(string);
             }
         };
     });

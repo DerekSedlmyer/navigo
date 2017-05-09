@@ -190,6 +190,7 @@ angular.module('cart')
             removeByFormat: function(format) {
                 var query = localStorageService.get('cart-query');
                 if(query) {
+                    format = format.replace('+','%2B');
                     _appendFilter('-format:' + format, query);
 
                     query.actualCount = false;
