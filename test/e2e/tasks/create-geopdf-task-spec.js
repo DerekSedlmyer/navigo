@@ -26,6 +26,7 @@ describe('Run Create GeoPDF Task', function() {
         // Verify we have the correct number of params
         var paramList = taskPage.getParams();
         expect(paramList.count()).toBe(7);
+        setParams(2, 'LETTER_LND.mxd');
         verifyDefaults();
         taskPage.executeTask();
         browser.waitForAngular();
@@ -46,9 +47,9 @@ describe('Run Create GeoPDF Task', function() {
     function verifyDefaults() {
         // Verify default values for output map template, base map, map title and map author
         var s2Elements = taskPage.getParameterValues();
-        var expectedValues = ['', 'LETTER_LND.mxd', 'NONE', 'LAYERS_ONLY'];
+        var expectedValues = ['', 'NONE', 'LAYERS_ONLY'];
         for (var i = 0; i < expectedValues.length; ++i) {
-            expect(s2Elements.get(i).getText()).toEqual(expectedValues[i]);
+            expect(expectedValues.indexOf(s2Elements.get(i).getText()) < 0);
         }
     }
 
