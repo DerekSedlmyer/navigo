@@ -6,7 +6,7 @@ var protractorArgs = process.argv.splice(2);
 
 protractorFlake({
     //protractorPath: 'node_modules/.bin/protractor',
-    maxAttempts: 2,
+    maxAttempts: 10,
     parser: 'standard',
     nodeBin: 'node',
     protractorArgs: protractorArgs
