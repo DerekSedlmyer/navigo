@@ -552,7 +552,10 @@ describe('Search', function() {
             .mouseMove(nameOption).click()
             .perform();
 
+        browser.waitForAngular();
         browser.sleep(1000);
+        //browser.waitForAngular();
+
         expect(browser.getCurrentUrl()).toContain('sort=name');
 
         browser.actions()
@@ -579,7 +582,12 @@ describe('Search', function() {
             .perform();
 
         Util.waitForSpinner();
+
+        browser.waitForAngular();
+
         browser.sleep(1000);
+        //browser.waitForAngular();
+
         expect(browser.getCurrentUrl()).toContain('sort=modified');
     });
 
@@ -596,7 +604,12 @@ describe('Search', function() {
             .mouseMove(fileSizeOption).click()
             .perform();
 
+        browser.waitForAngular();
+
         Util.waitForSpinner();
+
+        browser.waitForAngular();
+
         browser.sleep(1000);
         expect(browser.getCurrentUrl()).toContain('sort=bytes');
     });
@@ -613,8 +626,13 @@ describe('Search', function() {
             .mouseMove(sortButton).click()
             .mouseMove(pathOption).click()
             .perform();
-        
+
+        browser.waitForAngular();
+
         Util.waitForSpinner();
+
+        browser.waitForAngular();
+
         browser.sleep(1000);
         expect(browser.getCurrentUrl()).toContain('sort=path');
     });
