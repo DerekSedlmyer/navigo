@@ -4,7 +4,6 @@ describe('Search', function() {
 
     var Util = require('../../lib/util.js');
     var searchPage = require('../../pages/search-page.js');
-    var detailsPage = require('../../pages/details-page.js');
 
     var server = Util.getServer();
 
@@ -39,7 +38,6 @@ describe('Search', function() {
         expect($('#filterContainer').isDisplayed()).toBeFalsy();
 
     });
-
 
     it('should show facets and select facet', function() {
         browser.get(server + '/search');
@@ -180,23 +178,36 @@ describe('Search', function() {
         var filterPanel = searchPage.getFilterPanel();
         Util.patientClick(filterPanel, 3, 100);
 
-        var formatCategory = searchPage.getFilterCategory(1);
-        var typeCategory = searchPage.getFilterCategory(2);
-        Util.patientClick(formatCategory, 3, 100);
+        var formatSection = searchPage.getFilterCategory(1);
+        var formatTypeSection = searchPage.getFilterCategory(2);
+        Util.patientClick(formatSection, 3, 100);
         Util.waitForSpinner();
-        Util.patientClick(typeCategory, 3, 200);
+        Util.patientClick(formatTypeSection, 3, 200);
         Util.waitForSpinner();
         
-        var firstFormatFilter = searchPage.getFacetInCategory(formatCategory, 0);
-        
-        var firstTypeFilter = searchPage.getFacetInCategory(typeCategory, 0);
-
+        var firstFormatFilter = searchPage.getFacetInCategory(formatSection, 0);
+        var firstTypeFilter = searchPage.getFacetInCategory(formatTypeSection, 0);
 
         Util.patientClick(firstFormatFilter, 3, 100);
-       
-        
         Util.patientClick(firstTypeFilter, 3, 200);
-        expect(browser.getCurrentUrl()).toContain('fq=format:application%5C%2Fvnd.esri.featureclass.feature&fq=format_type:Feature');
+
+        //the following will work for most categories, but some (such as Spatial Reference or File Extension) do not follow the standard naming convention and will fail.
+        var firstCategoryText = formatSection.getText().then(function(text){
+            var str1 = text.split('\n');
+            var str2 = str1[0].toLowerCase();
+            var str3 = str2.replace(' ', '_');
+            return 'fq=' + str3;
+        });
+
+        var secondCategoryText = formatTypeSection.getText().then(function(text){
+            var str1 = text.split('\n');
+            var str2 = str1[0].toLowerCase();
+            var str3 = str2.replace(' ', '_');
+            return 'fq=' + str3;
+        });
+
+        expect(browser.getCurrentUrl()).toContain(firstCategoryText);
+        expect(browser.getCurrentUrl()).toContain(secondCategoryText);
     });
 
     it('should apply multiple checkbox facets', function() {
@@ -214,7 +225,10 @@ describe('Search', function() {
 
         Util.patientClick(firstCategoryFilter, 3, 100); 
         Util.patientClick(secondCategoryFilter, 3, 200);
-        expect(browser.getCurrentUrl()).toContain('fq=format_category:GIS&fq=format_category:Office');
+
+
+        expect(browser.getCurrentUrl()).toContain(firstCategoryFilter.getText());
+        expect(browser.getCurrentUrl()).toContain(secondCategoryFilter.getText());
     });
 
     it('should check the item counts in the facets dialog', function() {
@@ -311,7 +325,7 @@ describe('Search', function() {
         
         expect(browser.getCurrentUrl()).toContain('&fq=');
 
-        var removeFacet = searchPage.getRemoveFacetButton();
+        var removeFacet = searchPage.getRemoveFacetButton(0);
         Util.patientClick(removeFacet, 3, 100);
         
         expect(browser.getCurrentUrl()).not.toContain('&fq=');

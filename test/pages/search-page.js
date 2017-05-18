@@ -292,8 +292,8 @@ var searchPage = (function () {
             return element(by.css('[ng-click="clearAllFilter()"]'));
         },
 
-        getRemoveFacetButton: function(){
-            return element(by.css('[ng-click="removeFilter(selected)"]'));
+        getRemoveFacetButton: function(index){
+            return element.all(by.css('[ng-click="removeFilter(selected)"]')).get(index);
         },
 
         getHomeButton: function(){
