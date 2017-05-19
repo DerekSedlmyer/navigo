@@ -44,7 +44,8 @@
     "ResponseMocks":false,
     "escapeRegExp":false,
     "L":false,
-    "map":false
+    "map":false,
+    "protractor":false
   }
 }
 
