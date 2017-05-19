@@ -4,8 +4,8 @@ describe('Search', function() {
 
     var Util = require('../../lib/util.js');
     var searchPage = require('../../pages/search-page.js');
-    var detailsPage = require('../../pages/details-page.js');
-
+    var EC = protractor.ExpectedConditions;
+    var timeout = 5000;
     var server = Util.getServer();
 
     it('should toggle the sorting between descending and ascending', function() {
@@ -22,8 +22,10 @@ describe('Search', function() {
             .mouseMove(ascendingOption).click()
             .perform();
 
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('sortdir=asc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('sortdir=asc');
+
+        browser.wait(EC.urlContains('sortdir=asc'), timeout);
 
         Util.waitForSpinner();
 
@@ -33,8 +35,10 @@ describe('Search', function() {
             .perform();
 
         Util.waitForSpinner();
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('sortdir=desc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('sortdir=desc');
+
+        browser.wait(EC.urlContains('sortdir=desc'), timeout);
     });
 
     it('should sort by Name then by Relevance', function() {
@@ -52,10 +56,11 @@ describe('Search', function() {
             .perform();
 
         browser.waitForAngular();
-        browser.sleep(1000);
+        //browser.sleep(1000);
         //browser.waitForAngular();
 
-        expect(browser.getCurrentUrl()).toContain('sort=name');
+        //expect(browser.getCurrentUrl()).toContain('sort=name');
+        browser.wait(EC.urlContains('sort=name'), timeout);
 
         browser.actions()
             .mouseMove(sortButton).click()
@@ -63,8 +68,10 @@ describe('Search', function() {
             .perform();
 
         Util.waitForSpinner();
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('sort=score');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('sort=score');
+        browser.wait(EC.urlContains('sort=score'), timeout);
+
     });
 
     it('should sort by Modified', function() {
@@ -84,10 +91,11 @@ describe('Search', function() {
 
         browser.waitForAngular();
 
-        browser.sleep(1000);
+        //browser.sleep(1000);
         //browser.waitForAngular();
 
-        expect(browser.getCurrentUrl()).toContain('sort=modified');
+        //expect(browser.getCurrentUrl()).toContain('sort=modified');
+        browser.wait(EC.urlContains('sort=modified'), timeout);
     });
 
     it('should sort by file size', function() {
@@ -109,8 +117,10 @@ describe('Search', function() {
 
         browser.waitForAngular();
 
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('sort=bytes');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('sort=bytes');
+
+        browser.wait(EC.urlContains('sort=bytes'), timeout);
     });
 
     it('should sort by path', function() {
@@ -132,8 +142,10 @@ describe('Search', function() {
 
         browser.waitForAngular();
 
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('sort=path');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('sort=path');
+
+        browser.wait(EC.urlContains('sort=path'), timeout);
     });
 
     it('should sort by Name Ascending in Table View then sort by name descending', function() {
@@ -143,12 +155,16 @@ describe('Search', function() {
 
         Util.waitForSpinner();
         Util.patientClick(nameSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=name&sortdir=asc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=name&sortdir=asc');
+
+        browser.wait(EC.urlContains('view=table&sort=name&sortdir=asc'), timeout);
 
         Util.patientClick(nameSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=name&sortdir=desc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=name&sortdir=desc');
+
+        browser.wait(EC.urlContains('view=table&sort=name&sortdir=desc'), timeout);
     });
 
     it('should sort by Format Ascending in Table View then sort by Format descending', function() {
@@ -158,12 +174,16 @@ describe('Search', function() {
 
         Util.waitForSpinner();
         Util.patientClick(formatSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=format&sortdir=asc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=format&sortdir=asc');
+
+        browser.wait(EC.urlContains('view=table&sort=format&sortdir=asc'), timeout);
 
         Util.patientClick(formatSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=format&sortdir=desc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=format&sortdir=desc');
+
+        browser.wait(EC.urlContains('view=table&sort=format&sortdir=desc'), timeout);
     });
 
     it('should sort by File Size Ascending in Table View then sort by File Size descending', function() {
@@ -173,12 +193,16 @@ describe('Search', function() {
 
         Util.waitForSpinner();
         Util.patientClick(fileSizeSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=bytes&sortdir=asc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=bytes&sortdir=asc');
+
+        browser.wait(EC.urlContains('view=table&sort=bytes&sortdir=asc'), timeout);
 
         Util.patientClick(fileSizeSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=bytes&sortdir=desc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=bytes&sortdir=desc');
+
+        browser.wait(EC.urlContains('view=table&sort=bytes&sortdir=desc'), timeout);
     });
 
     it('should sort by Modified Ascending in Table View then sort by Modified descending', function() {
@@ -188,12 +212,16 @@ describe('Search', function() {
 
         Util.waitForSpinner();
         Util.patientClick(fileSizeSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=modified&sortdir=asc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=modified&sortdir=asc');
+
+        browser.wait(EC.urlContains('view=table&sort=modified&sortdir=asc'), timeout);
 
         Util.patientClick(fileSizeSort, 3, 100);
-        browser.sleep(1000);
-        expect(browser.getCurrentUrl()).toContain('view=table&sort=modified&sortdir=desc');
+        //browser.sleep(1000);
+        //expect(browser.getCurrentUrl()).toContain('view=table&sort=modified&sortdir=desc');
+
+        browser.wait(EC.urlContains('view=table&sort=modified&sortdir=desc'), timeout);
     });
 
     it('should hide then show thumbnails in Table View', function() {
