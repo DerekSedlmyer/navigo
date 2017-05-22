@@ -89,6 +89,7 @@ angular.module('taskRunner').
             'Password-readOnly':pwdReadOnlyTpl,
             'FieldList-readOnly':readOnlyListTpl,
             'Permissions-readOnly':readOnlyListTpl,
+            'Combo-readOnly': readOnlyListTpl,
             'Field-readOnly':readOnlyTpl,
             'QueryIndex-readOnly':readOnlyTpl
         };
