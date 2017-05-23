@@ -81,9 +81,11 @@ angular.module('taskRunner')
         }
 
         function _validate(params) {
-            if ($scope.task.name === 'export_result_list' && angular.isDefined(params[2].value) && params[2].value.length === 0) {
-                delete params[2].value;
-            }
+            _.each(params, function(param) {
+               if (angular.isDefined(param.required) && angular.isDefined(param.value) && param.value.length === 0) {
+                   delete param.value;
+               }
+            });
             var request = {'task': $scope.task.name, 'params': params};
             return taskService.validate(request);
         }

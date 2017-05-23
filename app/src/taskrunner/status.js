@@ -111,6 +111,7 @@ angular.module('taskRunner')
                     $scope.inputItems = readOnlyParams.inputItems;
                     var query = readOnlyParams.inputItems[0].query;
                     if(query) {
+                        sugar.removeDoubleQuotes(query);
                         _applyBbox(query);
                         $scope.searchItemURL = 'search?disp=' + searchParams.disp + '&' + sugar.toNavigoQueryString(query);
                     } else {
