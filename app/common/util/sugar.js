@@ -316,6 +316,19 @@ angular.module('voyager.util').
 
             safeUrlEncode: function(string) {
                 return _safeUrlEncode(string);
+            },
+
+            removeDoubleQuotes: function(query) {
+                if (angular.isDefined(query.fq) ) {
+                    if (_.isArray(query.fq)) {
+                        _.each (query.fq, function(value, index) {
+                            query.fq[index] = value.replace(/"/g, "");
+                        });
+                    }
+                    else {
+                        query.fq = query.fq.replace(/"/g, "");
+                    }
+                }
             }
         };
     });

@@ -62,12 +62,7 @@ angular.module('taskRunner')
             var data = JSON.parse(job.json);
             var resultsParam = _getItems(data.params);
             var params = $location.search();
-
-            //bbox is being included twice
-            resultsParam.query.fq = _.reject(resultsParam.query.fq, function(param){
-                return param.indexOf('bbox:') > -1;
-            });
-
+            sugar.removeDoubleQuotes(resultsParam.query);
             $window.location = 'search?disp=' + params.disp + '&' + sugar.toQueryString(resultsParam.query);
         };
 
