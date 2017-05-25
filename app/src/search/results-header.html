@@ -26,6 +26,15 @@
                     <li ng-if="canEditPermission()"><a href="javascript:;" ng-click="editAllPresentation()">Edit Fields for All</a></li>
                     <li ng-if="view == 'table' && exportPermission()"><a href="javascript:;" ng-click="exportResultsList()">Export results list</a></li>
                     <li ng-if="canAdmin()"><a href="{{getLastQuery()}}&indent=true" target="_blank">View Raw Query</a></li>
+                    <li class="feed-list-item"><a href="javascript:;">Open Feed
+                        <span class="fa fa-chevron-right"></span></a>
+                        <div class="flyout_inner">
+                            <ul>
+                                <li><a href="javascript:;" ng-click="openFeed('rss')">RSS</a></li>
+                                <li><a href="javascript:;" ng-click="openFeed('atom')">Atom</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
