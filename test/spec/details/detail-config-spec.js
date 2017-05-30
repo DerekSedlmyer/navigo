@@ -23,7 +23,7 @@ describe('Factory: detailConfig', function () {
 
 	// Specs here
 
-	var dispFields = [{name: 'name', style: 'STRIP_HTML'},{name:'format', style: 'HTML'}, {name:'contains_mime'}, {name:'location'}, {name:'abstract'}, {name: 'description'}];
+	var dispFields = [{name: 'name', style: 'STRIP_HTML'}, {name: 'url'}, {name:'format', style: 'HTML'}, {name:'contains_mime'}, {name:'location'}, {name:'abstract'}, {name: 'description'}];
 	var res = {
 		details: {pageElements: {}, detailsTableFields: dispFields, summaryFields: {fields: dispFields}},
 		display: {
@@ -43,7 +43,7 @@ describe('Factory: detailConfig', function () {
 		$http.expectGET(new RegExp('root\/api\/rest\/i18n\/field\/location.json')).respond({VALUE:{location:'location'}}); // location call
 		$http.expectGET(new RegExp('federation')).respond({servers:[]});
 
-        $http.expectGET(new RegExp('maps')).respond({});
+		$http.expectGET(new RegExp('maps')).respond({});
 		$http.expectGET(new RegExp('root\/api\/rest\/display\/config\/config.json')).respond(res);  // display call
 
 		$http.expectJSONP(new RegExp('fields')).respond({response:{docs:[]}});  // fields call
@@ -62,7 +62,7 @@ describe('Factory: detailConfig', function () {
 		var doc = { name: ['name'], format: 'format', contains_mime: ['mime'], location: 'location', abstract: 'abstract', description: 'description'};
 		var fields = {name:{displayable:true, editable:true}, format:{displayable:true}, contains_mime:{displayable:true}, location:{displayable:true}};
 
-        var actual = detailConfig.getFields(doc,fields);
+		var actual = detailConfig.getFields(doc,fields);
 		actual = actual.filter(function(val){return val.formattedValue !== '';});
 
 		expect(actual.length).toBe(Object.keys(fields).length);
@@ -75,6 +75,24 @@ describe('Factory: detailConfig', function () {
 		var actual = detailConfig.getSummaryFields(doc,fields);
 
 		expect(actual.length).toBe(Object.keys(fields).length);
+	});
+
+	it('should convert url to link', function () {
+		var doc = { url: 'http://www.google.com'};
+		var fields = {url: {displayable:true}};
+
+		var actual = detailConfig.getFields(doc,fields);
+		expect(actual.length).toBe(Object.keys(fields).length);
+		expect(actual[0].isHref).toBe(true);
+	});
+
+	it('should convert urls array to links if some are not urls', function () {
+		var doc = { url: ['http://www.google.com', 'not a link']};
+		var fields = {url: {displayable:true}};
+
+		var actual = detailConfig.getFields(doc,fields);
+		expect(actual.length).toBe(Object.keys(fields).length);
+		expect(actual[0].isHref).toBe(true);
 	});
 
 });

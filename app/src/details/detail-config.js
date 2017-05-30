@@ -157,13 +157,23 @@ angular.module('voyager.details').
                             formattedValue = $('<p>' + value + '</p>').text();
                         }
 
+                        var isHref = false;
+                        if(typeStyles[name] !== 'STRING' && typeStyles[name] !== 'STRIP_HTML') {
+                            if(_.isArray(value) && typeStyles[name] !== 'HREF') {
+                                // are any of them a url?
+                                isHref = _.any(value, function(v) {
+                                    return sugar.isUrl(v);
+                                });
+                            } else {
+                                isHref = typeStyles[name] === 'HREF' || sugar.isUrl(value);
+                            }
+                        }
+
                         var isHtml = typeStyles[name] === 'HTML';
-                        var isHref = typeStyles[name] === 'HREF';
-                        // if (value.length > 100 && !isHtml && !isHref) {
                         if (!fields[name].filterable && !isHtml && !isHref) {
-                            // TH - removed the length > 100 check because the NLP items sometimes 
-                            // return more than 100 values and it was reported in VG-5247 
                             typeStyles[name] = 'STRING'; //so it doesn't become a link
+                        } else if(isHref) {
+                            typeStyles[name] = 'HREF';
                         }
                         prettyFields.push({
                             'name': translateService.getFieldName(name),
@@ -178,7 +188,8 @@ angular.module('voyager.details').
                             showLabel: _showLabels[name],
                             key: name,
                             style: typeStyles[name],
-                            isHtml: isHtml
+                            isHtml: isHtml,
+                            isHref: isHref
                         });
                     }
                 }

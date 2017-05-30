@@ -8,13 +8,14 @@
                     <a href="search?fq={{field.key + ':' + field.value}}&disp={{disp}}" ng-if="field.stype != 'date' && field.key != 'bbox' && field.style != 'HREF'">{{field.formattedValue}}</a>
                     <a href="search?place={{field.value}}&disp={{disp}}" ng-if="field.key == 'bbox' && field.style != 'HREF'">{{field.formattedValue}}</a>
                     <a href="search?fq={{field.key + ':' + field.value}}&disp={{disp}}" ng-if="field.stype == 'date' && field.style != 'HREF'">{{field.formattedValue | date:'medium'}}</a>
-                    <a href="{{field.value}}" ng-if="field.style == 'HREF'" target="_blank">{{field.formattedValue}}</a>
+                    <span ng-if="field.style == 'HREF'" ng-bind-html="f | urlValue"></span>
                 </span>
                 <span ng-if="field.isArray" ng-repeat="f in field.value track by $index">
-                    <a href="search?fq={{field.key + ':' + f}}&disp={{disp}}">{{field.formattedValues[f]}}</a>{{!$last && ', ' || ''}}
+                    <a href="search?fq={{field.key + ':' + f}}&disp={{disp}}" ng-if="field.style !== 'HREF'">{{field.formattedValues[f]}}</a>
+                    <span ng-if="field.style == 'HREF'" ng-bind-html="f | urlValue"></span>{{!$last && ', ' || ''}}
                 </span>
             </div>
-            <div class="formatted_value" ng-if="!field.editing && field.isHtml" ng-bind-html="field.formattedValue"></div>
+            <div class="formatted_value" ng-if="!field.editing && field.isHtml" ng-bind-html="field.formattedValue | urlValue"></div>
             <div class="formatted_value" ng-if="!field.editing && field.style === 'STRING'" ng-bind="field.formattedValue"></div>
 
             <input ng-show="field.editing && !field.isHtml" ng-model="field.value" type="text" class="input_field" />

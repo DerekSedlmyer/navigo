@@ -71,7 +71,7 @@
             if(field.style === 'HTML') {
                 field.isHtml = true;
             }
-            if (field.style === 'HREF') {
+            if (field.style === 'HREF' || sugar.isUrl(field.value)) {
             	field.isHref = true;
             }
             if(field.raw === 'contains_mime') {
