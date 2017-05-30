@@ -123,9 +123,11 @@ angular.module('portalApp')
                 templateUrl: 'src/taskrunner/task.html',
                 params: {task: {}, type: ''},
                 resolve: {
-                    load: function ($q, authService, configLoader, $location) {
+                    load: function ($q, authService, configLoader, $location, translateService) {
                         return _canProcess(authService, $q).then(function() {
-                            return configLoader.load($location.search().disp, $location.search().all);
+                            return configLoader.prepare().then(function(){
+                                translateService.init();
+                            });
                         });
                     }
                 }
