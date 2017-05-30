@@ -102,6 +102,24 @@
 						}
 					}
 				}
+
+				.feed-list-item {
+					span {
+						float: right;
+						margin-top: 4px;
+						margin-right: -5px;
+					}
+					.flyout_inner {
+						position: relative;
+						float: left;
+						top: -41px;
+						left: 100% !important;
+						display: none;
+					}
+					&:hover div {
+						display: block;
+					}
+				}
 			}
 
 			.total {

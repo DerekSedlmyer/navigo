@@ -423,6 +423,12 @@ angular.module('voyager.search')
             searchModalService.exportResultsList($scope);
         };
 
+		$scope.openFeed = function(type) {
+			var params = filterService.getFilterParams().replace('&','?');
+			var path = type === 'rss' ? 'feed/voyager.rss' : 'feed/atom.xml';
+			$window.open(config.root + path + params, '_blank');
+		};
+
         //Handle search result with error
         $scope.hideResultErrorMessage = function($event) {
             $event.preventDefault();
