@@ -37,7 +37,7 @@ angular.module('voyager.layout')
 		});
 
 		vm.gotoPage = function(route) {
-			if (route.includes('task?')){
+			if (route.indexOf('task?') !== -1){
 				$window.location.href = route;
 			}
 			else {
