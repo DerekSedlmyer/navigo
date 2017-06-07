@@ -175,10 +175,10 @@ angular.module('portalApp')
 
         $httpProvider.interceptors.push('httpRequestInterceptor');
 
-        // TODO - send to custom analytics
-        //$analyticsProvider.registerPageTrack(function (path) {
-        //    console.log('analytics path: ' + path);
-        //});
+        $analyticsProvider.registerPageTrack(function () {
+            // pardot tracking
+            if (window.piTracker) {window.piTracker();}
+        });
 
         $analyticsProvider.registerEventTrack(function (action, properties) {
             if (angular.isDefined(config.analyticsUrl)) {
