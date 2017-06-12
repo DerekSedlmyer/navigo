@@ -103,7 +103,8 @@
 					}
 				}
 
-				.feed-list-item {
+				.list-sub-item {
+					height: 40px;
 					span {
 						float: right;
 						margin-top: 4px;
@@ -111,13 +112,19 @@
 					}
 					.flyout_inner {
 						position: relative;
-						float: left;
+						//float: left;
 						top: -41px;
 						left: 100% !important;
 						display: none;
 					}
 					&:hover div {
 						display: block;
+					}
+				}
+
+				.feed-list-item {
+					.flyout_inner {
+						width: 75px;
 					}
 				}
 			}

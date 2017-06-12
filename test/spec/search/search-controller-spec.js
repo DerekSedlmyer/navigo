@@ -15,6 +15,7 @@ describe('SearchCtrl', function () {
         });
         module('voyager.tagging');
         module('voyager.details');
+        module('voyager.modal');
     });
 
     var scope, controllerService, translateServiceMock, detailServiceMock, q, tagServiceMock, location, timeout, $http, cartService, $window, authService;
@@ -243,7 +244,7 @@ describe('SearchCtrl', function () {
 
             expect(scope.hasOnePermission()).toBeTruthy();
             expect(scope.flagPermission()).toBeTruthy();
-            expect(scope.canCart()).toBeTruthy();
+            expect(scope.canCart).toBeTruthy();
 
         });
 

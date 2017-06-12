@@ -50,6 +50,7 @@ module.exports = function(config) {
             'app/bower_components/angular-slider/slider.js',
             'app/bower_components/marked/lib/marked.js',
             'app/bower_components/angular-marked/angular-marked.min.js',
+            'app/bower_components/angular-toastr/dist/angular-toastr.tpls.min.js',
             'app/lib/leaflet/wicket.js',
             'app/lib/leaflet/wicket-leaflet.js',
             'app/lib/tree/*.js',

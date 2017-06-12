@@ -1,6 +1,6 @@
 /*global config */
 angular.module('portalApp')
-    .config(function ($stateProvider, $httpProvider, $urlRouterProvider, $analyticsProvider, $locationProvider, $logProvider) {
+    .config(function ($stateProvider, $httpProvider, $urlRouterProvider, $analyticsProvider, $locationProvider, $logProvider, toastrConfig) {
         'use strict';
 
         $locationProvider.html5Mode(true);
@@ -187,6 +187,12 @@ angular.module('portalApp')
                 //$.post(config.analyticsUrl, {message: JSON.stringify(properties)});
                 //console.log(JSON.stringify(properties));
             }
+        });
+
+        angular.extend(toastrConfig, {
+            closeButton: true,
+            positionClass: 'toast-top-center',
+            allowHtml: true
         });
 
     }).constant('config',config);

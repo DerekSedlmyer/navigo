@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h3>{{vm.title}}</h3>
+</div>
+<div class="modal-body">
+    <div class="alert" ng-show="vm.showMessage"> {{vm.statusMessage}} </div>
+    <div class="modal-inner">
+        <span>{{vm.message}}</span>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="cta_row">
+        <button class="btn btn-primary" ng-click="vm.ok()">{{vm.buttonText}}</button>
+        <a ng-show="vm.cancelText" href="javascript:;" class="link_secondary" ng-click="vm.cancel()">{{vm.cancelText}}</a>
+    </div>
+</div>
+<a href="javascript:;" class="modal-close icon-x" ng-click="vm.cancel()"></a>
