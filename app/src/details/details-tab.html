@@ -8,7 +8,7 @@
                     <a href="search?fq={{field.key + ':' + field.value}}&disp={{disp}}" ng-if="field.stype != 'date' && field.key != 'bbox' && field.style != 'HREF'">{{field.formattedValue}}</a>
                     <a href="search?place={{field.value}}&disp={{disp}}" ng-if="field.key == 'bbox' && field.style != 'HREF'">{{field.formattedValue}}</a>
                     <a href="search?fq={{field.key + ':' + field.value}}&disp={{disp}}" ng-if="field.stype == 'date' && field.style != 'HREF'">{{field.formattedValue | date:'medium'}}</a>
-                    <span ng-if="field.style == 'HREF'" ng-bind-html="f | urlValue"></span>
+                    <span ng-if="field.style == 'HREF'" ng-bind-html="field.value | urlValue"></span>
                 </span>
                 <span ng-if="field.isArray" ng-repeat="f in field.value track by $index">
                     <a href="search?fq={{field.key + ':' + f}}&disp={{disp}}" ng-if="field.style !== 'HREF'">{{field.formattedValues[f]}}</a>
