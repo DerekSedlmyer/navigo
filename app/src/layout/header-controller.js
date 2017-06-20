@@ -98,6 +98,7 @@ angular.module('voyager.layout')
 			vm.canCart = authService.hasPermission('process');
 			vm.canManage = authService.hasPermission('manage');
 			vm.canSaveSearch = authService.hasPermission('save_search');
+			vm.canRestart = authService.hasPermission('shutdown_restart');
 			vm.showLogout = authService.showLogout();
 			_updateClassicLink();
 
