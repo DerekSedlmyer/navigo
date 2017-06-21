@@ -25,7 +25,7 @@
                     <li ng-if="flagPermission()"><a href="javascript:;" ng-click="removeAllFlags()">Remove All Flags</a></li>
                     <li ng-if="canEditPermission()"><a href="javascript:;" ng-click="editAllPresentation()">Edit Fields for All</a></li>
                     <li ng-if="view == 'table' && exportPermission()"><a href="javascript:;" ng-click="exportResultsList()">Export results list</a></li>
-                    <li class="list-sub-item feed-list-item"><a href="javascript:;">Open Feed
+                    <li ng-if="canViewFeed" class="list-sub-item feed-list-item"><a href="javascript:;">Open Feed
                         <span class="fa fa-chevron-right"></span></a>
                         <div class="flyout_inner">
                             <ul>

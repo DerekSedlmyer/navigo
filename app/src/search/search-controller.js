@@ -71,6 +71,7 @@ angular.module('voyager.search')
 
             $scope.canCart = !hasRemoteShard() && authService.hasPermission('process');
             $scope.canAdmin = authService.hasPermission('manage');
+            $scope.canViewFeed = authService.hasPermission('show_rss');
         }
 
         //TODO move this to filter controller init?
@@ -352,7 +353,7 @@ angular.module('voyager.search')
             return authService.hasPermission(permission);
         };
         $scope.hasOnePermission = function () {
-            return $scope.canEditPermission() || $scope.flagPermission() || $scope.canCart();
+            return $scope.canEditPermission() || $scope.flagPermission() || $scope.canCart || $scope.canViewFeed;
         };
 
         $scope.canEditPermission = function () {
