@@ -402,7 +402,7 @@ angular.module('voyager.search')
         };
 
         $scope.removeAllFlags = function () {
-            var modal = searchModalService.flagModal('src/bulk-update/remove-flag-all.html', 'RemoveAllFlagsCtrl');
+            var modal = searchModalService.flagModal('src/bulk-update/remove-flag-all.html', 'RemoveAllFlagsCtrl', $scope.totalItems);
             modal.result.then(function () {
                 _doSearch();
             });
