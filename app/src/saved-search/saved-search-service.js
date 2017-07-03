@@ -126,6 +126,7 @@ angular.module('voyager.search').
             },
 
             getParams: function(saved) {
+                saved.query = saved.query.replace(/\+/g, '%2B');
                 var solrParams = querystring.parse(sugar.trim(saved.query,'&'));
 
                 // TODO - why is the backend setting these now?
