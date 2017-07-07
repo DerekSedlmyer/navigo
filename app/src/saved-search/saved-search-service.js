@@ -88,8 +88,8 @@ angular.module('voyager.search').
 
         function _mergeOrFilters(params) {
             var filters = params.fq;
-            if (filters && filters.length > 1) {
-                var orIndex = filters.findIndex(function(filter) {
+            if (_.isArray(filters) && filters.length > 1) {
+                var orIndex = _.findIndex(filters, function(filter) {
                     return filter.indexOf('(') !== -1;
                 });
                 if (orIndex !== -1) {
