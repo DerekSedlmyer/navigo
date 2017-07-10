@@ -131,7 +131,7 @@ angular.module('voyager.home')
 		};
 
 		function _fetchCounts() {
-			if ($scope.collections.length > 0) {
+			if (!_.isEmpty($scope.collections)) {
 				homeService.fetchCollections(true).then(function(docs) {
 					var docMap = sugar.toMap('id', docs);
 					$scope.collections.forEach(function(item) {
