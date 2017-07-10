@@ -339,14 +339,14 @@ describe('Search', function() {
         Util.waitForSpinner();
 
         var searchInput = searchPage.getSearchInput();
-        var searchString = 'path=Z:\\TestData\\test\\shp\\';
+        var searchString = 'absolute_path:"Z:/TestData/voyager-test-data-master-June17/misc/shp"';
         
         searchInput.sendKeys(searchString);
         Util.sendEnter();
 
         Util.waitForSpinner();   
         
-        expect(browser.getCurrentUrl()).toContain('path%3DZ:%5CTestData%5Ctest%5Cshp');
+        expect(browser.getCurrentUrl()).toContain('Z:%2FTestData%2Fvoyager-test-data-master-June17');
 
         var results = searchPage.getResultsCount();
         expect(results).toBeGreaterThan(0);
