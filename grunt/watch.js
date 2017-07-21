@@ -17,9 +17,9 @@ module.exports = {
 		files: ['test/spec/{,*/}*.js'],
 		tasks: ['newer:jshint:test', 'karma']
 	},
-	compass: {
-		files: ['<%= yeoman.app %>/styles/{,**/}*.{scss,sass}'],
-		tasks: ['compass:server', 'autoprefixer']
+	sass: {
+		files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+		tasks: ['sass:server', 'autoprefixer']
 	},
 	gruntfile: {
 		files: ['Gruntfile.js']

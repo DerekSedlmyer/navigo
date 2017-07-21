@@ -1,11 +1,15 @@
 module.exports = {
 	server: [
-		'compass:server'
+		'sass:server',
+		//'copy:styles'
 	],
 	test: [
-		'compass'
+		//'copy:styles'
 	],
 	dist: [
-		'compass:dist'
+		'sass',
+		//'copy:styles',
+		'imagemin',
+		'svgmin'
 	]
 };

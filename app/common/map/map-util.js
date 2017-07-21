@@ -5,6 +5,14 @@ angular.module('voyager.map').
 
         'use strict';
 
+        function _getWeight(type) {
+            var weight = 3;
+            if (type !== undefined) {
+                weight = (type.toLowerCase() === 'within') ? config.searchMap.bboxWithinWidth : config.searchMap.bboxIntersectsWidth;
+            }
+            return weight;
+         }
+
         function _getBounds(bbox) {
             bbox = bbox.replace(/,/g, ' ');
             var bboxCoords = bbox.split(' ');
@@ -17,8 +25,8 @@ angular.module('voyager.map').
             var color = config.searchMap.footprintColor;
             var _weight = config.searchMap.footprintWidth;
             if (angular.isDefined(type)) {
-                color = (type.toLowerCase() === 'within') ? '#f06eaa' : '#1771b4';
-                _weight = 1;
+                color = (type.toLowerCase() === 'within') ? config.searchMap.bboxWithinColor : config.searchMap.bboxIntersectsColor;
+                _weight = _getWeight(type);
             }
             if (angular.isDefined(weight)) {
                 _weight = weight;
@@ -79,7 +87,8 @@ angular.module('voyager.map').
             },
 
             drawBBox: function (map, bbox, fit, type) {
-                var box = this.getRectangle(bbox, type, 3);
+                var weight = _getWeight(type);
+                var box = this.getRectangle(bbox, type, weight);
                 map.addLayer(box);
                 if (fit) {
                     map.fitBounds(_getBounds(bbox));
@@ -88,7 +97,8 @@ angular.module('voyager.map').
             },
 
             drawPolygon: function (map, geo, fit, type) {
-                var polygon = this.getPolygon(geo, type, 3);
+                var weight = _getWeight(type);
+                var polygon = this.getPolygon(geo, type, weight);
                 map.addLayer(polygon);
                 if (fit) {
                     map.fitBounds(polygon.getBounds());
@@ -97,7 +107,8 @@ angular.module('voyager.map').
             },
 
             drawGeoJson: function (map, geo, fit, type, checkArea) {
-                var geoJson = this.getGeoJson(geo, type, 3);
+                var weight = _getWeight(type);
+                var geoJson = this.getGeoJson(geo, type, weight);
                 var bounds = geoJson.getBounds();
                 var area = 100000;  // default to large area
                 if (checkArea) {
@@ -263,7 +274,10 @@ angular.module('voyager.map').
                 return shortWkt;
             },
             currentColor: function(type) {
-                return (type === 'Within') ? '#f06eaa' : '#1771b4';
+                return (type === 'Within') ? config.searchMap.bboxWithinColor : config.searchMap.bboxIntersectsColor;
+            },
+            currentWeight: function(type) {
+                return _getWeight(type);
             }
         };
 

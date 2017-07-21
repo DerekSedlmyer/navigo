@@ -238,35 +238,36 @@ angular.module('voyager.search')
 				function _createShape(color) {
 					leafletData.getMap('search-map').then(function (map) {
 						map.vsSearchType = $scope.selectedDrawingType;
-
+						var weight = mapUtil.currentWeight($scope.selectedDrawingType);
 						$timeout(function() {
 							if(_drawedShape) {
 								_drawedShape.disable();
 							}
 							if ($scope.toolType === 'polyline') {
-								_drawedShape = new L.Draw.Polyline(map, {shapeOptions: _shapeOptions(color), repeatMode:true, showArea: false});
+								_drawedShape = new L.Draw.Polyline(map, {shapeOptions: _shapeOptions(color, weight), repeatMode:true, showArea: false});
 							}
 							else if ($scope.toolType === 'polygon') {
-								_drawedShape = new L.Draw.Polygon(map,{shapeOptions: _shapeOptions(color), repeatMode:true, showArea: true});
+								_drawedShape = new L.Draw.Polygon(map,{shapeOptions: _shapeOptions(color, weight), repeatMode:true, showArea: true});
 							}
 							else if ($scope.toolType === 'point') {
 								_drawedShape = new L.Draw.Marker(map,{icon: markerIcon, repeatMode:false});
 							}
 							else {
-								_drawedShape = new L.Draw.Rectangle(map,{shapeOptions: _shapeOptions(color), repeatMode:true, showArea: false});
+								_drawedShape = new L.Draw.Rectangle(map,{shapeOptions: _shapeOptions(color, weight), repeatMode:true, showArea: false});
 							}
 							_drawedShape.enable();
 						});
 					});
 				}
 
-				function _shapeOptions(color) {
-					return {color: color, fillColor: color, strokeOpacity: 0.8, fillOpacity: 0.0};
+				function _shapeOptions(color, weight) {
+					return {color: color, weight: weight, fillColor: color, strokeOpacity: 0.8, fillOpacity: 0.0};
 				}
 
-				function _option() {
+				function _option(type) {
 					var color = currentColor();
-					return {color: color, weight: 4, 'stroke-color': color, 'stoke-opacity': 0.8, fill: false};
+					var weight = mapUtil.currentWeight(type);
+					return {color: color, weight: weight, 'stroke-color': color, 'stoke-opacity': 0.8, fill: false};
 				}
 
 				function _convertBuffer(geoJSON) {
@@ -314,7 +315,7 @@ angular.module('voyager.search')
 
 						if ($scope.toolType === 'rectangle') {
 							latLngs = _searchBoundary.layer.getLatLngs();
-							_searchBoundaryLayer = L.rectangle(_searchBoundary.layer.getBounds(), _option());
+							_searchBoundaryLayer = L.rectangle(_searchBoundary.layer.getBounds(), _option(placeType));
 							pointInx = 2;
 
 							$scope._bbox = _searchBoundary.layer.getBounds().toBBoxString().replace(/,/g, ' ');
@@ -322,11 +323,11 @@ angular.module('voyager.search')
 
 						} else if ($scope.toolType === 'polyline') {
 							latLngs = _searchBoundary.layer.getLatLngs();
-							_searchBoundaryLayer = L.polyline(latLngs, _option());
+							_searchBoundaryLayer = L.polyline(latLngs, _option(placeType));
 							pointInx = 1;
 						} else if ($scope.toolType === 'polygon') {
 							latLngs = _searchBoundary.layer.getLatLngs();
-							_searchBoundaryLayer = L.polygon(latLngs, _option());
+							_searchBoundaryLayer = L.polygon(latLngs, _option(placeType));
 
 						} else if ($scope.toolType === 'point') {
 							latLngs = _searchBoundary.layer.getLatLng();

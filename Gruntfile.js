@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'ts:dev',
             'clean:server',
-            'compass',
+            'sass',
             //'concurrent:server',
             'autoprefixer',
             'connect:livereload',
@@ -79,7 +79,7 @@ module.exports = function (grunt) {
         'ts:dev',
         'clean:dist',
         'useminPrepare',
-        'compass',
+        'sass',
         'autoprefixer',
         'concat',
         'ngAnnotate:dist',

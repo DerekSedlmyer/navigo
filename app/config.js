@@ -71,7 +71,11 @@ var config = {
     ecobar: false,
     bulkLimit:250,
     "searchMap": {
-       "footprintColor": "#0000ff",
+        "bboxWithinColor": "#d12c2c",
+        "bboxWithinWidth": 5,
+        "bboxIntersectsColor": "#2cd15d",
+        "bboxIntersectsWidth": 5,
+        "footprintColor": "#0000ff",
         "footprintWidth": 5,
         "heatmapColor1": "#00FF00",
         "heatmapColor2": "#FF0000",
