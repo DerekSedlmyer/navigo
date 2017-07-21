@@ -13,7 +13,7 @@ angular.module('voyager.tagging')
             tagService.save($scope.id, $scope.field, $scope.value).then(function(response) {
                 $uibModalInstance.close();
                 $analytics.eventTrack('tag', {
-                    category: 'results'
+                    category: 'results', id: $scope.id
                 });
             }, function(error) {
                 console.log(error.data);

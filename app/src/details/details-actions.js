@@ -32,7 +32,7 @@
                 }
                 action.do = function() {
                     $analytics.eventTrack('download', {
-                        category: 'results', label: doc.format // jshint ignore:line
+                        category: 'results', label: doc.format, id: doc.id, user: authService.getUser().id // jshint ignore:line
                     });
                     if(sugar.canOpen(doc)) {
                         $window.open(doc.download);
@@ -45,7 +45,7 @@
             } else if (action.action === 'open') {
                 action.do = function() {
                     $analytics.eventTrack('openWith', {
-                        category: 'results', label: action.url // jshint ignore:line
+                        category: 'results', label: action.url, id: doc.id, user: authService.getUser().id // jshint ignore:line
                     });
                     var param = '';
                     if (action.url.indexOf('?') === -1) {
@@ -59,7 +59,7 @@
             } else if (action.action === 'openArcMap') {
                 action.do = function() {
                     $analytics.eventTrack('openArcMap', {
-                        category: 'results', label: doc.id // jshint ignore:line
+                        category: 'results', label: doc.id, id: doc.id, user: authService.getUser().id // jshint ignore:line
                     });
                     $window.location.href = doc.layerURL;
                 };

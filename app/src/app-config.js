@@ -181,11 +181,17 @@ angular.module('portalApp')
         });
 
         $analyticsProvider.registerEventTrack(function (action, properties) {
-            if (angular.isDefined(config.analyticsUrl)) {
+            if (config.trackAnalytics) {
                 properties.action = action;
-                //TODO - enable when log analytics api is added
-                //$.post(config.analyticsUrl, {message: JSON.stringify(properties)});
-                //console.log(JSON.stringify(properties));
+                var analyticsUrl = config.root + 'api/rest/analytics/track';
+                $.ajax({
+                    type: 'POST',
+                    url: analyticsUrl,
+                    data: JSON.stringify(properties),
+                    success: function() {},
+                    contentType: 'application/json',
+                    dataType: 'json'
+                });
             }
         });
 

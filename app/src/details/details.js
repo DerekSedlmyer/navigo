@@ -84,6 +84,11 @@ angular.module('voyager.details')
             }
 
             _doLookup($stateParams.id);
+
+            $analytics.eventTrack('view', {
+                category: 'details', label: $stateParams.id, id: $stateParams.id // jshint ignore:line
+            });
+
             detailService.fetchMetadataStyles($stateParams.id).then(function(styleSheets) {
                 $scope.styleSheets = styleSheets;
             });

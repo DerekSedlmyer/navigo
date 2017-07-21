@@ -44,6 +44,9 @@
                 _toggleDisplay(action, scope);
             } else if (action.action === 'preview') {
                 action.do = function() {
+                    $analytics.eventTrack('mapped', {
+                        category: 'results', label: scope.doc.format, id: scope.doc.id, user: authService.getUser().id // jshint ignore:line
+                    });
                     scope.doc.isopen = false;
                     scope.addToMap(scope.doc);
                     $window.scrollTo(0,0);
@@ -52,7 +55,7 @@
                 action.do = function() {
                     scope.doc.isopen = false;
                     $analytics.eventTrack('download', {
-                        category: 'results', label: scope.doc.format // jshint ignore:line
+                        category: 'results', label: scope.doc.format, id: scope.doc.id, user: authService.getUser().id // jshint ignore:line
                     });
                     //TODO not sure if we need category of GIS but we don't want to do this with general images
                     //if(scope.doc.format_category === 'GIS' && scope.doc.component_files && scope.doc.component_files.length > 0) { // jshint ignore:line
@@ -72,7 +75,7 @@
                 action.do = function() {
                     scope.doc.isopen = false;
                     $analytics.eventTrack('openWith', {
-                        category: 'results', label: action.url // jshint ignore:line
+                        category: 'results', label: action.url, id: scope.doc.id, user: authService.getUser().id // jshint ignore:line
                     });
                     var param = '';
                     if (action.url.indexOf('?') === -1) {
@@ -87,7 +90,7 @@
                 action.do = function() {
                     scope.doc.isopen = false;
                     $analytics.eventTrack('openArcMap', {
-                        category: 'results', label: scope.doc.id // jshint ignore:line
+                        category: 'results', label: scope.doc.id, id: scope.doc.id, user: authService.getUser().id // jshint ignore:line
                     });
                     $window.location.href = scope.doc.layerURL;
                 };
@@ -95,7 +98,7 @@
                 action.do = function() {
                     scope.doc.isopen = false;
                     $analytics.eventTrack('tag', {
-                        category: 'results', label: action.url // jshint ignore:line
+                        category: 'results', label: action.url, id: scope.doc.id, user: authService.getUser().id // jshint ignore:line
                     });
                     $uibModal.open({
                         templateUrl: 'common/tagging/tagging.html',

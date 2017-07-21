@@ -39,6 +39,8 @@ describe('SearchCtrl', function () {
         $s.searchService.testEsriGeocodeService.and.returnValue(q.when({}));
 
         $s.cartService.fetch.and.returnValue(q.when({}));
+
+        spyOn(_authService_, 'getUser').and.returnValue({id:'id'});
     }));
 
     cfg.settings.data.sortable = ['field'];

@@ -29,7 +29,7 @@ describe('Table Row Directive:', function () {
         controller = element.controller(scope);
     }
 
-    beforeEach(inject(function ($compile, $rootScope, _$timeout_, $httpBackend, _$q_, _cartService_, _$location_, _inView_) {
+    beforeEach(inject(function ($compile, $rootScope, _$timeout_, $httpBackend, _$q_, _cartService_, _$location_, _inView_, _authService_) {
         scope = $rootScope.$new();
         $timeout = _$timeout_;
         httpMock = $httpBackend;
@@ -38,6 +38,7 @@ describe('Table Row Directive:', function () {
         cartService = _cartService_;
         $location = _$location_;
         inView = _inView_;
+        spyOn(_authService_, 'getUser').and.returnValue({id:'id'});
     }));
 
 

@@ -29,7 +29,7 @@ describe('Card Directive:', function () {
         controller = element.controller(scope);
     }
 
-    beforeEach(inject(function ($compile, $rootScope, _$timeout_, $httpBackend, _$q_, _cartService_, _$location_, _inView_, _configService_) {
+    beforeEach(inject(function ($compile, $rootScope, _$timeout_, $httpBackend, _$q_, _cartService_, _$location_, _inView_, _configService_, _authService_) {
         scope = $rootScope.$new();
         $timeout = _$timeout_;
         httpMock = $httpBackend;
@@ -39,6 +39,7 @@ describe('Card Directive:', function () {
         $location = _$location_;
         inView = _inView_;
         configService = _configService_;
+        spyOn(_authService_, 'getUser').and.returnValue({id:'id'});
     }));
 
 

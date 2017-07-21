@@ -273,19 +273,19 @@ angular.module('voyager.search')
                         usSpinnerService.stop('map-spinner');
                     });
                     $analytics.eventTrack('addToMap', {
-                        category: 'results', label: $scope.mapInfo.format // jshint ignore:line
+                        category: 'results', label: $scope.mapInfo.format, id: $scope.mapInfo.id // jshint ignore:line
                     });
                 } else {
                     usSpinnerService.stop('map-spinner');
                     $analytics.eventTrack('addToMap', {
-                        category: 'error', label: $scope.mapInfo.format // jshint ignore:line
+                        category: 'error', label: $scope.mapInfo.format, id: $scope.mapInfo.id // jshint ignore:line
                     });
                     _showError(layer.error);
                 }
             }, function (error) {
                 usSpinnerService.stop('map-spinner');
                 $analytics.eventTrack('addToMap', {
-                    category: 'error', label: $scope.mapInfo.format // jshint ignore:line
+                    category: 'error', label: $scope.mapInfo.format, id: $scope.mapInfo.id // jshint ignore:line
                 });
                 _showError(error.error);
             });

@@ -46,13 +46,13 @@ angular.module('voyager.search').
 
         function _track(solrPage, data, endTime) {
             $analytics.eventTrack('search', {
-                category: 'time', label: solrPage, value:endTime  // jshint ignore:line
+                category: 'time', label: solrPage, value:endTime, user: authService.getUser().id  // jshint ignore:line
             });
             $analytics.eventTrack('search', {
-                category: 'size', label: solrPage, value:data.response.docs.length  // jshint ignore:line
+                category: 'size', label: solrPage, value:data.response.docs.length, user: authService.getUser().id  // jshint ignore:line
             });
             $analytics.eventTrack('search-group', {
-                category: authService.getGroupsJoined(), label: solrPage  // jshint ignore:line
+                category: authService.getGroupsJoined(), label: solrPage, user: authService.getUser().id  // jshint ignore:line
             });
         }
 

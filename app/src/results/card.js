@@ -61,7 +61,7 @@ angular.module('voyager.results')
                         $scope.btnType = 'btn-primary';
                         doc.inCart = false;
                         $analytics.eventTrack('removeFromList', {
-                            category: 'results', label: 'card'  // jshint ignore:line
+                            category: 'results', label: 'card', id: doc.id, user: authService.getUser().id  // jshint ignore:line
                         });
                     } else {
                         cartService.addItem(doc);
@@ -69,7 +69,7 @@ angular.module('voyager.results')
                         $scope.btnType = 'btn-default';
                         doc.inCart = true;
                         $analytics.eventTrack('addToList', {
-                            category: 'results', label: 'card'  // jshint ignore:line
+                            category: 'results', label: 'card', id: doc.id, user: authService.getUser().id  // jshint ignore:line
                         });
                     }
                 };

@@ -1,9 +1,9 @@
 // Note: when running in Voyager, this static file is partially overwritten with voyager config settings
 /* jshint ignore:start */
 var config = {
-    'root': 'http://voyagerdemo.com/daily/',
+    //'root': 'http://voyagerdemo.com/daily/',
     //'root': 'http://voyagerdemo.com/198/',
-    //'root': 'http://localhost:8888/',
+    'root': 'http://localhost:8888/',
     'explorePath': 'voyager',
     'enableEmail': true,
     'title' : 'Voyager Search',
@@ -82,6 +82,7 @@ var config = {
     chartData: 'http://voyagerdemo.com/sql/solr/v0/select?q=*:*&fl=name,meta_Field_Name,meta_Operator,meta_Producing,fl_Well_Depth,meta_Well_Statu,%20meta_Well_Type&wt=json&rows=1000&json.wrf=JSON_CALLBACK',
     rememberMe: true,
     editAll: false,
-    extraRelationshipFields: ['description','abstract','format','format_type','format_app','format_category']
+    extraRelationshipFields: ['description','abstract','format','format_type','format_app','format_category'],
+    "trackAnalytics": true
 };
 /* jshint ignore:end */

@@ -382,7 +382,7 @@ angular.module('voyager.search')
         $scope.addToCart = function (item) {
             cartService.addItem(item);
             $analytics.eventTrack('addToList', {
-                category: 'results', label: 'table' // jshint ignore:line
+                category: 'results', label: 'table', id: item.id, user: authService.getUser().id // jshint ignore:line
             });
         };
 
@@ -439,7 +439,7 @@ angular.module('voyager.search')
         $scope.removeFromCart = function (id) {
             cartService.remove(id);
             $analytics.eventTrack('removeFromList', {
-                category: 'results', label: 'table' // jshint ignore:line
+                category: 'results', label: 'table', id: id, user: authService.getUser().id // jshint ignore:line
             });
         };
 
