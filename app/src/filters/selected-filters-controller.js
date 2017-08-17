@@ -8,7 +8,7 @@ angular.module('voyager.filters')
                 filter.isOr = filter.name.indexOf('(') === 0;
                 if (filter.isOr) {
                     filter.parts = [];
-                    var parts = filter.name.replace('(', '').replace(')', '').trim().split(' ');
+                    var parts = filter.name.replace('(', '').replace(')', '').replace('{!expand}' ,'').trim().split(' ');
                     parts.forEach(function (part) {
                         var facet = {name: part, filter: filter.filter, pretty: part};
                         filter.parts.push(facet);
@@ -27,7 +27,7 @@ angular.module('voyager.filters')
             _applyOrFacets();
 
             if (params.q && params.q !== '*:*') {
-                $scope.filters.push({'isInput': true, 'name': 'search', 'humanized': 'Search:' +params.q, pretty: params.q});
+                $scope.filters.push({'isInput': true, 'name': 'search', 'humanized': 'Search:' +params.q, pretty: params.q.replace('{!expand}' ,'')});
             }
             if (params.place) {
                 var formattedPlace = params.place;
@@ -60,6 +60,16 @@ angular.module('voyager.filters')
             delete params['place.id'];
             return params;
         }
+
+        $scope.removeExpanded = function(term) {
+            var exp_exclude = $location.search()['expand.exclude'];
+            if(typeof(exp_exclude) === 'undefined') {
+                exp_exclude = '';
+            }
+            exp_exclude += (' ' + term);
+            $location.search('expand.exclude', exp_exclude.trim());
+            $scope.$emit('removeFilterEvent', {});
+        };
 
         $scope.removeFilter = function(facet) {
             if (facet.name === 'search') {
@@ -100,8 +110,27 @@ angular.module('voyager.filters')
             _setSelectedFilters();
         };
 
+        $scope.resetExpanded = function() {
+            delete $location.search()['expand.exclude'];
+            delete $scope.expanded;
+            $scope.$emit('removeFilterEvent', {});
+        };
+
+
         $scope.$on('filterChanged', function () {
             _setSelectedFilters();
+        });
+
+        $scope.$on('searchResults', function (event, data) {
+            if(data && data.expansion && 
+                data.expansion.terms && 
+                _.isArray(data.expansion.terms) && 
+                data.expansion.terms.length > 0) 
+            {
+                $scope.expanded = data.expansion.terms;
+            } else {
+                delete $scope.expanded;
+            }
         });
 
         // $scope.$on('changeView', function () {

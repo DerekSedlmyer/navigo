@@ -2,7 +2,7 @@
 
 describe('Controller: SearchInpuCtrl', function () {
 
-    var $scope, $timeout, usSpinnerService, $location, $http, $controller, q;
+    var $scope, $timeout, usSpinnerService, $location, $http, $controller, q, element, compile, compiled;
     var cfg = _.clone(config);
 
     beforeEach(function () {
@@ -15,7 +15,7 @@ describe('Controller: SearchInpuCtrl', function () {
             $provide.constant('config', cfg);
         });
 
-        inject(function (_$controller_, _$timeout_, _usSpinnerService_, _$location_, $httpBackend , $rootScope, _$q_) {
+        inject(function (_$controller_, _$timeout_, _usSpinnerService_, _$location_, $httpBackend , $rootScope, _$q_, $compile) {
             $scope = $rootScope.$new();
             $timeout = _$timeout_;
             usSpinnerService = _usSpinnerService_;
@@ -23,6 +23,7 @@ describe('Controller: SearchInpuCtrl', function () {
             $http = $httpBackend;
             $controller = _$controller_;
             q = _$q_;
+            compile = $compile;
         });
 
     });
@@ -31,6 +32,14 @@ describe('Controller: SearchInpuCtrl', function () {
 
     function initController() {
         $controller('SearchInputCtrl', {$scope: $scope});
+    }
+
+    function initDirective() {
+        $scope.search.q = '{!expand}text';
+        element = angular.element('<div clean-expand ng-model="search.q"></div>');
+        compiled = compile(element)($scope);
+        element.scope().$apply();
+        $(document.body).append(element);
     }
 
     it('should init', function () {
@@ -49,6 +58,7 @@ describe('Controller: SearchInpuCtrl', function () {
         initController();
 
         $scope.search.q = 'text';
+        $scope.useExpandedQueries = false;
         $scope.submitSearch();
 
         var params = $location.search();
@@ -56,6 +66,57 @@ describe('Controller: SearchInpuCtrl', function () {
         expect(params.q).toBe('text');
 
     });
+
+    it('should search expanded queries', function () {
+
+        $location.path('/search');
+        initController();
+
+        $scope.search.q = 'text';
+        $scope.useExpandedQueries = true;
+        $scope.submitSearch();
+
+        var params = $location.search();
+
+        expect(params.q).toBe('{!expand}text');
+
+    });
+
+    it('should toggle use expanded', function () {
+
+        $location.path('/search');
+        initController();
+
+        $scope.search.q = 'text';
+        $scope.useExpandedQueries = true;
+        $scope.setUseExpandedQueries();
+
+        expect($scope.useExpandedQueries).toBe(false);
+
+    });
+
+    it('should toggle open expanded', function () {
+
+        $location.path('/search');
+        initController();
+
+        $scope.search.q = 'text';
+        $scope.queryExpansionOpen = true;
+        $scope.openExpanded();
+
+        expect($scope.queryExpansionOpen).toBe(false);
+
+    });
+
+    it('should clean expand query parser from input', function () {
+
+        $location.path('/search');
+        initController();
+        $scope.search.q = '{!expand}text';
+        initDirective();
+        element.scope().$apply();
+    });
+
 
     it('should clear search input', function () {
 

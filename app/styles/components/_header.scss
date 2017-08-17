@@ -2,7 +2,7 @@
 	font-size: $smallSize;
 	position: fixed;
 	z-index: $headerZIndex;
-	height: 64px;
+	min-height: 64px;
 	padding: 0 40px;
 	width: 100%;
 	box-sizing: border-box;
@@ -71,7 +71,7 @@
 }
 
 #headerSearchForm {
-	height: 40px;
+	min-height: 40px;
 	top: 12px;
 	margin-left: 40px;
 
@@ -84,11 +84,27 @@
 		}
 	}
 
+	
+
 	button {
 		border-radius: 0 5px 5px 0;
 		position: absolute;
 		top: 0;
 		padding: 6px 15px;
+	}
+
+	button.query-expansion {
+		border: none;
+		border-radius: 0;
+		position: absolute;
+		top: 6px;
+		padding: 6px 15px;
+		right: -90px;
+		background: transparent;
+
+		span.fa {
+			opacity: 0.6;
+		}
 	}
 
 	fieldset:hover {
@@ -173,4 +189,80 @@
 			}
 		}
 	}
+
+	.query_expansion_wrapper {
+		vertical-align: middle;
+		white-space: nowrap;
+
+		input[type=checkbox] {
+			-webkit-appearance: checkbox;
+			position: initial;
+			height: auto;
+			-ms-transform: scale(1.3); /* IE */
+			-moz-transform: scale(1.3); /* FF */
+			-webkit-transform: scale(1.3); /* Safari and Chrome */
+			-o-transform: scale(1.3); /* Opera */
+			padding: 10px;
+			margin-left: 6px;
+			margin-right: 12px;
+		}
+
+		label {
+			padding-right: 4px;
+			height: auto;
+			position: initial;
+			font-size: $smallerSize;
+			font-weight: normal;
+		}
+		label.pull-right {
+			float: right;
+		}
+		label.pull-left {
+			float: left;
+		}
+		input.negative_query {
+			font-size: $smallestSize;
+			padding: 4px;
+			height: 21px;
+			border-radius: 3px;
+			width: 175px;
+			margin-bottom: 4px;
+			top: -3px;
+		}
+	}
+
+	.default {
+		height:0px; 
+		opacity: 0;
+		overflow: hidden;
+		-moz-transition: 0.25s;
+		-ms-transition: 0.25s;
+		-o-transition: 0.25s;
+		-webkit-transition: 0.25s;
+		transition: 0.25s;
+	}
+
+	.rollup{
+		padding: 4px;
+		height:42px;
+		opacity: 1;
+		overflow: hidden;
+		-moz-transition: 0.25s;
+		-ms-transition: 0.25s;
+		-o-transition: 0.25s;
+		-webkit-transition: 0.25s;
+		transition: 0.25s;
+	}
+
+	.radio-label::before{
+  		left: 0;
+  		border: 1px solid #e6e6e6;
+  		box-shadow: inset 1px 1px rgba(0, 0, 0, 0.03);
+	}
+
+	.radio-label::after {
+  		left: 3px;
+  		background: url("img/radio_on.svg") no-repeat center center;
+	}
 }
+

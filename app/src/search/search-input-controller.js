@@ -1,6 +1,20 @@
 /*global angular, _ */
 
 angular.module('voyager.search')
+	.directive('cleanExpand', [function () {
+		'use strict';
+		return {
+			require: 'ngModel',
+			link: function(scope, element, attr, ngModel){
+				ngModel.$formatters.push(function(value){
+					if(value) {
+						return value.replace('{!expand}', '');
+					} 
+					return null;
+				});
+			}
+		};
+	}])
 	.controller('SearchInputCtrl', function ($scope, config, $location, searchService, $timeout, filterService, mapUtil, sugar, $uibModal) {
 		'use strict';
 
@@ -10,9 +24,13 @@ angular.module('voyager.search')
 		$scope.submitSearch = _submitSearch;
 		$scope.clearField = _clearField;
 		$scope.locationChange = _locationChange;
-        $scope.showLocation = config.homepage && config.homepage.showPlaceQuery !== false;
+		$scope.showLocation = config.homepage && config.homepage.showPlaceQuery !== false;
 		$scope.drawingTypes = ['Within', 'Intersects'];
 		$scope.selectedDrawingType = ($location.search())['place.op'] === 'intersects' ? 'Intersects' : 'Within';
+		$scope.queryExpansionOpen = false;
+		$scope.defaultSelected = false;
+		$scope.expandedSelected = true;
+		$scope.useExpandedQueries = true;
 
 		$scope.placeOpChange = function(type) {
 			if ($scope.selectedDrawingType !== type) {
@@ -27,6 +45,14 @@ angular.module('voyager.search')
                 size: 'md',
                 scope: $scope
             });
+		};
+
+		$scope.openExpanded = function() {
+			$scope.queryExpansionOpen = !$scope.queryExpansionOpen;
+		};
+
+		$scope.setUseExpandedQueries = function() {
+			$scope.useExpandedQueries = !$scope.useExpandedQueries;
 		};
 
 		_init();
@@ -57,13 +83,19 @@ angular.module('voyager.search')
 			}
 
 			$scope.showSearch = true;
-
+			$scope.queryExpansionEnabled = true;
 			var initParams = $location.search();
 
 			if (!_.isEmpty(initParams.q)) {
 				$scope.search.q = initParams.q;
 			} else {
 				$scope.search.q = '';
+			}
+
+			if (!_.isUndefined(initParams['expand.negative']) && !_.isEmpty(initParams['expand.negative'])) {
+				$scope.search['expand.negative'] = initParams['expand.negative'];
+			} else {
+				delete $scope.search['expand.negative'];
 			}
 
 			if (!_.isEmpty(initParams.place)) {
@@ -142,16 +174,26 @@ angular.module('voyager.search')
 
 			if (_.isEmpty($scope.search.q)) {
 				$scope.search.q = null;
+				$scope.search['expand.negative'] = null;
 			}
 
 			if (!_.isEmpty($scope.search.q) || !_.isEmpty($scope.search.place)) {
 				var params = $location.search();
+				if($scope.useExpandedQueries && !_.startsWith($scope.search.q, '{!expand}')) {
+					$scope.search.q = '{!expand}' + $scope.search.q;
+				} else if(!$scope.useExpandedQueries) {
+					$scope.search.q = $scope.search.q.replace('{!expand}', '');
+				}
 				delete(params.id);
 				delete(params.recent);
-                params.block='false';
+				delete(params.expanded);
+				params.block='false';
 				_.extend(params, $scope.search);
 				_.extend(params, {'fq': filterService.getFilterAsLocationParams()});
 				$location.search(params);
+
+				$location.search('expand.negative', $scope.search['expand.negative']);
+				$location.search('expand.exclude', $scope.search['expand.exclude']);
 				$scope.$emit('filterEvent', {});  //TODO: this event is captured above, pass arg to ignore it
 			}
 

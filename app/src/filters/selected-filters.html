@@ -22,4 +22,26 @@
 			</div>
 		</li>
 	</ul>
+	<div ng-if="expanded" id="expanded">
+		<div class="hover_flyout">
+			<div class="semi" ng-show="view == 'table'">Expanded Query Terms</div>
+			<a href="javascript:;" ng-hide="view == 'table'" class="semi icon-arrow flyout_trigger">Expanded Query Terms</a>
+			<div class="flyout">
+				<div class="flyout_arrow"></div>
+				<div class="flyout_inner">
+					<ul>
+						<li><a href="javascript:;" ng-click="resetExpanded()">Reset</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- <div ng-if="expanded" class="expanded_list"><span class="semi">Expanded Query Terms</span></div> -->
+		<ul class="expanded_list">
+			<li style="margin-left: -20px; margin-right: 20px; background-color: #fa8333"><a class="btn" style="background-color: #fa8333; color: white" href="javascript:;" ng-show="view == 'table'" ng-click="clearAllFilter()">Clear All<span class="icon-x"></span></a></li>
+			<li class="expanded" ng-repeat="selected in expanded">
+				<a href="javascript:;" ng-click="removeExpanded(selected)">{{selected}}<span class="icon-x"></span></a>
+			</li>
+		</ul>
+	</div>
+
 </div>

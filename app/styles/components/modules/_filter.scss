@@ -352,6 +352,7 @@
 
 .open_filter {
   #selectedFilters > div {
+    
     .selected_list {
       padding-right: 290px;
     }
@@ -416,7 +417,53 @@
       }
     }
   }
+
+  #expanded {
+    ul.expanded_list {
+      padding-left: 190px;
+    }
+
+    div.expanded_list {
+      float: left;
+      margin-right: 15px;
+    }
+    .hover_flyout {
+      width: 190px;
+          .flyout {
+            left: 120px;
+          }
+
+    }
+
+    li.expanded {
+      background-color: $likewhite;
+      display: inline-block;
+      border-radius: 3px;
+      font-size: $smallestSize;
+      margin-right: 6px;
+      margin-bottom: 3px;
+      a {
+        color: $black;
+        padding: 0 5px;
+        outline: none;
+        display: inline-block;
+        font-family: $regularFont;
+      }
+      .icon-x {
+        margin-left: 5px;
+        outline: none;
+        &:before {
+          position: relative;
+          top: -1px;
+          color: $black;
+          font-size: 7px;
+        }
+      }
+    }
+  }
 }
+
+
 
 .slider_wrap {
   position: relative;

@@ -48,7 +48,7 @@
 		width: calc(100% + 40px);
 		left: -20px;
 		padding: 10px 20px;
-		height: 65px;
+		min-height: 65px;
 		position: relative;
 		background-color: #ffffff;
 
@@ -60,6 +60,13 @@
 			top: 9px;
 			right: 20px;
 			width: 40px;
+		}
+
+		button.query-expansion {
+			top: 15px;
+			padding: 6px 15px;
+			right: -15px;
+			background: transparent;
 		}
 	}
 

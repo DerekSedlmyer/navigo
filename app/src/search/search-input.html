@@ -2,7 +2,7 @@
 	<form name="searchForm" id="headerSearchForm" class="search_form col-lg-5 col-md-5 col-sm-7 col-xs-7 no_padding" ng-submit="submitSearch()">
 		<div class="col-md-12 no_padding">
 			<fieldset class="no_padding" ng-class="showLocation ? 'col-lg-5 col-md-4 col-sm-5 col-xs-4 search_fieldset':''">
-				<input type="text" class="input_field focus_field" name="query" ng-model="search.q" maxlength="256" autocomplete="off" placeholder="What are you looking for?" tabindex="1" />
+				<input type="text" class="input_field focus_field" name="query" ng-model="search.q" clean-expand="" maxlength="256" autocomplete="off" placeholder="What are you looking for?" tabindex="1" />
 				<label for="query" class="icon-looking_search" aria-label="What are you looking for?"><span class="sr-only">What are you looking for?</span></label>
 				<a href="javascript:;" class="icon-x" aria-label="clear" ng-click="clearField('q', false)"><span class="sr-only">clear</span></a>
 			</fieldset>
@@ -25,5 +25,17 @@
 		<button class="btn btn-primary">
 			<span class="icon-input_search"></span>
 		</button>
+		<button type="button" class="btn btn-secondary query-expansion" ng-if="queryExpansionEnabled" ng-click="openExpanded()">
+			<span class="fa" ng-class="queryExpansionOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></span>
+		</button>
+		<div class="clearfix" ng-if="queryExpansionEnabled"></div>
+		<div class="query_expansion_wrapper" ng-if="queryExpansionEnabled" ng-class="{'default':!queryExpansionOpen, 'rollup':queryExpansionOpen}">
+			<label class="radio-label" for="expandedSelected">expanded queries:</label>
+			<input type="checkbox" id="expandedSelected" ng-checked="useExpandedQueries" ng-click="setUseExpandedQueries(this)" />
+			<label class="radio-label" for="defaultSelected" ng-if="useExpandedQueries">refine:</label>
+			<input type="text" class="input_field negative_query" name="query" ng-if="useExpandedQueries" ng-model="search['expanded.neg']" maxlength="256" autocomplete="off" placeholder="negative terms" />
+		</div>
 	</form>
+
+	
 </div>

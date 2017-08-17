@@ -28,7 +28,17 @@ describe('SelectedFilters:', function () {
         $timeout = _$timeout_;
     }));
 
+    
+
     describe('Functions:', function () {
+
+        var expandedTermsResponse = { 
+            expansion: {
+                terms: ['foo', 'bar', 'baz'],
+                exclude: []
+            }
+        };
+
 
         it('should load', function () {
             $location.search().fq = 'filter:facet';
@@ -69,6 +79,7 @@ describe('SelectedFilters:', function () {
             $location.search().q = 'text';
 
             controllerService('SelectedFiltersCtrl', {$scope: scope});
+
             scope.$apply();
 
             scope.removeFilter({name:'search'});
@@ -96,6 +107,28 @@ describe('SelectedFilters:', function () {
             scope.removeFilter({name:'facet1'});
 
             expect($location.search().fq.length).toBe(1);
+        });
+
+        it('should accept expanded terms', function () {
+            controllerService('SelectedFiltersCtrl', {$scope: scope});
+            scope.$emit('searchResults', expandedTermsResponse);
+            expect(scope.expanded.length).toBe(3);
+        });
+
+        it('should remove expanded terms', function () {
+            controllerService('SelectedFiltersCtrl', {$scope: scope});
+            scope.$emit('searchResults', expandedTermsResponse);
+            scope.removeExpanded('foo');
+            expect($location.search()['expand.exclude']).toBe('foo');
+        });
+
+        it('should reset expanded terms', function () {
+            controllerService('SelectedFiltersCtrl', {$scope: scope});
+            scope.$emit('searchResults', expandedTermsResponse);
+            scope.removeExpanded('foo');
+            expect($location.search()['expand.exclude']).toBe('foo');
+            scope.resetExpanded();
+            expect($location.search()['expand.exclude']).toBe(undefined);
         });
 
         it('should clear all', function () {
