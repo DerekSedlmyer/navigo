@@ -6,6 +6,7 @@ angular.module('voyager.security')
 
         $scope.canRemember = config.rememberMe;
         $scope.hideDefault = config.homepage.showDefaultCredentials === false;
+        $scope.consentTextFile = config.homepage.consentTextFile;
 
         $scope.setDefaultCred = function () {
             $scope.user = 'admin';

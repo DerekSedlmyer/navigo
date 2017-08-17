@@ -4,6 +4,7 @@ describe('Controller: HeaderCtrl', function () {
 
     var $scope, $timeout, $uibModal, usSpinnerService, $location, $http, $controller, q, authService, systemService, sut, $window, $state;
     var cfg = _.clone(config);
+    delete cfg.homepage.consentTextFile;
 
     beforeEach(function () {
         module('templates');
@@ -77,7 +78,7 @@ describe('Controller: HeaderCtrl', function () {
         initController();
 
         sut.login();
-
+        
         $http.expectGET(new RegExp('auth')).respond({permissions:{use_voyager:false}});
 
         $http.flush();
