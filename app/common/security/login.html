@@ -45,7 +45,6 @@
                     </label>
                 </div>
             </div>
-
             <fieldset>
                 <input type="text" class="form-control focus_field" name="username" placeholder="Your username" ng-model="user" ng-keypress="handleEnter($event)" required autofocus />
                 <label for="username" class="icon-header_account" aria-label="Your username"><span class="sr-only">Your username</span></label>
@@ -61,6 +60,7 @@
                     <span>Keep me logged in</span>
                 </label>
             </div>
+            <div ng-if="consentTextFile" ng-include src="consentTextFile"></div>
         </form>
     </div>
     <div class="modal-footer">

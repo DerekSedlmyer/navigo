@@ -57,6 +57,7 @@ var config = {
         }
     },
     "homepage": {
+        "consentTextFile": 'consent.html',
         "showHomepage":true,
         "showPlaceQuery": true,
         "wrapMap": true,
