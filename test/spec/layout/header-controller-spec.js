@@ -99,6 +99,14 @@ describe('Controller: HeaderCtrl', function () {
         expect($state.go).toHaveBeenCalledWith('login');
     });
 
+    it('should replace login text with config value', function () {
+        initController();
+        config.homepage.customizeLoginText = { internal: '__internal__' };
+        var swapped = authService.swapForConfig('internal');
+        expect(swapped).toBe('__internal__');
+        delete config.homepage.customizeLoginText;
+    });
+
     it('should show saved search', function () {
         initController();
 
