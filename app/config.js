@@ -57,6 +57,9 @@ var config = {
         }
     },
     "homepage": {
+        // "customizeLoginText": {
+        //     'saml': 'SAML'
+        // },
         "consentTextFile": 'consent.html',
         "showHomepage":true,
         "showPlaceQuery": true,

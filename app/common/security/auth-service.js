@@ -180,8 +180,13 @@ angular.module('voyager.security').
                     methods.all = _methods.filter(function(method) {
                         return method.enabled === true;
                     });
+                    var _this = this;
+                    methods.all.forEach(function(method){
+                        method.displayName = _this.swapForConfig(method.name);
+                    });
                     methods.external = _.filter(_methods, function(method) {
                         method.displayName = _.classify(method.name);
+                        method.displayName = _this.swapForConfig(method.name);
                         return angular.isDefined(method.url) && method.enabled === true;
                     });
                     if(methods.external.length === 0) {
@@ -192,6 +197,15 @@ angular.module('voyager.security').
                 }
 
                 return methods;
+            },
+
+            swapForConfig: function(name) {
+                if(config && config.homepage && 
+                    config.homepage.customizeLoginText && 
+                    config.homepage.customizeLoginText[name]) {
+                    return config.homepage.customizeLoginText[name];
+                }
+                return name;
             },
 
             showLogout: function() {
