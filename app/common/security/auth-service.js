@@ -200,10 +200,10 @@ angular.module('voyager.security').
             },
 
             swapForConfig: function(name) {
-                if(config && config.homepage && 
-                    config.homepage.customizeLoginText && 
-                    config.homepage.customizeLoginText[name]) {
-                    return config.homepage.customizeLoginText[name];
+                if(config && config.customizedLogin && 
+                    config.customizedLogin.customizeLoginText && 
+                    config.customizedLogin.customizeLoginText[name]) {
+                    return config.customizedLogin.customizeLoginText[name];
                 }
                 return name;
             },

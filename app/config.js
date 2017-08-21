@@ -57,10 +57,6 @@ var config = {
         }
     },
     "homepage": {
-        // "customizeLoginText": {
-        //     'saml': 'SAML'
-        // },
-        "consentTextFile": 'consent.html',
         "showHomepage":true,
         "showPlaceQuery": true,
         "wrapMap": true,
@@ -86,6 +82,13 @@ var config = {
     chartData: 'http://voyagerdemo.com/sql/solr/v0/select?q=*:*&fl=name,meta_Field_Name,meta_Operator,meta_Producing,fl_Well_Depth,meta_Well_Statu,%20meta_Well_Type&wt=json&rows=1000&json.wrf=JSON_CALLBACK',
     rememberMe: true,
     editAll: false,
-    extraRelationshipFields: ['description','abstract','format','format_type','format_app','format_category']
+    extraRelationshipFields: ['description','abstract','format','format_type','format_app','format_category'],
+    "trackAnalytics": true,
+    customizedLogin: {
+        customizeLoginText: {
+            'saml': 'SAML'
+        },
+        consentTextFile: 'consent.html'
+    }
 };
 /* jshint ignore:end */

@@ -4,7 +4,9 @@ describe('Controller: HeaderCtrl', function () {
 
     var $scope, $timeout, $uibModal, usSpinnerService, $location, $http, $controller, q, authService, systemService, sut, $window, $state;
     var cfg = _.clone(config);
-    delete cfg.homepage.consentTextFile;
+    if(cfg.customizedLogin && cfg.customizedLogin.consentTextFile) {
+        delete cfg.customizedLogin.consentTextFile;
+    }
 
     beforeEach(function () {
         module('templates');
@@ -101,10 +103,10 @@ describe('Controller: HeaderCtrl', function () {
 
     it('should replace login text with config value', function () {
         initController();
-        config.homepage.customizeLoginText = { internal: '__internal__' };
+        config.customizedLogin.customizeLoginText = { internal: '__internal__' };
         var swapped = authService.swapForConfig('internal');
         expect(swapped).toBe('__internal__');
-        delete config.homepage.customizeLoginText;
+        delete config.customizedLogin.customizeLoginText;
     });
 
     it('should show saved search', function () {
