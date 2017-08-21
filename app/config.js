@@ -57,10 +57,6 @@ var config = {
         }
     },
     "homepage": {
-        // "customizeLoginText": {
-        //     'saml': 'SAML'
-        // },
-        "consentTextFile": 'consent.html',
         "showHomepage":true,
         "showPlaceQuery": true,
         "wrapMap": true,
@@ -91,6 +87,12 @@ var config = {
     rememberMe: true,
     editAll: false,
     extraRelationshipFields: ['description','abstract','format','format_type','format_app','format_category'],
-    "trackAnalytics": true
+    "trackAnalytics": true,
+    customizedLogin: {
+        customizeLoginText: {
+            'saml': 'SAML'
+        },
+        consentTextFile: 'consent.html'
+    }
 };
 /* jshint ignore:end */
