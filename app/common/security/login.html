@@ -8,7 +8,7 @@
             <div ng-if="methods.external">
                 <div class="row" ng-repeat="method in methods.external">
                     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                        <button class="btn btn-lg btn-default" style="width:100%; padding: 10px 16px; font-size: 18px; margin-bottom: 10px;" ng-click="goExternal(method)">Sign in with {{method.displayName}}</button>
+                        <button class="btn btn-lg btn-default" style="width:100%; padding: 10px 16px; font-size: 18px; margin-bottom: 10px;" ng-click="goExternal(method)">{{method.displayName}}</button>
                     </div>
                 </div>
                 <div class="row">

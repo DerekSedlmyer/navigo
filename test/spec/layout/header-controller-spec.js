@@ -104,7 +104,7 @@ describe('Controller: HeaderCtrl', function () {
     it('should replace login text with config value', function () {
         initController();
         config.customizedLogin.customizeLoginText = { internal: '__internal__' };
-        var swapped = authService.swapForConfig('internal');
+        var swapped = authService.createDisplayName('internal');
         expect(swapped).toBe('__internal__');
         delete config.customizedLogin.customizeLoginText;
     });
