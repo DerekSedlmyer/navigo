@@ -182,11 +182,11 @@ angular.module('voyager.security').
                     });
                     var _this = this;
                     methods.all.forEach(function(method){
-                        method.displayName = _this.swapForConfig(method.name);
+                        method.displayName = _this.createDisplayName(method.name);
                     });
                     methods.external = _.filter(_methods, function(method) {
-                        method.displayName = _.classify(method.name);
-                        method.displayName = _this.swapForConfig(method.name);
+                        method.displayName = _this.createDisplayName(method.name);
+                        method.url = 'www.google.com';
                         return angular.isDefined(method.url) && method.enabled === true;
                     });
                     if(methods.external.length === 0) {
@@ -199,13 +199,13 @@ angular.module('voyager.security').
                 return methods;
             },
 
-            swapForConfig: function(name) {
+            createDisplayName: function(name) {
                 if(config && config.customizedLogin && 
                     config.customizedLogin.customizeLoginText && 
                     config.customizedLogin.customizeLoginText[name]) {
                     return config.customizedLogin.customizeLoginText[name];
                 }
-                return name;
+                return 'Sign in with ' + _.classify(name);
             },
 
             showLogout: function() {

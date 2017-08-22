@@ -86,9 +86,9 @@ var config = {
     "trackAnalytics": true,
     customizedLogin: {
         customizeLoginText: {
-            'saml': 'SAML'
+            // 'saml': 'Sign in with SAML'
         },
-        consentTextFile: 'consent.html'
+        // consentTextFile: 'consent.html'
     }
 };
 /* jshint ignore:end */
