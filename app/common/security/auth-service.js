@@ -186,7 +186,6 @@ angular.module('voyager.security').
                     });
                     methods.external = _.filter(_methods, function(method) {
                         method.displayName = _this.createDisplayName(method.name);
-                        method.url = 'www.google.com';
                         return angular.isDefined(method.url) && method.enabled === true;
                     });
                     if(methods.external.length === 0) {
