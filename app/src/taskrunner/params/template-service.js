@@ -35,7 +35,7 @@ angular.module('taskRunner').
         var readOnlyListTpl = '<div class="process-control" style>' + readOnlyLabelTpl + '<div style="padding-left: 5px;">{{param.value.join()}}</div></div>';
         var pwdReadOnlyTpl = '<div class="process-control" style>' + readOnlyLabelTpl + '<input type="password" ng-model="param.value" ng-disabled="true" style="padding-left: 5px;"></div>';
         var dateTpl = labelTpl + '<div class="input-group date"><input type="text" placeholder="yyyy-mm-dd" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="isDateOpen" ng-click="openDatePicker($event)" ng-model="param.value" close-text="Close" ng-required="true"><span class="input-group-addon" style="width: 0" ng-click="openDatePicker($event)"><span class="glyphicon glyphicon-calendar" ng-click="openDatePicker($event)"></span></span></div>';
-
+        var datePickOnlyTpl = labelTpl + '<div class="input-group date"><input type="text" readonly="true" placeholder="yyyy-mm-dd" class="form-control" uib-datepicker-popup="yyyy-MM-dd" is-open="isDateOpen" ng-click="openDatePicker($event)" ng-model="param.value" close-text="Close" ng-required="true"><span class="input-group-addon" style="width: 0" ng-click="openDatePicker($event)"><span class="glyphicon glyphicon-calendar" ng-click="openDatePicker($event)"></span></span></div>';
         var browseTpl = '<div class="input-group" style="width: 100%">' +
             '<input type="text" class="form-control" ng-model="param.value">' +
             '<span class="input-group-btn">' +
@@ -91,7 +91,8 @@ angular.module('taskRunner').
             'Permissions-readOnly':readOnlyListTpl,
             'Combo-readOnly': readOnlyListTpl,
             'Field-readOnly':readOnlyTpl,
-            'QueryIndex-readOnly':readOnlyTpl
+            'QueryIndex-readOnly':readOnlyTpl,
+            'Date-readOnly': datePickOnlyTpl
         };
 
         return {
