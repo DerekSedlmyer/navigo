@@ -33,7 +33,7 @@
 			<label class="radio-label" for="expandedSelected">expanded queries:</label>
 			<input type="checkbox" id="expandedSelected" ng-checked="useExpandedQueries" ng-click="setUseExpandedQueries(this)" />
 			<label class="radio-label" for="defaultSelected" ng-if="useExpandedQueries">refine:</label>
-			<input type="text" class="input_field negative_query" name="query" ng-if="useExpandedQueries" ng-model="search['expanded.neg']" maxlength="256" autocomplete="off" placeholder="negative terms" />
+			<input type="text" class="input_field negative_query" name="query" ng-if="useExpandedQueries" ng-model="search['expand.negative']" maxlength="256" autocomplete="off" placeholder="negative terms" />
 		</div>
 	</form>
 
