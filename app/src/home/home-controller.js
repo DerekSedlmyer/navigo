@@ -151,6 +151,8 @@ angular.module('voyager.home')
 		 * @function - redirect user to search result page
 		 */
 		function _submitSearch() {
+			filterService.clear();
+
 			var params = {};
 
 			if (!_.isEmpty($scope.search.query)) {
