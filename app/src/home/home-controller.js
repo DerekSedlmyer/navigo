@@ -19,6 +19,8 @@ angular.module('voyager.home')
         $scope.collectionsTitle = 'Collections';
 		$scope.searchInputClass = 'col-md-6 col-xs-6';
 		$scope.showSpatialInput = true;
+		$scope.useExpandedQueries = config.queryExpansion && config.queryExpansion.checkedByDefault;
+		$scope.queryExpansionEnabled = config.queryExpansion && config.queryExpansion.enabled;
 
 
 		$scope.showAll = function() {
@@ -62,7 +64,11 @@ angular.module('voyager.home')
 
         $scope.hasPermission = function(permission) {
             return authService.hasPermission(permission);
-        };
+		};
+		
+		$scope.setUseExpandedQueries = function() {
+			$scope.useExpandedQueries = !$scope.useExpandedQueries;
+		};
 
 		function _reload(response) {
 			if(response.action === 'login') {
@@ -156,7 +162,17 @@ angular.module('voyager.home')
 			var params = {};
 
 			if (!_.isEmpty($scope.search.query)) {
+				if($scope.useExpandedQueries && !_.startsWith($scope.search.query, '{!expand}')) {
+					$scope.search.query = '{!expand}' + $scope.search.query;
+				} else if(!$scope.useExpandedQueries) {
+					$scope.search.query = $scope.search.query.replace('{!expand}', '');
+				}
 				params.q = $scope.search.query;
+			}
+
+			if (_.isEmpty($scope.search.q)) {
+				$scope.search.q = null;
+				$scope.search['expand.negative'] = null;
 			}
 
 			if ($scope.selectedMapType === 'Place') {

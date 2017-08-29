@@ -93,6 +93,10 @@ var config = {
             // 'saml': 'Sign in with SAML'
         },
         // consentTextFile: 'consent.html'
+    },
+    queryExpansion: {
+        enabled: true,
+        checkedByDefault: false
     }
 };
 /* jshint ignore:end */

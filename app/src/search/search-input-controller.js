@@ -30,7 +30,9 @@ angular.module('voyager.search')
 		$scope.queryExpansionOpen = false;
 		$scope.defaultSelected = false;
 		$scope.expandedSelected = true;
-		$scope.useExpandedQueries = true;
+		$scope.useExpandedQueries = config.queryExpansion && config.queryExpansion.checkedByDefault;
+		$scope.queryExpansionEnabled = config.queryExpansion && config.queryExpansion.enabled;
+
 
 		$scope.placeOpChange = function(type) {
 			if ($scope.selectedDrawingType !== type) {
@@ -53,6 +55,9 @@ angular.module('voyager.search')
 
 		$scope.setUseExpandedQueries = function() {
 			$scope.useExpandedQueries = !$scope.useExpandedQueries;
+			if(!$scope.useExpandedQueries) {
+				$scope.queryExpansionOpen = false;
+			}
 		};
 
 		_init();
@@ -83,11 +88,12 @@ angular.module('voyager.search')
 			}
 
 			$scope.showSearch = true;
-			$scope.queryExpansionEnabled = true;
 			var initParams = $location.search();
 
 			if (!_.isEmpty(initParams.q)) {
 				$scope.search.q = initParams.q;
+				// if we are coming here from a query, set the state of the expanded query controls to the query state
+				$scope.useExpandedQueries = $scope.search.q.indexOf('{!expand}') > -1;
 			} else {
 				$scope.search.q = '';
 			}

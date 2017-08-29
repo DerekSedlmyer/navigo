@@ -3,13 +3,15 @@
 		<div class="col-md-12 no_padding">
 			<fieldset class="no_padding" ng-class="showLocation ? 'col-lg-5 col-md-4 col-sm-5 col-xs-4 search_fieldset':''">
 				<input type="text" class="input_field focus_field" name="query" ng-model="search.q" clean-expand="" maxlength="256" autocomplete="off" placeholder="What are you looking for?" tabindex="1" />
-				<label for="query" class="icon-looking_search" aria-label="What are you looking for?"><span class="sr-only">What are you looking for?</span></label>
+				<input ng-if="queryExpansionEnabled" type="checkbox" class="enable-equery-expansion" name="expandedSelected" id="expandedSelected" ng-checked="useExpandedQueries" ng-click="setUseExpandedQueries(this)" title="use query expansion" />
+				<label ng-if="queryExpansionEnabled" for="expandedSelected" title="use query expansion" class="enable-equery-expansion-label"></label> 
+				<label ng-if="!queryExpansionEnabled" for="query" class="icon-looking_search" aria-label="What are you looking for?"><span class="sr-only">What are you looking for?</span></label>
 				<a href="javascript:;" class="icon-x" aria-label="clear" ng-click="clearField('q', false)"><span class="sr-only">clear</span></a>
 			</fieldset>
 			<fieldset class="col-lg-7 col-md-8 col-sm-7 col-xs-8 location_fieldset no_padding" ng-if="showLocation">
 				<div class="location_wrap">
 					<input style="padding-right: 0px" vs-suggest type="text" class="input_field focus_field" ng-model="search.place" name="location" maxlength="256" placeholder="Where is it located?" autocomplete="off" ng-keypress="locationChange()" tabindex="2" />
-					<label for="location" class="icon-input_location" aria-label="Where is it located?"><span class="sr-only">Where is it located?</span></label>
+					<label for="location" ng-if="!queryExpansionEnabled" class="icon-input_location" aria-label="Where is it located?"><span class="sr-only">Where is it located?</span></label>
 					<a href="javascript:;" class="icon-x" aria-label="clear" ng-click="clearField('location', true)"><span class="sr-only">clear</span></a>
 					<!--TODO enable when saved locations is added to back end-->
 					<!--<a href="javascript:;" ng-click="saveLocation($event)" aria-label="save locaiton" ng-if="search.place" class="icon icon-heart_filled"><span class="sr-only">save</span></a>-->
@@ -25,15 +27,13 @@
 		<button class="btn btn-primary">
 			<span class="icon-input_search"></span>
 		</button>
-		<button type="button" class="btn btn-secondary query-expansion" ng-if="queryExpansionEnabled" ng-click="openExpanded()">
+		<button type="button" class="btn btn-secondary query-expansion" ng-if="queryExpansionEnabled && useExpandedQueries" ng-click="openExpanded()">
 			<span class="fa" ng-class="queryExpansionOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></span>
 		</button>
 		<div class="clearfix" ng-if="queryExpansionEnabled"></div>
 		<div class="query_expansion_wrapper" ng-if="queryExpansionEnabled" ng-class="{'default':!queryExpansionOpen, 'rollup':queryExpansionOpen}">
-			<label class="radio-label" for="expandedSelected">expanded queries:</label>
-			<input type="checkbox" id="expandedSelected" ng-checked="useExpandedQueries" ng-click="setUseExpandedQueries(this)" />
-			<label class="radio-label" for="defaultSelected" ng-if="useExpandedQueries">refine:</label>
-			<input type="text" class="input_field negative_query" name="query" ng-if="useExpandedQueries" ng-model="search['expand.negative']" maxlength="256" autocomplete="off" placeholder="negative terms" />
+			<label class="radio-label" for="defaultSelected" ng-if="useExpandedQueries">Exclude concepts like:</label>
+			<input type="text" class="input_field negative_query" name="query" ng-if="useExpandedQueries" ng-model="search['expand.negative']" maxlength="256" autocomplete="off" title="space separated concepts to exclude from query expansion" placeholder="excluded terms" />
 		</div>
 	</form>
 
