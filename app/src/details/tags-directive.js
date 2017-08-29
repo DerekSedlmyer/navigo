@@ -34,6 +34,7 @@ angular.module('voyager.details')
             restrict: 'A',
             require: 'ngModel',
             link: function (scope, el, attrs) {
+                var autosave = attrs.autosave === 'true';
                 return scope.$watch(attrs.ngModel, function (newValues, last) {
                     $timeout(function() {  //defer until scope is done
                         if (_decorateTags()) {
@@ -41,8 +42,11 @@ angular.module('voyager.details')
                         }
                     },0);
 
-                    if(!_.isEqual(newValues, last) && !scope.loading) {
+                    if(!_.isEqual(newValues, last) && !scope.loading && autosave) {
                         tagService.saveLabels(scope.doc.id, newValues);
+                        if (scope.onUpdateTags) {
+                            scope.onUpdateTags(newValues);
+                        }
                     }
                 });
             }

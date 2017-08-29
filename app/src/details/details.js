@@ -99,6 +99,22 @@ angular.module('voyager.details')
                 $.merge(_tags,tags);
             });
 
+            $scope.onUpdateTags = function(tags) {
+                var index = $scope.displayFields.findIndex(function(item) {
+                    return item.key === 'tag_tags';
+                });
+                if (index !== -1) {
+                    var field = $scope.displayFields[index];
+                    field.value = tags;
+                    field.formattedValue = tags.join();
+                    var formattedValues = {};
+                    _.each(tags, function(val) {
+                        formattedValues[val] = val;
+                    });
+                    field.formattedValues = formattedValues;
+                }
+            };
+
             authService.addObserver(_setPermissions);
         }
 
@@ -524,6 +540,9 @@ angular.module('voyager.details')
             field.editing = true;
             field.originalValue = field.value;
             field.originalFormatted = field.formattedValue;
+            if (field.key === 'tag_tags' && field.value === '') {
+                field.value = [];
+            }
         };
 
         $scope.append = function(field) {
@@ -551,8 +570,19 @@ angular.module('voyager.details')
             }
             tagService.replace($scope.doc.id, field.key, field.value).then(function () {
                 field.editing = false;
+                var canViewTags = $scope.canViewTags;
+                if (field.key === 'tag_tags') {
+                    $scope.labels = field.value;
+                    field.formattedValue = field.value.join();
+                    if (canViewTags) {
+                        $scope.canViewTags = false;
+                    }
+                }
 
                 $timeout(function() {
+                    if (canViewTags) {
+                        $scope.canViewTags = true;
+                    }
                     _doSyncFields($scope.doc.id);
                 }, 200);
             });

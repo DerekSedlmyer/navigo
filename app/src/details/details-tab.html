@@ -17,8 +17,10 @@
             </div>
             <div class="formatted_value" ng-if="!field.editing && field.isHtml" ng-bind-html="field.formattedValue | urlValue"></div>
             <div class="formatted_value" ng-if="!field.editing && field.style === 'STRING'" ng-bind="field.formattedValue"></div>
+            <!--<input ng-show="field.editing && !field.isHtml" ng-model="field.value" type="text" class="input_field" />-->
 
-            <input ng-show="field.editing && !field.isHtml" ng-model="field.value" type="text" class="input_field" />
+            <input ng-if="field.editing && !field.isHtml && field.key !== 'tag_tags'" ng-model="field.value" type="text" class="input_field" />
+            <input ng-if="field.editing && !field.isHtml && field.key === 'tag_tags'" type="hidden" ui-select2="select2Options" ng-model="field.value" style="width: 100%" vg-tags>
             <textarea ng-show="field.editing && field.isHtml" ng-model="field.value" class="input_field"></textarea>
 
             <a href="javascript:;" class="edit_link pull-right" ng-show="canEdit && field.editable && !field.editing && !field.appending" title="Edit" ng-click="edit(field)"><span class="icon-edit"></span>Edit</a>
