@@ -9,7 +9,7 @@
 							<input ng-if="queryExpansionEnabled" type="checkbox" class="enable-equery-expansion" name="homeExpandedSelected" id="homeExpandedSelected" ng-checked="useExpandedQueries" ng-click="setUseExpandedQueries(this)" title="use query expansion" />
 							<label ng-if="queryExpansionEnabled" for="homeExpandedSelected" class="enable-equery-expansion-label" title="use query expansion"></label> 
 							<label for="query" ng-if="!queryExpansionEnabled"  class="icon-looking_search" aria-label="What are you looking for?"><span class="sr-only">What are you looking for?</span></label>
-							<input type="text" class="input_field" name="query" ng-model="search.query" maxlength="256" autocomplete="off" placeholder="What are you looking for?" autofocus />
+							<input type="text" class="input_field" name="query" ng-model="search.query" clean-expand="" maxlength="256" autocomplete="off" placeholder="What are you looking for?" autofocus />
 						</fieldset>
 						<fieldset class="{{searchInputClass}} location_fieldset no_padding" ng-show="showSpatialInput">
 							<div class="location_wrap" ng-show="showMap">
